@@ -76,7 +76,7 @@ function saveWishlist() {
   localStorage.setItem('nd_wishlist', JSON.stringify(wishlist));
 }
 
-window.toggleWishlist = function(id, btn) {
+function toggleWishlist(id, btn) {
   if (wishlist.includes(id)) {
     wishlist = wishlist.filter(x => x !== id);
     btn.classList.remove('liked');
