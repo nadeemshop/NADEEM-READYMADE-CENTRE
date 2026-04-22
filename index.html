@@ -378,29 +378,77 @@
   <button class="spin-tab" onclick="openSpin()">Lucky Spin</button>
 </div>
 
-<!-- ===== AUTH MODAL ===== -->
+<!-- ===== AUTH MODAL (Customer + Admin Login) ===== -->
 <div class="modal-overlay" id="authModal">
-  <div class="modal-box auth-box">
+  <div class="modal-box" style="max-width:450px">
     <button class="modal-close" id="authClose"><i class="fas fa-times"></i></button>
+    
+    <!-- Tabs -->
     <div class="auth-tabs">
-      <button class="auth-tab active" onclick="switchAuthTab('login')">Login</button>
+      <button class="auth-tab active" onclick="switchAuthTab('customer')">Customer</button>
+      <button class="auth-tab" onclick="switchAuthTab('admin')">Admin</button>
       <button class="auth-tab" onclick="switchAuthTab('signup')">Sign Up</button>
     </div>
-    <div id="loginForm" class="auth-form active">
-      <h3>Welcome Back</h3>
-      <p>Login to access your account</p>
-      <div class="form-group"><label>Mobile Number</label><input type="tel" id="loginMobile" placeholder="10 digit mobile number"></div>
-      <div class="form-group"><label>Password</label><input type="password" id="loginPassword" placeholder="Enter password"></div>
-      <button class="btn btn-gold" style="width:100%" onclick="loginWithMobile()">Login</button>
-      <p style="margin-top:1rem;font-size:.7rem;text-align:center">Demo: 9999999999 / guest123</p>
+    
+    <!-- ===== CUSTOMER LOGIN ===== -->
+    <div id="customerLoginForm" class="auth-form active">
+      <h3>Welcome Back! 👋</h3>
+      <p>Login to your Nadeem account</p>
+      <div class="form-group">
+        <label>Mobile Number</label>
+        <input type="tel" id="customerMobile" placeholder="10 digit mobile number">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="customerPassword" placeholder="Enter password">
+      </div>
+      <button class="btn btn-gold" style="width:100%" onclick="customerLogin()">
+        <i class="fas fa-sign-in-alt"></i> Customer Login
+      </button>
+      <p style="margin-top:1rem;font-size:.7rem;text-align:center;color:var(--muted)">
+        Demo: 9999999999 / guest123
+      </p>
     </div>
+    
+    <!-- ===== ADMIN LOGIN ===== -->
+    <div id="adminLoginForm" class="auth-form">
+      <h3>Admin Panel 🔐</h3>
+      <p>Authorized access only</p>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="adminUser" placeholder="Admin username">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="adminPass" placeholder="Admin password">
+      </div>
+      <button class="btn btn-gold" style="width:100%;background:var(--red)" onclick="adminLogin()">
+        <i class="fas fa-shield-alt"></i> Admin Login
+      </button>
+      <p style="margin-top:1rem;font-size:.7rem;text-align:center;color:var(--muted)">
+        Demo: admin / nadeem2025
+      </p>
+    </div>
+    
+    <!-- ===== SIGNUP FORM (Customer Only) ===== -->
     <div id="signupForm" class="auth-form">
-      <h3>Create Account</h3>
-      <p>Join Nadeem Readymade Centre</p>
-      <div class="form-group"><label>Full Name</label><input type="text" id="signupName" placeholder="Your name"></div>
-      <div class="form-group"><label>Mobile Number</label><input type="tel" id="signupMobile" placeholder="10 digit mobile"></div>
-      <div class="form-group"><label>Password</label><input type="password" id="signupPassword" placeholder="Create password"></div>
-      <button class="btn btn-gold" style="width:100%" onclick="signupUser()">Sign Up</button>
+      <h3>Create Account ✨</h3>
+      <p>Join Nadeem & get 50 welcome points!</p>
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="signupName" placeholder="Your full name">
+      </div>
+      <div class="form-group">
+        <label>Mobile Number</label>
+        <input type="tel" id="signupMobile" placeholder="10 digit mobile number">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="signupPassword" placeholder="Create password (min 4 chars)">
+      </div>
+      <button class="btn btn-gold" style="width:100%" onclick="customerSignup()">
+        <i class="fas fa-user-plus"></i> Sign Up
+      </button>
     </div>
   </div>
 </div>

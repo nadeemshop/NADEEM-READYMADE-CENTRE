@@ -254,27 +254,47 @@ window.closeLoginModal = function() {
   document.body.classList.remove('modal-open');
 }
 window.switchAuthTab = function(tab) {
-  const loginForm = document.getElementById('loginForm');
+  const customerForm = document.getElementById('customerLoginForm');
+  const adminForm = document.getElementById('adminLoginForm');
   const signupForm = document.getElementById('signupForm');
   const tabs = document.querySelectorAll('.auth-tab');
+  
+  // Hide all forms
+  if(customerForm) customerForm.classList.remove('active');
+  if(adminForm) adminForm.classList.remove('active');
+  if(signupForm) signupForm.classList.remove('active');
   tabs.forEach(t => t.classList.remove('active'));
-  if (tab === 'login') {
-    loginForm.classList.add('active'); signupForm.classList.remove('active'); tabs[0].classList.add('active');
-  } else {
-    loginForm.classList.remove('active'); signupForm.classList.add('active'); tabs[1].classList.add('active');
+  
+  if (tab === 'customer' && customerForm) {
+    customerForm.classList.add('active');
+    tabs[0].classList.add('active');
+  } else if (tab === 'admin' && adminForm) {
+    adminForm.classList.add('active');
+    tabs[1].classList.add('active');
+  } else if (tab === 'signup' && signupForm) {
+    signupForm.classList.add('active');
+    tabs[2].classList.add('active');
   }
 }
-window.loginWithMobile = function() {
-  const mobile = document.getElementById('loginMobile').value.trim();
-  const password = document.getElementById('loginPassword').value;
-  if (!mobile || !password) { showToast('Mobile aur password dono bharo!'); return; }
+
+/* ===== CUSTOMER LOGIN ===== */
+window.customerLogin = function() {
+  const mobile = document.getElementById('customerMobile').value.trim();
+  const password = document.getElementById('customerPassword').value;
+  
+  if (!mobile || !password) {
+    showToast('❌ Mobile aur password dono bharo!');
+    return;
+  }
+  
   const user = users.find(u => u.mobile === mobile && u.password === password);
+  
   if (user) {
     currentUser = user;
     localStorage.setItem('nd_current_user', JSON.stringify(user));
     updateUserUI();
     closeLoginModal();
-    showToast(`Welcome back, ${user.name}! 🎉`);
+    showToast(`🎉 Welcome back, ${user.name}!`);
     
     /* Abandoned Cart Restoration */
     const abandoned = localStorage.getItem('nd_abandoned_cart_' + user.id);
@@ -290,25 +310,74 @@ window.loginWithMobile = function() {
       localStorage.removeItem('nd_abandoned_cart_' + user.id);
     }
   } else {
-    showToast('Galat credentials! Try: 9999999999 / guest123');
+    showToast('❌ Galat mobile ya password! Demo: 9999999999 / guest123');
   }
 }
-window.signupUser = function() {
+
+/* ===== ADMIN LOGIN ===== */
+window.adminLogin = function() {
+  const username = document.getElementById('adminUser').value.trim();
+  const password = document.getElementById('adminPass').value;
+  
+  // Admin credentials
+  const ADMIN_CREDS = { user: 'admin', pass: 'nadeem2025' };
+  
+  if (username === ADMIN_CREDS.user && password === ADMIN_CREDS.pass) {
+    showToast('🔐 Admin login successful! Redirecting...');
+    setTimeout(() => { window.location.href = 'admin.html'; }, 800);
+  } else {
+    showToast('❌ Galat admin credentials! Demo: admin / nadeem2025');
+  }
+}
+
+/* ===== CUSTOMER SIGNUP ===== */
+window.customerSignup = function() {
   const name = document.getElementById('signupName').value.trim();
   const mobile = document.getElementById('signupMobile').value.trim();
   const password = document.getElementById('signupPassword').value;
-  if (!name || !mobile || !password) { showToast('Sab fields bharo!'); return; }
-  if (password.length < 4) { showToast('Password kam se kam 4 characters ka ho!'); return; }
-  if (users.find(u => u.mobile === mobile)) { showToast('Yeh mobile already registered hai! Login karo.'); return; }
+  
+  if (!name || !mobile || !password) {
+    showToast('❌ Sab fields bharo!');
+    return;
+  }
+  
+  if (mobile.length !== 10) {
+    showToast('❌ Sahi 10 digit mobile number daalo!');
+    return;
+  }
+  
+  if (password.length < 4) {
+    showToast('❌ Password kam se kam 4 characters ka ho!');
+    return;
+  }
+  
+  if (users.find(u => u.mobile === mobile)) {
+    showToast('❌ Yeh mobile number already registered hai! Login karo.');
+    return;
+  }
+  
   const referralCode = 'REF' + Math.random().toString(36).substring(2, 8).toUpperCase();
-  const newUser = { id: users.length + 1, name, mobile, email: mobile + '@user.com', password, joinDate: new Date().toISOString(), referralCode, referredBy: null, referralEarnings: 0 };
+  const newUser = {
+    id: users.length + 1,
+    name: name,
+    mobile: mobile,
+    email: mobile + '@nadeem.com',
+    password: password,
+    joinDate: new Date().toISOString(),
+    referralCode: referralCode,
+    points: 50
+  };
+  
   users.push(newUser);
   localStorage.setItem('nd_users', JSON.stringify(users));
+  
   currentUser = newUser;
   localStorage.setItem('nd_current_user', JSON.stringify(newUser));
+  localStorage.setItem('nd_points_' + newUser.id, '50');
+  
   updateUserUI();
   closeLoginModal();
-  showToast(`Welcome ${name}! 🎉 Code ${referralCode} se friends ko refer karo!`);
+  showToast(`🎉 Welcome ${name}! 50 welcome points mile!`);
 }
 window.logoutUser = function() {
   currentUser = null;
