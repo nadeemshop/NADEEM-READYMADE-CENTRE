@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>NADEEM READYMADE CENTRE | Premium Fashion & Wholesale</title>
-<meta name="description" content="Nadeem Readymade Centre — Premium retail & wholesale fashion.">
+<meta name="description" content="Nadeem Readymade Centre — Premium retail & wholesale fashion. Budget-friendly prices, premium quality.">
 
 <!-- Fonts & Icons -->
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -138,9 +138,11 @@
         <i class="fas fa-shopping-bag"></i>
         <span class="badge" id="cartBadge">0</span>
       </button>
-      <button class="icon-btn" id="userBtn" title="Account" onclick="openLoginModal()">
-        <i class="fas fa-user"></i>
-      </button>
+      <div id="userNavArea" style="display:flex;align-items:center">
+        <button class="icon-btn" id="userBtn" title="Account" onclick="openLoginModal()">
+          <i class="fas fa-user"></i>
+        </button>
+      </div>
       <div class="theme-btn" id="themeBtn" title="Toggle theme">
         <i class="fas fa-moon" id="themeIcon"></i>
       </div>
@@ -174,9 +176,9 @@
     <div>
       <div class="hero-eyebrow reveal">Est. Nagra · Premium Fashion</div>
       <h1 class="hero-title reveal">
-        STYLE<br><span class="gold">MEETS</span><br><span class="outline">VALUE</span>
+        PREMIUM<br><span class="gold">STYLE</span><br><span class="outline">EXPERT</span>
       </h1>
-      <p class="hero-sub reveal">Nadeem Readymade Centre — premium wholesale & retail fashion for the entire family.</p>
+      <p class="hero-sub reveal">Nadeem Readymade Centre — premium wholesale & retail fashion for the entire family. Unbeatable prices, honest quality.</p>
       <div class="hero-btns reveal">
         <a href="#trending" class="btn btn-gold"><i class="fas fa-fire"></i> Shop Now</a>
         <a href="#wholesale" class="btn btn-outline"><i class="fas fa-boxes"></i> Wholesale Inquiry</a>
@@ -189,7 +191,7 @@
     </div>
     <div class="hero-visual">
       <div class="hero-img-wrap">
-        <img src="img/hero_main.png" alt="Nadeem Readymade Centre">
+        <img src="img/black_waistcoat.png" alt="Nadeem Readymade Centre">
         <div class="hero-badge"><big>NEW</big><span>ARRIVALS</span></div>
       </div>
     </div>
@@ -265,14 +267,15 @@
           <div class="ws-perk"><div class="ws-perk-icon"><i class="fas fa-palette"></i></div><div><div class="ws-perk-title">Custom Orders</div><div class="ws-perk-sub">Color & size customization</div></div></div>
         </div>
         <div style="display:flex;gap:1rem;flex-wrap:wrap">
-          <a href="https://wa.me/918010929093?text=Wholesale%20Enquiry" class="btn btn-wa" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp Us</a>
+          <a href="https://wa.me/918010929093?text=Hi%20Nadeem%20Readymade%20Centre!%20I%20am%20interested%20in%20wholesale%20orders" class="btn btn-wa" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp Us</a>
           <a href="tel:+918010929093" class="btn btn-outline"><i class="fas fa-phone"></i> Call Now</a>
         </div>
         <div class="ws-contact">
-          <h4><i class="fas fa-store"></i> Wholesale Desk</h4>
+          <h4><i class="fas fa-store"></i> Nadeem Readymade Centre — Wholesale Inquiry Desk</h4>
           <div class="ws-contact-row"><i class="fas fa-user"></i><span>Proprietor: <strong>Aktar Hussain</strong></span></div>
           <div class="ws-contact-row"><i class="fas fa-map-marker-alt"></i><span>Nagra, Chhapra, Bihar</span></div>
-          <div class="ws-contact-row"><i class="fab fa-whatsapp"></i><span><a href="https://wa.me/918010929093">+91 80109 29093</a></span></div>
+          <div class="ws-contact-row"><i class="fab fa-whatsapp"></i><span>WhatsApp: <a href="https://wa.me/918010929093">+91 80109 29093</a></span></div>
+          <div class="ws-contact-row"><i class="fas fa-envelope"></i><span>Email: <a href="mailto:support@nadeemshop.com">support@nadeemshop.com</a></span></div>
         </div>
       </div>
       <div class="reveal-right">
@@ -302,13 +305,14 @@
       <div style="text-align:right">
         <div style="font-family:'Bebas Neue',cursive;font-size:3rem;color:var(--gold);line-height:1">4.8</div>
         <div style="color:var(--gold);font-size:.9rem">★★★★★</div>
+        <div style="font-size:.72rem;color:var(--muted)">Based on 1,200+ orders</div>
       </div>
     </div>
     <div class="review-grid reveal" id="reviewGrid"></div>
   </div>
 </section>
 
-<!-- ===== Pincode Checker ===== -->
+<!-- ===== PINCODE CHECKER ===== -->
 <div class="section">
   <div class="pincode-card reveal" style="max-width:400px;margin:0 auto;text-align:center">
     <div class="pincode-input-wrap">
@@ -319,9 +323,9 @@
   </div>
 </div>
 
-<!-- ===== AUTH MODAL ===== -->
+<!-- ===== AUTH MODAL (FIXED) ===== -->
 <div class="modal-overlay" id="authModal">
-  <div class="modal-box" style="max-width:450px">
+  <div class="modal-box auth-box" style="max-width:450px">
     <button class="modal-close" id="authClose"><i class="fas fa-times"></i></button>
     
     <div class="auth-tabs">
@@ -333,62 +337,31 @@
     <!-- Customer Login -->
     <div id="customerLoginForm" class="auth-form active">
       <h3>Welcome Back! 👋</h3>
-      <p>Login to your Nadeem account</p>
-      <div class="form-group">
-        <label>Mobile Number</label>
-        <input type="tel" id="customerMobile" placeholder="10 digit mobile number">
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" id="customerPassword" placeholder="Enter password">
-      </div>
-      <button class="btn btn-gold" style="width:100%" onclick="customerLogin()">
-        <i class="fas fa-sign-in-alt"></i> Customer Login
-      </button>
-      <p style="margin-top:1rem;font-size:.7rem;text-align:center;color:var(--muted)">
-        Demo: 9999999999 / guest123
-      </p>
+      <p>Login to your account</p>
+      <div class="form-group"><label>Mobile Number</label><input type="tel" id="customerMobile" placeholder="10 digit mobile"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="customerPassword" placeholder="Enter password"></div>
+      <button class="btn btn-gold" style="width:100%" onclick="customerLogin()">Login</button>
+      <p style="margin-top:1rem;font-size:.7rem;text-align:center;color:var(--muted)">Demo: 9999999999 / demo123</p>
     </div>
     
     <!-- Admin Login -->
     <div id="adminLoginForm" class="auth-form">
       <h3>Admin Panel 🔐</h3>
       <p>Authorized access only</p>
-      <div class="form-group">
-        <label>Username</label>
-        <input type="text" id="adminUser" placeholder="Admin username">
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" id="adminPass" placeholder="Admin password">
-      </div>
-      <button class="btn btn-gold" style="width:100%;background:var(--red)" onclick="adminLogin()">
-        <i class="fas fa-shield-alt"></i> Admin Login
-      </button>
-      <p style="margin-top:1rem;font-size:.7rem;text-align:center;color:var(--muted)">
-        Demo: admin / nadeem2025
-      </p>
+      <div class="form-group"><label>Username</label><input type="text" id="adminUser" placeholder="Admin username"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="adminPass" placeholder="Admin password"></div>
+      <button class="btn btn-gold" style="width:100%;background:var(--red)" onclick="adminLogin()">Admin Login</button>
+      <p style="margin-top:1rem;font-size:.7rem;text-align:center;color:var(--muted)">Demo: admin / nadeem2025</p>
     </div>
     
     <!-- Signup -->
     <div id="signupForm" class="auth-form">
       <h3>Create Account ✨</h3>
       <p>Join Nadeem & get 50 welcome points!</p>
-      <div class="form-group">
-        <label>Full Name</label>
-        <input type="text" id="signupName" placeholder="Your full name">
-      </div>
-      <div class="form-group">
-        <label>Mobile Number</label>
-        <input type="tel" id="signupMobile" placeholder="10 digit mobile number">
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" id="signupPassword" placeholder="Create password (min 4 chars)">
-      </div>
-      <button class="btn btn-gold" style="width:100%" onclick="customerSignup()">
-        <i class="fas fa-user-plus"></i> Sign Up
-      </button>
+      <div class="form-group"><label>Full Name</label><input type="text" id="signupName" placeholder="Your name"></div>
+      <div class="form-group"><label>Mobile Number</label><input type="tel" id="signupMobile" placeholder="10 digit mobile"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="signupPassword" placeholder="Create password"></div>
+      <button class="btn btn-gold" style="width:100%" onclick="customerSignup()">Sign Up</button>
     </div>
   </div>
 </div>
@@ -407,11 +380,9 @@
   <div class="user-menu-head"><p>My Account</p></div>
   <a href="#" onclick="openOrdersModal();return false"><i class="fas fa-box"></i> My Orders</a>
   <a href="#" onclick="openWishlistView();return false"><i class="fas fa-heart"></i> Wishlist</a>
+  <a href="#" onclick="openProfile();return false"><i class="fas fa-user"></i> Profile</a>
   <a href="#" onclick="logoutUser();return false"><i class="fas fa-sign-out-alt"></i> Logout</a>
 </div>
-
-<!-- ===== EXTRA FEATURES CONTAINER ===== -->
-<div id="extraFeatures"></div>
 
 <!-- ===== FOOTER ===== -->
 <footer>
@@ -419,22 +390,45 @@
     <div class="foot-top">
       <div>
         <div class="foot-logo"><span>NADEEM</span> READYMADE CENTRE</div>
-        <p class="foot-desc">Premium retail & wholesale fashion from Nagra, Bihar.</p>
-        <div class="foot-owner"><p>Shop Owner</p><strong>Aktar Hussain</strong><br><small>Nagra, Chhapra, Bihar</small></div>
-        <div class="social-row">
-          <a class="social-btn" href="#"><i class="fab fa-facebook-f"></i></a>
-          <a class="social-btn" href="#"><i class="fab fa-instagram"></i></a>
-          <a class="social-btn" href="https://wa.me/918010929093"><i class="fab fa-whatsapp"></i></a>
+        <p class="foot-desc">Premium retail & wholesale fashion from Nagra, Bihar. Quality clothing at honest prices for everyone.</p>
+        <div class="foot-owner">
+          <p>Shop Owner</p>
+          <strong>Aktar Hussain</strong><br>
+          <small style="font-size:.75rem;color:var(--muted)">Nagra, Chhapra, Bihar</small>
         </div>
+        <div class="social-row" style="margin-top:1rem">
+          <a class="social-btn" href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a class="social-btn" href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+          <a class="social-btn" href="https://wa.me/918010929093" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <!-- Google Maps — Nagra, Chhapra -->
         <div class="foot-map">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14336.565158656247!2d84.8505505!3d25.9268385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ed453f63900001%3A0xc39958992e59e195!2sNagra%2C%20Bihar%20841442!5e0!3m2!1sen!2sin!4v1713783000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d216.71751517110735!2d84.75673399865632!3d25.90295414952746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3992b95815769afd%3A0x864bdbb3aeee4cc!2sNadeem%20Readymade%20Centre!5e1!3m2!1sen!2sin!4v1776845248410!5m2!1sen!2sin" width="100%" height="160" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Nadeem Readymade Centre"></iframe>
         </div>
       </div>
-      <div class="foot-col"><h4>Shop</h4><a href="#trending">Men's Wear</a><a href="#trending">Women's Wear</a><a href="#trending">Kids Wear</a></div>
-      <div class="foot-col"><h4>Wholesale</h4><a href="#wholesale">Bulk Orders</a><a href="#wholesale">Become a Dealer</a></div>
-      <div class="foot-col"><h4>Support</h4><a href="#" onclick="openSizeGuide();return false">Size Guide</a><a href="#">Contact Us</a></div>
+      <div class="foot-col">
+        <h4>Shop</h4>
+        <a href="#trending">Men's Wear</a>
+        <a href="#trending">Women's Wear</a>
+        <a href="#trending">Kids Wear</a>
+        <a href="#categories">Categories</a>
+      </div>
+      <div class="foot-col">
+        <h4>Wholesale</h4>
+        <a href="#wholesale">Bulk Orders</a>
+        <a href="#wholesale">Become a Dealer</a>
+        <a href="#wholesale">Price List</a>
+      </div>
+      <div class="foot-col">
+        <h4>Support</h4>
+        <a href="#" onclick="openSizeGuide();return false">Size Guide</a>
+        <a href="#">Contact Us</a>
+        <a href="#">Terms</a>
+      </div>
     </div>
-    <div class="foot-bottom"><p class="foot-copy">© 2025 <span>Nadeem Readymade Centre</span> · Nagra, Bihar</p></div>
+    <div class="foot-bottom">
+      <p class="foot-copy">© 2025 <span>Nadeem Readymade Centre</span> · Nagra, Bihar · Owner: <strong>Aktar Hussain</strong></p>
+    </div>
   </div>
 </footer>
 
@@ -447,10 +441,108 @@
 <!-- ===== SCROLL TOP ===== -->
 <button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-chevron-up"></i></button>
 
-<!-- Scripts -->
-<script src="js/main.js"></script>
-<script src="js/carousel.js"></script>
-<script src="js/extra_features.js"></script>
+<!-- ===== SPIN WHEEL ===== -->
+<div class="spin-overlay" id="spinOverlay"></div>
+<div class="spin-container" id="spinContainer">
+  <button class="spin-close" onclick="closeSpin()"><i class="fas fa-times"></i></button>
+  <div class="spin-box">
+    <h3 style="font-family:'Bebas Neue',cursive;font-size:1.8rem;margin-bottom:.5rem">🎁 DAILY SURPRISE</h3>
+    <p style="font-size:.75rem;color:var(--muted);margin-bottom:1.5rem">Spin the wheel and win special discounts!</p>
+    <div class="wheel-wrap">
+      <div class="wheel" id="wheel">
+        <div class="wheel-sec" style="--i:0;--c:#D4AF37"><span>5% OFF</span></div>
+        <div class="wheel-sec" style="--i:1;--c:#1a1a2e"><span>FREE DEL</span></div>
+        <div class="wheel-sec" style="--i:2;--c:#D4AF37"><span>10% OFF</span></div>
+        <div class="wheel-sec" style="--i:3;--c:#1a1a2e"><span>50 PTS</span></div>
+        <div class="wheel-sec" style="--i:4;--c:#D4AF37"><span>20% OFF</span></div>
+        <div class="wheel-sec" style="--i:5;--c:#1a1a2e"><span>JACKPOT</span></div>
+      </div>
+      <div class="wheel-pointer">▼</div>
+    </div>
+    <button class="spin-cta" id="spinBtn" onclick="spinWheel()">SPIN NOW</button>
+    <div class="spin-result" id="spinResult">
+      <div class="spin-result-title" id="spinResultTitle"></div>
+      <p style="font-size:.8rem;margin-top:.4rem" id="spinResultMsg"></p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PROFILE SIDEBAR ===== -->
+<div class="profile-overlay" id="profileOverlay"></div>
+<div class="profile-sidebar" id="profileSidebar">
+  <div class="profile-head">
+    <button class="profile-head-close" onclick="closeProfile()"><i class="fas fa-times"></i></button>
+    <div class="profile-avatar-big" id="profileAvatar">G</div>
+    <div class="profile-name" id="profileName">Guest</div>
+    <div class="profile-mobile" id="profileMobile">+91 XXXXX XXXXX</div>
+    <div class="profile-points-card"><div><div class="pts-label">Loyalty Points</div><div class="pts-val" id="profilePts">0</div></div></div>
+  </div>
+  <div class="profile-body">
+    <div class="profile-section"><div class="profile-section-title">Account</div>
+      <div class="profile-menu-item" onclick="openOrdersModal();closeProfile()"><i class="fas fa-box"></i> My Orders<span class="pmi-right" id="profileOrderCount">0</span></div>
+      <div class="profile-menu-item" onclick="openWishlistView();closeProfile()"><i class="fas fa-heart"></i> Wishlist</div>
+    </div>
+  </div>
+  <div class="profile-foot"><button class="logout-btn" onclick="logoutUser();closeProfile()"><i class="fas fa-sign-out-alt"></i> Logout</button></div>
+</div>
+
+<!-- ===== SIZE RECOMMENDER POPUP ===== -->
+<div class="size-rec-popup" id="sizeRecPopup">
+  <div class="size-rec-box">
+    <button class="modal-close" onclick="closeSizeRec()"><i class="fas fa-times"></i></button>
+    <div class="srec-title">AI SIZE HELPER</div>
+    <p class="srec-sub">Bas 2 details dijiye, hum size batayenge!</p>
+    <div class="srec-field">
+      <label class="srec-label" style="font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.3rem;display:block">Height (cm)</label>
+      <input type="number" class="srec-input" id="srec-height" placeholder="e.g. 175" style="width:100%;padding:.7rem;border-radius:8px;background:var(--bg3);border:1px solid var(--border);color:var(--text);outline:none">
+    </div>
+    <div class="srec-field" style="margin-top:1rem">
+      <label class="srec-label" style="font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.3rem;display:block">Weight (kg)</label>
+      <input type="number" class="srec-input" id="srec-weight" placeholder="e.g. 70" style="width:100%;padding:.7rem;border-radius:8px;background:var(--bg3);border:1px solid var(--border);color:var(--text);outline:none">
+    </div>
+    <button class="btn btn-gold" style="width:100%;margin-top:1.5rem" onclick="calcSize()">Check Size</button>
+    <div class="srec-result" id="srecResult" style="margin-top:1.5rem;text-align:center;display:none">
+      <div style="font-family:'Bebas Neue',cursive;font-size:3rem;color:var(--gold)" id="srecSizeBig">L</div>
+      <p id="srecSizeText" style="font-size:.8rem;color:var(--muted)">Aapke liye recommended size</p>
+    </div>
+  </div>
+</div>
+
+<!-- Core Scripts -->
+<script defer src="js/main.js"></script>
+<script defer src="js/carousel.js"></script>
+<script defer src="js/extra_features.js"></script>
+
+<script>
+// Final cleanup of redundant globals
+window.openProfile = function() {
+  if(!currentUser){ openLoginModal(); return; }
+  document.getElementById('profileAvatar').textContent = currentUser.name[0].toUpperCase();
+  document.getElementById('profileName').textContent = currentUser.name;
+  document.getElementById('profileMobile').textContent = '+91 ' + currentUser.mobile;
+  document.getElementById('profilePts').textContent = currentUser.points || '0';
+  document.getElementById('profileOrderCount').textContent = orders.filter(o => o.userId === currentUser.id).length;
+  document.getElementById('profileOverlay').classList.add('open');
+  document.getElementById('profileSidebar').classList.add('open');
+  document.body.classList.add('modal-open');
+}
+window.closeProfile = function() {
+  document.getElementById('profileOverlay').classList.remove('open');
+  document.getElementById('profileSidebar').classList.remove('open');
+  document.body.classList.remove('modal-open');
+}
+window.toggleUserMenu = function() {
+  const menu = document.getElementById('userMenu');
+  if(menu) menu.classList.toggle('show');
+}
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('userMenu');
+  const btn = document.getElementById('userBtn');
+  if(menu && menu.classList.contains('show') && !menu.contains(e.target) && !btn.contains(e.target)) {
+    menu.classList.remove('show');
+  }
+});
+</script>
 
 </body>
 </html>

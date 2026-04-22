@@ -29,7 +29,6 @@ window.addEventListener('scroll', () => {
 /* ===== GREETING BANNER ===== */
 function updateGreeting(user){
   const banner = document.getElementById('greetingBanner');
-  if(!banner) return;
   if(!user){ banner.classList.remove('show'); return; }
   const hour = new Date().getHours();
   const greet = hour < 12 ? 'Subah ka salam' : hour < 17 ? 'Dopahar ka salam' : 'Shaam ka salam';
@@ -524,9 +523,9 @@ window.addToCart = function(id, size){
   setTimeout(showMiniCart, 300);
 };
 
-/* ===== OVERRIDE customerLogin to update greeting ===== */
-const _origLogin = window.customerLogin;
-window.customerLogin = function() {
+/* ===== OVERRIDE loginWithMobile to update greeting ===== */
+const _origLogin = window.loginWithMobile;
+window.loginWithMobile = function(){
   _origLogin && _origLogin();
   setTimeout(()=>{
     const user = JSON.parse(localStorage.getItem('nd_current_user')||'null');
@@ -534,9 +533,9 @@ window.customerLogin = function() {
   }, 100);
 };
 
-/* ===== OVERRIDE customerSignup ===== */
-const _origSignup = window.customerSignup;
-window.customerSignup = function() {
+/* ===== OVERRIDE signupUser ===== */
+const _origSignup = window.signupUser;
+window.signupUser = function(){
   _origSignup && _origSignup();
   setTimeout(()=>{
     const user = JSON.parse(localStorage.getItem('nd_current_user')||'null');

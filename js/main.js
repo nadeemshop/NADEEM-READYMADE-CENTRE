@@ -66,13 +66,158 @@ const reviews = [
 ];
 
 /* ===== USER SYSTEM ===== */
+let customers = JSON.parse(localStorage.getItem('nd_customers') || '[]');
 let currentUser = JSON.parse(localStorage.getItem('nd_current_user') || 'null');
-let users = JSON.parse(localStorage.getItem('nd_users') || '[]');
 let orders = JSON.parse(localStorage.getItem('nd_orders') || '[]');
 
-if (users.length === 0) {
-  users.push({id:1,name:"Guest User",mobile:"9999999999",email:"guest@example.com",password:"guest123",joinDate:new Date().toISOString(),referralCode:"GUEST999",referredBy:null});
-  localStorage.setItem('nd_users', JSON.stringify(users));
+// Initialize demo customer
+if (customers.length === 0) {
+  customers.push({
+    id: 1,
+    name: "Demo User",
+    mobile: "9999999999",
+    password: "demo123",
+    joinDate: new Date().toISOString(),
+    points: 50
+  });
+  localStorage.setItem('nd_customers', JSON.stringify(customers));
+}
+
+/* ===== AUTH FUNCTIONS ===== */
+window.openLoginModal = function() {
+  document.getElementById('authModal').classList.add('open');
+  document.body.classList.add('modal-open');
+}
+
+window.closeLoginModal = function() {
+  document.getElementById('authModal').classList.remove('open');
+  document.body.classList.remove('modal-open');
+}
+
+window.switchAuthTab = function(tab) {
+  const customerForm = document.getElementById('customerLoginForm');
+  const adminForm = document.getElementById('adminLoginForm');
+  const signupForm = document.getElementById('signupForm');
+  const tabs = document.querySelectorAll('.auth-tab');
+  
+  if (customerForm) customerForm.classList.remove('active');
+  if (adminForm) adminForm.classList.remove('active');
+  if (signupForm) signupForm.classList.remove('active');
+  tabs.forEach(t => t.classList.remove('active'));
+  
+  if (tab === 'customer' && customerForm) {
+    customerForm.classList.add('active');
+    tabs[0].classList.add('active');
+  } else if (tab === 'admin' && adminForm) {
+    adminForm.classList.add('active');
+    tabs[1].classList.add('active');
+  } else if (tab === 'signup' && signupForm) {
+    signupForm.classList.add('active');
+    tabs[2].classList.add('active');
+  }
+}
+
+// CUSTOMER LOGIN
+window.customerLogin = function() {
+  const mobile = document.getElementById('customerMobile').value.trim();
+  const password = document.getElementById('customerPassword').value;
+  
+  if (!mobile || !password) {
+    showToast('❌ Mobile aur password dono bharo!');
+    return;
+  }
+  
+  const user = customers.find(c => c.mobile === mobile && c.password === password);
+  
+  if (user) {
+    currentUser = user;
+    localStorage.setItem('nd_current_user', JSON.stringify(user));
+    updateUserUI();
+    closeLoginModal();
+    showToast(`🎉 Welcome back, ${user.name}!`);
+  } else {
+    showToast('❌ Galat mobile ya password! Demo: 9999999999 / demo123');
+  }
+}
+
+// ADMIN LOGIN
+window.adminLogin = function() {
+  const username = document.getElementById('adminUser').value.trim();
+  const password = document.getElementById('adminPass').value;
+  
+  if (username === 'admin' && password === 'nadeem2025') {
+    showToast('🔐 Admin login successful! Redirecting...');
+    setTimeout(() => { window.location.href = 'admin.html'; }, 800);
+  } else {
+    showToast('❌ Galat admin credentials! Demo: admin / nadeem2025');
+  }
+}
+
+// CUSTOMER SIGNUP
+window.customerSignup = function() {
+  const name = document.getElementById('signupName').value.trim();
+  const mobile = document.getElementById('signupMobile').value.trim();
+  const password = document.getElementById('signupPassword').value;
+  
+  if (!name || !mobile || !password) {
+    showToast('❌ Sab fields bharo!');
+    return;
+  }
+  
+  if (mobile.length !== 10) {
+    showToast('❌ Sahi 10 digit mobile number daalo!');
+    return;
+  }
+  
+  if (password.length < 4) {
+    showToast('❌ Password kam se kam 4 characters ka ho!');
+    return;
+  }
+  
+  if (customers.find(c => c.mobile === mobile)) {
+    showToast('❌ Yeh mobile number already registered hai!');
+    return;
+  }
+  
+  const newUser = {
+    id: Date.now(),
+    name: name,
+    mobile: mobile,
+    password: password,
+    joinDate: new Date().toISOString(),
+    points: 50
+  };
+  
+  customers.push(newUser);
+  localStorage.setItem('nd_customers', JSON.stringify(customers));
+  
+  currentUser = newUser;
+  localStorage.setItem('nd_current_user', JSON.stringify(newUser));
+  
+  updateUserUI();
+  closeLoginModal();
+  showToast(`🎉 Welcome ${name}! 50 welcome points mile!`);
+}
+
+// LOGOUT
+window.logoutUser = function() {
+  currentUser = null;
+  localStorage.removeItem('nd_current_user');
+  updateUserUI();
+  const menu = document.getElementById('userMenu');
+  if (menu) menu.classList.remove('show');
+  showToast('✅ Logout ho gaya!');
+}
+
+function updateUserUI() {
+  const userBtn = document.getElementById('userBtn');
+  if (userBtn) {
+    if (currentUser) {
+      userBtn.innerHTML = `<i class="fas fa-user-circle"></i> ${currentUser.name.split(' ')[0]}`;
+    } else {
+      userBtn.innerHTML = `<i class="fas fa-user"></i>`;
+    }
+  }
 }
 
 /* ===== CART ===== */
@@ -242,165 +387,7 @@ function placeOrder(paymentMethod, address) {
   return orderId;
 }
 
-/* ===== USER AUTH ===== */
-window.openLoginModal = function() {
-  const modal = document.getElementById('authModal');
-  if (modal) modal.classList.add('open');
-  document.body.classList.add('modal-open');
-}
-window.closeLoginModal = function() {
-  const modal = document.getElementById('authModal');
-  if (modal) modal.classList.remove('open');
-  document.body.classList.remove('modal-open');
-}
-window.switchAuthTab = function(tab) {
-  const customerForm = document.getElementById('customerLoginForm');
-  const adminForm = document.getElementById('adminLoginForm');
-  const signupForm = document.getElementById('signupForm');
-  const tabs = document.querySelectorAll('.auth-tab');
-  
-  // Hide all forms
-  if(customerForm) customerForm.classList.remove('active');
-  if(adminForm) adminForm.classList.remove('active');
-  if(signupForm) signupForm.classList.remove('active');
-  tabs.forEach(t => t.classList.remove('active'));
-  
-  if (tab === 'customer' && customerForm) {
-    customerForm.classList.add('active');
-    tabs[0].classList.add('active');
-  } else if (tab === 'admin' && adminForm) {
-    adminForm.classList.add('active');
-    tabs[1].classList.add('active');
-  } else if (tab === 'signup' && signupForm) {
-    signupForm.classList.add('active');
-    tabs[2].classList.add('active');
-  }
-}
-
-/* ===== CUSTOMER LOGIN ===== */
-window.customerLogin = function() {
-  const mobile = document.getElementById('customerMobile').value.trim();
-  const password = document.getElementById('customerPassword').value;
-  
-  if (!mobile || !password) {
-    showToast('❌ Mobile aur password dono bharo!');
-    return;
-  }
-  
-  const user = users.find(u => u.mobile === mobile && u.password === password);
-  
-  if (user) {
-    currentUser = user;
-    localStorage.setItem('nd_current_user', JSON.stringify(user));
-    updateUserUI();
-    closeLoginModal();
-    showToast(`🎉 Welcome back, ${user.name}!`);
-    
-    /* Abandoned Cart Restoration */
-    const abandoned = localStorage.getItem('nd_abandoned_cart_' + user.id);
-    if (abandoned) {
-      try {
-        const savedCart = JSON.parse(abandoned);
-        if (savedCart.length > 0 && confirm('Aapke pichle saved items cart mein hain. Restore karein?')) {
-          cart = [...cart, ...savedCart];
-          saveCart();
-          updateCartUI();
-        }
-      } catch(e) {}
-      localStorage.removeItem('nd_abandoned_cart_' + user.id);
-    }
-  } else {
-    showToast('❌ Galat mobile ya password! Demo: 9999999999 / guest123');
-  }
-}
-
-/* ===== ADMIN LOGIN ===== */
-window.adminLogin = function() {
-  const username = document.getElementById('adminUser').value.trim();
-  const password = document.getElementById('adminPass').value;
-  
-  // Admin credentials
-  const ADMIN_CREDS = { user: 'admin', pass: 'nadeem2025' };
-  
-  if (username === ADMIN_CREDS.user && password === ADMIN_CREDS.pass) {
-    showToast('🔐 Admin login successful! Redirecting...');
-    setTimeout(() => { window.location.href = 'admin.html'; }, 800);
-  } else {
-    showToast('❌ Galat admin credentials! Demo: admin / nadeem2025');
-  }
-}
-
-/* ===== CUSTOMER SIGNUP ===== */
-window.customerSignup = function() {
-  const name = document.getElementById('signupName').value.trim();
-  const mobile = document.getElementById('signupMobile').value.trim();
-  const password = document.getElementById('signupPassword').value;
-  
-  if (!name || !mobile || !password) {
-    showToast('❌ Sab fields bharo!');
-    return;
-  }
-  
-  if (mobile.length !== 10) {
-    showToast('❌ Sahi 10 digit mobile number daalo!');
-    return;
-  }
-  
-  if (password.length < 4) {
-    showToast('❌ Password kam se kam 4 characters ka ho!');
-    return;
-  }
-  
-  if (users.find(u => u.mobile === mobile)) {
-    showToast('❌ Yeh mobile number already registered hai! Login karo.');
-    return;
-  }
-  
-  const referralCode = 'REF' + Math.random().toString(36).substring(2, 8).toUpperCase();
-  const newUser = {
-    id: users.length + 1,
-    name: name,
-    mobile: mobile,
-    email: mobile + '@nadeem.com',
-    password: password,
-    joinDate: new Date().toISOString(),
-    referralCode: referralCode,
-    points: 50
-  };
-  
-  users.push(newUser);
-  localStorage.setItem('nd_users', JSON.stringify(users));
-  
-  currentUser = newUser;
-  localStorage.setItem('nd_current_user', JSON.stringify(newUser));
-  localStorage.setItem('nd_points_' + newUser.id, '50');
-  
-  updateUserUI();
-  closeLoginModal();
-  showToast(`🎉 Welcome ${name}! 50 welcome points mile!`);
-}
-window.logoutUser = function() {
-  currentUser = null;
-  localStorage.removeItem('nd_current_user');
-  updateUserUI();
-  const menu = document.getElementById('userMenu');
-  if (menu) menu.classList.remove('show');
-  showToast('Logout ho gaye!');
-}
-function updateUserUI() {
-  const userBtn = document.getElementById('userBtn');
-  const userMenu = document.getElementById('userMenu');
-  if (userBtn) {
-    if (currentUser) {
-      userBtn.innerHTML = `<i class="fas fa-user-circle"></i> ${currentUser.name.split(' ')[0]}`;
-      userBtn.onclick = () => toggleUserMenu();
-    } else {
-      userBtn.innerHTML = `<i class="fas fa-user"></i> Login`;
-      userBtn.onclick = () => openLoginModal();
-      if (userMenu) userMenu.classList.remove('show');
-    }
-  }
-}
+/* ===== USER INTERFACE ===== */
 window.toggleUserMenu = function() {
   const menu = document.getElementById('userMenu');
   if (menu) menu.classList.toggle('show');
@@ -771,8 +758,8 @@ window.addEventListener('DOMContentLoaded', () => {
   const ordersClose = document.getElementById('ordersClose');
   if (ordersClose) ordersClose.addEventListener('click', closeOrdersModal);
 
-  const cartOpenBtn = document.getElementById('cartOpenBtn');
-  if (cartOpenBtn) cartOpenBtn.addEventListener('click', openCart);
+  const cartBtn = document.getElementById('cartBtn');
+  if (cartBtn) cartBtn.addEventListener('click', openCart);
 
   const cartCloseBtn = document.getElementById('cartClose');
   if (cartCloseBtn) cartCloseBtn.addEventListener('click', closeCart);
@@ -780,13 +767,24 @@ window.addEventListener('DOMContentLoaded', () => {
   const cartOverlay = document.getElementById('cartOverlay');
   if (cartOverlay) cartOverlay.addEventListener('click', closeCart);
 
-  const hamburger = document.getElementById('hamburger');
-  if (hamburger) hamburger.addEventListener('click', () => {
-    document.getElementById('mobileMenu').classList.toggle('open');
-    hamburger.classList.toggle('active');
+  const navToggle = document.getElementById('navToggle');
+  if (navToggle) navToggle.addEventListener('click', () => {
+    document.getElementById('sidebar').classList.add('open');
+    document.getElementById('sidebarOverlay').classList.add('open');
   });
   
+  const sidebarClose = document.getElementById('sidebarClose');
+  if (sidebarClose) sidebarClose.addEventListener('click', () => {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('open');
+  });
   
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+  if (sidebarOverlay) sidebarOverlay.addEventListener('click', () => {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('open');
+  });
+
   /* GSAP hero animations */
   if (typeof gsap !== 'undefined') {
     gsap.from('.hero-title', {duration:1, y:50, opacity:0, ease:'power3.out'});
