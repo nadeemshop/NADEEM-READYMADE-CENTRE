@@ -1,6 +1,6 @@
 /**
- * NADEEM DRESS | Carousel Component
- * Fixes: Mobile card width, wishlist persistence, smoother drag
+ * NADEEM DRESS | Carousel Component — FIXED VERSION
+ * Fixes: Card width, image loading, multiple cards showing
  */
 
 let carIndex = 0;
@@ -10,13 +10,17 @@ let filteredProds = [];
 function buildCard(prod) {
   const badgeMap = {best:'badge-best', new:'badge-new', sale:'badge-sale'};
   const badgeLabel = {best:'BESTSELLER', new:'NEW', sale:'SALE'};
-  /* FIX: Wishlist state from localStorage */
   const isWishlisted = (window.wishlist || []).includes(prod.id);
+
+  /* FIX: Use placeholder if image might fail */
+  const imgSrc = prod.img || 'https://placehold.co/300x360/13131f/D4AF37?text=Photo';
+
   return `
   <div class="prod-card" onclick="window.openModal(${prod.id})">
     <div class="prod-img">
       ${prod.badge ? `<div class="prod-badge ${badgeMap[prod.badge]}">${badgeLabel[prod.badge]}</div>` : ''}
-      <img src="${prod.img}" alt="${prod.name}" loading="lazy" onerror="this.src='https://placehold.co/300x360/13131f/D4AF37?text=Photo'">
+      <img src="${imgSrc}" alt="${prod.name}" loading="lazy"
+        onerror="this.onerror=null;this.src='https://placehold.co/300x360/13131f/D4AF37?text=Photo'">
       <div class="prod-img-overlay">
         <button class="quick-add" onclick="window.addToCart(${prod.id},null);event.stopPropagation()">+ Bag Mein Dalo</button>
         <button class="quick-view-btn" onclick="window.openModal(${prod.id});event.stopPropagation()">Quick View</button>
@@ -38,7 +42,7 @@ function buildCard(prod) {
   </div>`;
 }
 
-/* FIX: Wishlist button handler - toggles heart icon + saves */
+/* FIX: Wishlist button handler */
 window.handleWishlist = function(id, btn) {
   if (!window.wishlist) window.wishlist = [];
   if (window.wishlist.includes(id)) {
@@ -54,17 +58,17 @@ window.handleWishlist = function(id, btn) {
   localStorage.setItem('nd_wishlist', JSON.stringify(window.wishlist));
 }
 
-/* FIX #5: Mobile pe responsive card width */
+/* FIX: Proper card width calculation */
 function getCardWidth() {
   const w = window.innerWidth;
-  if (w >= 1200) return 234;
-  if (w >= 900) return 220;
-  if (w >= 600) return 200;
-  /* Mobile pe full width minus gap */
-  return Math.floor((w - 48) / 1.2);
+  if (w >= 1200) return 230;
+  if (w >= 900) return 210;
+  if (w >= 600) return 195;
+  /* Mobile: show ~1.5 cards so user knows it's scrollable */
+  return Math.min(200, Math.floor((w - 40) * 0.82));
 }
 
-function getSlideW() {
+function getVisibleCount() {
   const w = window.innerWidth;
   if (w >= 1200) return 4;
   if (w >= 900) return 3;
@@ -74,43 +78,51 @@ function getSlideW() {
 
 window.buildCarousel = function(filter = 'all') {
   if (!window.products) return;
+
   filteredProds = filter === 'all' ? [...window.products]
     : filter === 'bestseller' ? window.products.filter(p => p.badge === 'best')
     : window.products.filter(p => p.cat === filter);
 
-  /* Agar koi product nahi mila us filter mein */
   if (filteredProds.length === 0) {
     filteredProds = [...window.products];
   }
 
-  /* Wishlist load karo */
   window.wishlist = JSON.parse(localStorage.getItem('nd_wishlist') || '[]');
 
   const track = document.getElementById('carTrack');
-  if (track) {
-    track.innerHTML = filteredProds.map(buildCard).join('');
-    /* FIX: Card widths set karo dynamically */
-    applyCardWidths();
-    carIndex = 0;
-    window.moveCarousel(0, true);
-  }
+  if (!track) return;
+
+  track.innerHTML = filteredProds.map(buildCard).join('');
+  carIndex = 0;
+
+  /* FIX: Apply widths AFTER inserting HTML */
+  applyCardWidths();
+
+  /* FIX: Reset transform instantly */
+  track.style.transition = 'none';
+  track.style.transform = 'translateX(0)';
 }
 
 function applyCardWidths() {
   const cardW = getCardWidth();
-  document.querySelectorAll('#carTrack .prod-card').forEach(card => {
+  const cards = document.querySelectorAll('#carTrack .prod-card');
+  cards.forEach(card => {
     card.style.minWidth = cardW + 'px';
+    card.style.width = cardW + 'px';
     card.style.flex = `0 0 ${cardW}px`;
   });
+  return cardW;
 }
 
 window.moveCarousel = function(delta, instant = false) {
-  const perView = getSlideW();
+  const perView = getVisibleCount();
   const max = Math.max(0, filteredProds.length - perView);
   carIndex = Math.min(max, Math.max(0, carIndex + delta));
+
   const cardW = getCardWidth();
-  const gap = 22; /* 1.4rem ≈ 22px */
+  const gap = 22;
   const offset = -(carIndex * (cardW + gap));
+
   const track = document.getElementById('carTrack');
   if (track) {
     track.style.transition = instant ? 'none' : 'transform .55s cubic-bezier(.4,0,.2,1)';
@@ -121,7 +133,7 @@ window.moveCarousel = function(delta, instant = false) {
 window.startCarAuto = function() {
   clearInterval(carAuto);
   carAuto = setInterval(() => {
-    const perView = getSlideW();
+    const perView = getVisibleCount();
     const max = filteredProds.length - perView;
     if (carIndex >= max) carIndex = -1;
     window.moveCarousel(1);
@@ -159,7 +171,6 @@ function initDrag() {
     setTimeout(() => { isDragging = false; }, 50);
   });
 
-  /* FIX: Prevent card click during drag */
   track.addEventListener('click', e => {
     if (isDragging) { e.stopPropagation(); e.preventDefault(); }
   }, true);
@@ -200,20 +211,18 @@ function initChips() {
   });
 }
 
-/* ===== SEARCH — FIX #10: Proper search filter ===== */
+/* ===== SEARCH ===== */
 function initSearch() {
   const searchInput = document.getElementById('searchInput');
   if (!searchInput) return;
   searchInput.addEventListener('input', function() {
     const q = this.value.toLowerCase().trim();
     if (!q) {
-      /* Clear search — rebuild with current filter */
       const activeChip = document.querySelector('#filterChips .chip.active');
       const filter = activeChip ? activeChip.dataset.filter : 'all';
       window.buildCarousel(filter);
       return;
     }
-    /* Search across ALL products */
     const searchResults = window.products.filter(p =>
       p.name.toLowerCase().includes(q) ||
       p.cat.toLowerCase().includes(q) ||
@@ -237,7 +246,16 @@ function initSearch() {
 window.addEventListener('DOMContentLoaded', () => {
   window.wishlist = JSON.parse(localStorage.getItem('nd_wishlist') || '[]');
   filteredProds = [...window.products];
+
+  /* FIX: Build carousel then wait 1 frame before applying widths */
   window.buildCarousel();
+
+  /* FIX: Re-apply widths after images start loading */
+  requestAnimationFrame(() => {
+    applyCardWidths();
+    window.moveCarousel(0, true);
+  });
+
   initChips();
   initDrag();
   initSearch();
@@ -256,8 +274,12 @@ window.addEventListener('DOMContentLoaded', () => {
   if (carPrev) carPrev.addEventListener('click', () => { window.moveCarousel(-1); window.startCarAuto(); });
 });
 
-/* FIX #5: Resize pe card widths aur offset recalculate */
+/* FIX: Resize pe recalculate */
+let resizeTimer;
 window.addEventListener('resize', () => {
-  applyCardWidths();
-  window.moveCarousel(0, true);
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    applyCardWidths();
+    window.moveCarousel(0, true);
+  }, 150);
 });

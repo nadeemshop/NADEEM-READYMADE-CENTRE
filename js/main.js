@@ -458,12 +458,23 @@ function applyTheme() {
 
 window.closeMobile = function() { document.getElementById('mobileMenu')?.classList.remove('open'); }
 
+/* ===== FIX: REVEAL — use simple IntersectionObserver, NO opacity:0 on hero elements ===== */
 function initReveal() {
-  const io = new IntersectionObserver(e => e.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('in'); }), {threshold: .08});
-  document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el => io.observe(el));
-}
+  /* FIX: Force hero elements visible immediately - no animation delay */
+  document.querySelectorAll('.hero .reveal, .hero .reveal-left, .hero .reveal-right').forEach(el => {
+    el.classList.add('in');
+  });
 
-window.closeMobile = function() { document.getElementById('mobileMenu')?.classList.remove('open'); }
+  /* Non-hero elements use IntersectionObserver */
+  const io = new IntersectionObserver(e => e.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('in');
+  }), {threshold: .05, rootMargin: '0px 0px -50px 0px'});
+
+  document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el => {
+    /* Skip hero elements - already made visible above */
+    if (!el.closest('.hero')) io.observe(el);
+  });
+}
 
 function syncSettingsUI() {
   if (settings.saleTitle) {
@@ -476,18 +487,6 @@ function syncSettingsUI() {
       if (el) el.textContent = settings.promo;
     });
   }
-  
-  // Update all WhatsApp links to use settings.wa
-  document.querySelectorAll('a[href^="https://wa.me/"]').forEach(link => {
-    const url = new URL(link.href);
-    const path = url.pathname.replace('/', '');
-    if (path === '918010929093' || path === WA_NUMBER) {
-      const text = url.searchParams.get('text') || '';
-      // Replace hardcoded shop name if present in text
-      const newText = text.replace(/Nadeem%20Readymade%20Centre/g, encodeURIComponent(SHOP_NAME));
-      link.href = `https://wa.me/${WA_NUMBER}${newText ? '?text=' + newText : ''}`;
-    }
-  });
 }
 
 function syncWebsiteDesignUI() {
@@ -543,20 +542,47 @@ function syncWebsiteDesignUI() {
   }
 }
 
+/* ===== SCROLL EVENTS ===== */
+function initScrollEvents() {
+  const scrollTopBtn = document.getElementById('scrollTopBtn');
+  const scrollProgress = document.getElementById('scrollProgress');
+
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+
+    if (scrollProgress) {
+      scrollProgress.style.width = (scrolled / total * 100) + '%';
+    }
+    if (scrollTopBtn) {
+      scrollTopBtn.classList.toggle('show', scrolled > 400);
+    }
+  }, {passive: true});
+}
+
 /* ===== INIT ===== */
 window.addEventListener('DOMContentLoaded', () => {
   applyTheme();
   syncSettingsUI();
   syncWebsiteDesignUI();
-  document.getElementById('themeBtn')?.addEventListener('click', () => { isLight = !isLight; localStorage.setItem('theme', isLight ? 'light' : 'dark'); applyTheme(); });
+
+  document.getElementById('themeBtn')?.addEventListener('click', () => {
+    isLight = !isLight;
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    applyTheme();
+  });
+
   buildTicker();
   buildCategories();
   buildReviews();
-  initReveal();
   startCountdown();
   updateCartUI();
   updateUserUI();
-  
+  initScrollEvents();
+
+  /* FIX: Run reveal AFTER a tiny delay so DOM is settled */
+  setTimeout(initReveal, 50);
+
   document.getElementById('modalClose')?.addEventListener('click', closeModal);
   document.getElementById('prodModal')?.addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
   document.getElementById('authModal')?.addEventListener('click', e => { if (e.target === e.currentTarget) closeLoginModal(); });
@@ -567,21 +593,13 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('cartClose')?.addEventListener('click', closeCart);
   document.getElementById('cartOverlay')?.addEventListener('click', closeCart);
   document.getElementById('navToggle')?.addEventListener('click', () => document.getElementById('mobileMenu')?.classList.toggle('open'));
-  
-  if (typeof gsap !== 'undefined') {
-    gsap.from('.hero-title', {duration:1, y:50, opacity:0, ease:'power3.out'});
-    gsap.from('.hero-btns', {duration:.8, y:20, opacity:0, delay:.4});
-  }
 
-  // Force hero image visibility
-  setTimeout(() => {
-    const heroImg = document.getElementById('heroImage');
-    if(heroImg) {
-      heroImg.style.display = 'block';
-      heroImg.style.opacity = '1';
-      heroImg.style.visibility = 'visible';
-      heroImg.onload = () => { heroImg.style.opacity = '1'; };
-      if(heroImg.complete) heroImg.style.opacity = '1';
-    }
-  }, 100);
+  /* FIX: NO GSAP animation on hero — it was leaving text at opacity:0 */
+  /* Hero elements are already visible via CSS / initReveal */
+
+  /* FIX: Hero image — force visible immediately */
+  const heroImg = document.getElementById('heroImage');
+  if (heroImg) {
+    heroImg.style.cssText = 'display:block !important; opacity:1 !important; visibility:visible !important; width:100%; height:100%; object-fit:cover;';
+  }
 });
