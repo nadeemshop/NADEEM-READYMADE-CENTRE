@@ -231,12 +231,14 @@ function placeOrder(paymentMethod, address) {
 
 /* ===== USER AUTH ===== */
 window.openLoginModal = function() {
-  const modal = document.getElementById('loginModal');
+  const modal = document.getElementById('authModal');
   if (modal) modal.classList.add('open');
+  document.body.classList.add('modal-open');
 }
 window.closeLoginModal = function() {
-  const modal = document.getElementById('loginModal');
+  const modal = document.getElementById('authModal');
   if (modal) modal.classList.remove('open');
+  document.body.classList.remove('modal-open');
 }
 window.switchAuthTab = function(tab) {
   const loginForm = document.getElementById('loginForm');
@@ -457,15 +459,15 @@ window.selectSize = function(size, btn) {
   btn.classList.add('selected');
 }
 
-window.openSizeGuide = function() { document.getElementById('sgPopup').classList.add('open'); }
-window.closeSizeGuide = function() { document.getElementById('sgPopup').classList.remove('open'); }
+window.openSizeGuide = function() { document.getElementById('sizeGuideModal').classList.add('open'); }
+window.closeSizeGuide = function() { document.getElementById('sizeGuideModal').classList.remove('open'); }
 
 /* ===== TOAST ===== */
 let toastTimer;
 window.showToast = function(msg) {
   const t = document.getElementById('toast');
   if (!t) return;
-  document.getElementById('toastMsg').textContent = msg;
+  t.textContent = msg;
   t.classList.add('show');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
@@ -658,17 +660,23 @@ window.addEventListener('DOMContentLoaded', () => {
   const prodModal = document.getElementById('prodModal');
   if (prodModal) prodModal.addEventListener('click', function(e) { if (e.target === this) closeModal(); });
 
-  const sgPopup = document.getElementById('sgPopup');
-  if (sgPopup) sgPopup.addEventListener('click', function(e) { if (e.target === this) closeSizeGuide(); });
+  const sizeGuideModal = document.getElementById('sizeGuideModal');
+  if (sizeGuideModal) sizeGuideModal.addEventListener('click', function(e) { if (e.target === this) closeSizeGuide(); });
 
-  const loginModal = document.getElementById('loginModal');
-  if (loginModal) loginModal.addEventListener('click', function(e) { if (e.target === this) closeLoginModal(); });
+  const authModal = document.getElementById('authModal');
+  if (authModal) authModal.addEventListener('click', function(e) { if (e.target === this) closeLoginModal(); });
+  
+  const authClose = document.getElementById('authClose');
+  if (authClose) authClose.addEventListener('click', closeLoginModal);
 
   const ordersModal = document.getElementById('ordersModal');
   if (ordersModal) ordersModal.addEventListener('click', function(e) { if (e.target === this) closeOrdersModal(); });
+  
+  const ordersClose = document.getElementById('ordersClose');
+  if (ordersClose) ordersClose.addEventListener('click', closeOrdersModal);
 
-  const cartOpenBtn = document.getElementById('cartOpenBtn');
-  if (cartOpenBtn) cartOpenBtn.addEventListener('click', openCart);
+  const cartBtn = document.getElementById('cartBtn');
+  if (cartBtn) cartBtn.addEventListener('click', openCart);
 
   const cartCloseBtn = document.getElementById('cartClose');
   if (cartCloseBtn) cartCloseBtn.addEventListener('click', closeCart);
@@ -676,22 +684,28 @@ window.addEventListener('DOMContentLoaded', () => {
   const cartOverlay = document.getElementById('cartOverlay');
   if (cartOverlay) cartOverlay.addEventListener('click', closeCart);
 
-  const hamburger = document.getElementById('hamburger');
-  if (hamburger) hamburger.addEventListener('click', () => {
-    document.getElementById('mobileMenu').classList.toggle('open');
+  const navToggle = document.getElementById('navToggle');
+  if (navToggle) navToggle.addEventListener('click', () => {
+    document.getElementById('sidebar').classList.add('open');
+    document.getElementById('sidebarOverlay').classList.add('open');
   });
-
-  /* Scroll to top */
-  window.addEventListener('scroll', () => {
-    const st = document.getElementById('scrollTopBtn');
-    if (st) st.classList.toggle('show', window.scrollY > 400);
+  
+  const sidebarClose = document.getElementById('sidebarClose');
+  if (sidebarClose) sidebarClose.addEventListener('click', () => {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('open');
+  });
+  
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+  if (sidebarOverlay) sidebarOverlay.addEventListener('click', () => {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('open');
   });
 
   /* GSAP hero animations */
   if (typeof gsap !== 'undefined') {
     gsap.from('.hero-title', {duration:1, y:50, opacity:0, ease:'power3.out'});
-    gsap.from('.hero-sub', {duration:1, y:30, opacity:0, delay:.2, ease:'power3.out'});
+    gsap.from('.hero-tag', {duration:1, y:30, opacity:0, delay:.2, ease:'power3.out'});
     gsap.from('.hero-btns', {duration:.8, y:20, opacity:0, delay:.4, ease:'power2.out'});
-    gsap.from('.hero-stats .stat', {duration:.6, y:20, opacity:0, stagger:.12, delay:.5, ease:'power2.out'});
   }
 });
