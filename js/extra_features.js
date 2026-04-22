@@ -107,7 +107,7 @@ window.openModal = function(id) {
   trackView(id);
 };
 
-/* ===== SPIN WHEEL LOGIC ===== */
+/* ===== SPIN WHEEL LOGIC (FIXED) ===== */
 const WHEEL_PRIZES = [
   {text: '5% OFF', type: 'promo', val: 'SPIN5'},
   {text: 'FREE DEL', type: 'promo', val: 'FREESHIP'},
@@ -118,20 +118,26 @@ const WHEEL_PRIZES = [
 ];
 
 window.openSpin = function() {
-  document.getElementById('spinOverlay').classList.add('open');
-  document.getElementById('spinContainer').classList.add('open');
+  const overlay = document.getElementById('spinOverlay');
+  const container = document.getElementById('spinContainer');
+  if (overlay) overlay.classList.add('open');
+  if (container) container.classList.add('open');
   document.body.classList.add('modal-open');
 }
 
 window.closeSpin = function() {
-  document.getElementById('spinOverlay').classList.remove('open');
-  document.getElementById('spinContainer').classList.remove('open');
+  const overlay = document.getElementById('spinOverlay');
+  const container = document.getElementById('spinContainer');
+  if (overlay) overlay.classList.remove('open');
+  if (container) container.classList.remove('open');
   document.body.classList.remove('modal-open');
 }
 
 let isSpinning = false;
 window.spinWheel = function() {
   if (isSpinning) return;
+  
+  // Check if user is logged in
   const user = JSON.parse(localStorage.getItem('nd_current_user') || 'null');
   if (!user) {
     if(window.showToast) window.showToast('❌ Please login to spin!');
@@ -139,24 +145,33 @@ window.spinWheel = function() {
     return;
   }
   
+  // Check last spin time (24 hour cooldown)
   const lastSpin = localStorage.getItem('nd_last_spin_' + user.id);
   if (lastSpin && (Date.now() - parseInt(lastSpin)) < 24 * 3600000) {
-    if(window.showToast) window.showToast('🕒 You already spun today! Try tomorrow.');
+    const hoursLeft = Math.ceil((24 * 3600000 - (Date.now() - parseInt(lastSpin))) / 3600000);
+    if(window.showToast) window.showToast(`🕒 Try again in ${hoursLeft} hours!`);
     return;
   }
 
   isSpinning = true;
   const wheel = document.getElementById('wheel');
   const btn = document.getElementById('spinBtn');
-  btn.disabled = true;
-  btn.textContent = 'SPINNING...';
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'SPINNING...';
+  }
 
-  const randomDeg = Math.floor(3000 + Math.random() * 2000);
-  wheel.style.transition = 'transform 4s cubic-bezier(0.15, 0, 0.15, 1)';
-  wheel.style.transform = `rotate(${randomDeg}deg)`;
+  // Random rotation between 1800 and 3600 degrees
+  const randomDeg = 1800 + Math.floor(Math.random() * 1800);
+  
+  if (wheel) {
+    wheel.style.transform = `rotate(${randomDeg}deg)`;
+  }
 
   setTimeout(() => {
     isSpinning = false;
+    
+    // Calculate which prize (based on final position)
     const actualDeg = randomDeg % 360;
     const prizeIndex = Math.floor((360 - actualDeg) / 60) % 6;
     const prize = WHEEL_PRIZES[prizeIndex];
@@ -168,22 +183,34 @@ window.spinWheel = function() {
     const res = document.getElementById('spinResult');
     const resTitle = document.getElementById('spinResultTitle');
     const resMsg = document.getElementById('spinResultMsg');
-    res.style.display = 'block';
-    resTitle.textContent = prize.text;
+    
+    if (res) res.style.display = 'block';
+    if (resTitle) resTitle.textContent = prize.text;
     
     if (prize.type === 'points') {
       const currentPts = parseInt(localStorage.getItem('nd_points_' + user.id) || '0');
       localStorage.setItem('nd_points_' + user.id, currentPts + prize.val);
-      resMsg.textContent = `Congratulations! ${prize.val} points added to your account.`;
+      if (resMsg) resMsg.textContent = `Congratulations! ${prize.val} points added to your account.`;
       if(window.showToast) window.showToast(`🎁 You won ${prize.val} points!`);
     } else {
-      resMsg.textContent = `You won a promo code: ${prize.val}. Use it at checkout!`;
-      if(window.showToast) window.showToast(`🎉 Promo code won: ${prize.val}`);
+      // Save promo code
+      const promos = JSON.parse(localStorage.getItem('nd_won_promos') || '{}');
+      promos[prize.val] = {code: prize.val, wonAt: Date.now(), used: false};
+      localStorage.setItem('nd_won_promos', JSON.stringify(promos));
+      if (resMsg) resMsg.textContent = `You won a promo code: ${prize.val}. Use it at checkout!`;
+      if(window.showToast) window.showToast(`🎉 You won: ${prize.val}`);
     }
     
-    btn.textContent = 'SPUN TODAY';
-    btn.disabled = true;
-  }, 4100);
+    if (btn) {
+      btn.textContent = 'SPUN TODAY';
+      btn.disabled = true;
+    }
+    
+    // Auto close result display after 5 seconds
+    setTimeout(() => {
+      if (res) res.style.display = 'none';
+    }, 5000);
+  }, 4000);
 }
 
 /* ===== SIZE HELPER LOGIC ===== */

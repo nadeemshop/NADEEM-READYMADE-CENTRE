@@ -509,6 +509,32 @@
   </div>
 </div>
 
+<!-- ===== SPIN WHEEL MODAL ===== -->
+<div class="spin-overlay" id="spinOverlay" onclick="closeSpin()"></div>
+<div class="spin-container" id="spinContainer">
+  <button class="spin-close" onclick="closeSpin()"><i class="fas fa-times"></i></button>
+  <div class="spin-box">
+    <h3>🎰 DAILY LUCKY DRAW</h3>
+    <p style="font-size:.8rem;color:var(--muted);margin-bottom:.5rem">Spin the wheel and win exciting prizes!</p>
+    <div class="wheel-wrap">
+      <div class="wheel-pointer">▼</div>
+      <div class="wheel" id="wheel">
+        <div class="wheel-sec" style="--i:0;--c:#D4AF37"><span>5% OFF</span></div>
+        <div class="wheel-sec" style="--i:1;--c:#F5D060"><span>FREE DEL</span></div>
+        <div class="wheel-sec" style="--i:2;--c:#D4AF37"><span>10% OFF</span></div>
+        <div class="wheel-sec" style="--i:3;--c:#F5D060"><span>50 PTS</span></div>
+        <div class="wheel-sec" style="--i:4;--c:#D4AF37"><span>20% OFF</span></div>
+        <div class="wheel-sec" style="--i:5;--c:#F5D060"><span>JACKPOT</span></div>
+      </div>
+    </div>
+    <button class="spin-cta" id="spinBtn" onclick="spinWheel()"><i class="fas fa-sync-alt"></i> SPIN NOW</button>
+    <div class="spin-result" id="spinResult">
+      <div class="spin-result-title" id="spinResultTitle"></div>
+      <p id="spinResultMsg" style="font-size:.8rem;color:var(--muted);margin-top:.4rem"></p>
+    </div>
+  </div>
+</div>
+
 <!-- ===== SPIN TRIGGER (TAB) ===== -->
 <div class="spin-trigger">
   <button class="spin-tab" onclick="openSpin()">🎰 Lucky Draw</button>
