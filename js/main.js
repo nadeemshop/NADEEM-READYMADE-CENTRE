@@ -490,10 +490,62 @@ function syncSettingsUI() {
   });
 }
 
+function syncWebsiteDesignUI() {
+  const ws = JSON.parse(localStorage.getItem('nd_website_settings'));
+  if (!ws) return;
+
+  const elHero1 = document.getElementById('heroLine1');
+  if (elHero1 && ws.hero?.title1) elHero1.textContent = ws.hero.title1;
+  const elHero2 = document.getElementById('heroLine2');
+  if (elHero2 && ws.hero?.title2) elHero2.textContent = ws.hero.title2;
+  const elHero3 = document.getElementById('heroLine3');
+  if (elHero3 && ws.hero?.title3) elHero3.textContent = ws.hero.title3;
+  const elHeroSub = document.getElementById('heroSubtitle');
+  if (elHeroSub && ws.hero?.subtitle) elHeroSub.textContent = ws.hero.subtitle;
+  const elHeroImg = document.getElementById('heroImage');
+  if (elHeroImg && ws.hero?.image) elHeroImg.src = ws.hero.image;
+
+  const elStatProd = document.getElementById('heroStatProducts');
+  if (elStatProd && ws.stats?.products) elStatProd.textContent = ws.stats.products;
+  const elStatDisc = document.getElementById('heroStatDiscount');
+  if (elStatDisc && ws.stats?.discount) elStatDisc.textContent = ws.stats.discount;
+  const elStatCust = document.getElementById('heroStatCustomers');
+  if (elStatCust && ws.stats?.customers) elStatCust.textContent = ws.stats.customers;
+
+  const elLogo = document.getElementById('siteLogoText');
+  if (elLogo) {
+    if (ws.logo?.image) {
+      elLogo.innerHTML = `<img src="${ws.logo.image}" style="max-height: 40px; display: block;" alt="Logo">`;
+    } else if (ws.logo?.text) {
+      const parts = ws.logo.text.split(' ');
+      if (parts.length > 1) {
+          elLogo.innerHTML = `<span>${parts[0]}</span> ${parts.slice(1).join(' ')}`;
+      } else {
+          elLogo.textContent = ws.logo.text;
+      }
+    }
+  }
+
+  const elFooter = document.getElementById('footerCopyText');
+  if (elFooter && ws.footer) elFooter.textContent = ws.footer;
+
+  if (ws.colors) {
+      const root = document.documentElement;
+      if (ws.colors.gold) {
+        root.style.setProperty('--gold', ws.colors.gold);
+        root.style.setProperty('--gold-light', ws.colors.gold);
+      }
+      if (ws.colors.bg) root.style.setProperty('--bg', ws.colors.bg);
+      if (ws.colors.text) root.style.setProperty('--text', ws.colors.text);
+      if (ws.colors.green) root.style.setProperty('--green', ws.colors.green);
+  }
+}
+
 /* ===== INIT ===== */
 window.addEventListener('DOMContentLoaded', () => {
   applyTheme();
   syncSettingsUI();
+  syncWebsiteDesignUI();
   document.getElementById('themeBtn')?.addEventListener('click', () => { isLight = !isLight; localStorage.setItem('theme', isLight ? 'light' : 'dark'); applyTheme(); });
   buildTicker();
   buildCategories();
