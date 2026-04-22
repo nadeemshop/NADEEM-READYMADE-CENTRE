@@ -667,8 +667,9 @@ body{
         <div class="form-grid">
           <div class="form-group"><label class="form-label">Name *</label><input class="form-input" id="f-name"></div>
           <div class="form-group"><label class="form-label">Category *</label><select class="form-select" id="f-cat"></select></div>
-          <div class="form-group"><label class="form-label">Selling Price *</label><input class="form-input" id="f-price" type="number"></div>
-          <div class="form-group"><label class="form-label">MRP (₹)</label><input class="form-input" id="f-orig" type="number"></div>
+          <div class="form-group"><label class="form-label">Selling Price *</label><input class="form-input" id="f-price" type="number" oninput="calcDiscount()"></div>
+          <div class="form-group"><label class="form-label">MRP (₹)</label><input class="form-input" id="f-orig" type="number" oninput="calcDiscount()"></div>
+          <div class="form-group"><label class="form-label">Discount % (Auto)</label><input class="form-input" id="f-disc" readonly placeholder="0%" style="background:var(--bg2);opacity:0.7"></div>
           <div class="form-group"><label class="form-label">Badge</label><select class="form-select" id="f-badge"><option value="">None</option><option value="best">Bestseller</option><option value="new">New</option><option value="sale">Sale</option></select></div>
           <div class="form-group full"><label class="form-label">Description</label><textarea class="form-textarea" id="f-desc"></textarea></div>
           <div class="form-group full"><label class="form-label">Sizes</label><div class="size-chips-input" id="sizeChips"></div><input class="size-chip-custom" id="customSizeInput" placeholder="+ Custom"></div>
@@ -871,7 +872,22 @@ function editProduct(id){
   uploadedPhotos = [...(p.allPhotos || [p.img])];
   buildSizeChips();
   renderPhotoPreview();
+  calcDiscount();
   switchPanel('add-product');
+}
+
+function calcDiscount() {
+  const p = parseFloat(document.getElementById('f-price').value || 0);
+  const o = parseFloat(document.getElementById('f-orig').value || 0);
+  const d = document.getElementById('f-disc');
+  if (d) {
+    if (o > p && o > 0) {
+      const pct = Math.round(((o - p) / o) * 100);
+      d.value = pct + '%';
+    } else {
+      d.value = '0%';
+    }
+  }
 }
 
 function handlePhotoUpload(files){
