@@ -134,7 +134,7 @@
         <i class="fas fa-search"></i>
         <input type="text" placeholder="Search products…" id="searchInput">
       </div>
-      <button class="icon-btn" id="cartOpenBtn" title="Bag">
+      <button class="icon-btn" id="cartBtn" title="Bag">
         <i class="fas fa-shopping-bag"></i>
         <span class="badge" id="cartBadge">0</span>
       </button>
@@ -146,7 +146,7 @@
       <div class="theme-btn" id="themeBtn" title="Toggle theme">
         <i class="fas fa-moon" id="themeIcon"></i>
       </div>
-      <div class="hamburger" id="hamburger">
+      <div class="hamburger" id="navToggle">
         <span></span><span></span><span></span>
       </div>
     </div>
@@ -513,36 +513,7 @@
 <script defer src="js/carousel.js"></script>
 <script defer src="js/extra_features.js"></script>
 
-<script>
-// Final cleanup of redundant globals
-window.openProfile = function() {
-  if(!currentUser){ openLoginModal(); return; }
-  document.getElementById('profileAvatar').textContent = currentUser.name[0].toUpperCase();
-  document.getElementById('profileName').textContent = currentUser.name;
-  document.getElementById('profileMobile').textContent = '+91 ' + currentUser.mobile;
-  document.getElementById('profilePts').textContent = currentUser.points || '0';
-  document.getElementById('profileOrderCount').textContent = orders.filter(o => o.userId === currentUser.id).length;
-  document.getElementById('profileOverlay').classList.add('open');
-  document.getElementById('profileSidebar').classList.add('open');
-  document.body.classList.add('modal-open');
-}
-window.closeProfile = function() {
-  document.getElementById('profileOverlay').classList.remove('open');
-  document.getElementById('profileSidebar').classList.remove('open');
-  document.body.classList.remove('modal-open');
-}
-window.toggleUserMenu = function() {
-  const menu = document.getElementById('userMenu');
-  if(menu) menu.classList.toggle('show');
-}
-document.addEventListener('click', function(e) {
-  const menu = document.getElementById('userMenu');
-  const btn = document.getElementById('userBtn');
-  if(menu && menu.classList.contains('show') && !menu.contains(e.target) && !btn.contains(e.target)) {
-    menu.classList.remove('show');
-  }
-});
-</script>
+
 
 </body>
 </html>

@@ -956,9 +956,19 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3.5rem 1
 
 /* ===== RESPONSIVE SAFETY NETS ===== */
 @media(max-width:380px){
-  .logo{font-size:1.4rem}
-  .user-btn span{display:none}
+  .logo{font-size:1.3rem;letter-spacing:.05em}
+  .nav-inner{padding:0 .75rem;gap:.4rem}
+  .nav-actions{gap:.3rem}
+  .icon-btn{font-size:.95rem;padding:.2rem}
+  .theme-btn{width:30px;height:30px;font-size:.7rem}
+  #userBtn{font-size:0;padding:.2rem} /* Hide text on very small screens */
+  #userBtn i{font-size:1.05rem}
   .hero-title{font-size:2.4rem}
+}
+
+@media(max-width: 480px) {
+  #userBtn { font-size: 0.65rem; gap: 0.3rem; display: flex; align-items: center; }
+  #userBtn i { font-size: 1rem; }
 }
 /* ============================================================
    NADEEM DRESS — EXTRA FEATURE STYLES

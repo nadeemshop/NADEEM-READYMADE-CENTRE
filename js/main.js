@@ -27,17 +27,12 @@ const DEFAULT_PRODUCTS = [
   {id:21,name:"Silk Palazzo Set",price:1299,orig:2999,img:"https://images.unsplash.com/photo-1589156229687-496a31ad1d1f?w=500",images:["https://images.unsplash.com/photo-1589156229687-496a31ad1d1f?w=500"],disc:"56%",badge:"new",cat:"women",desc:"Designer silk kurta with matching palazzo pants and dupatta. A perfect festive ensemble.",sizes:["S","M","L","XL","XXL"],stock:6}
 ];
 
-
-
-/* ===== FIX #2: Admin se products sync karo ===== */
 function loadProducts() {
   const adminProds = localStorage.getItem('nd_products');
   if (adminProds) {
     try {
       const parsed = JSON.parse(adminProds);
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        return parsed;
-      }
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
     } catch(e) {}
   }
   return DEFAULT_PRODUCTS;
@@ -55,14 +50,13 @@ const categories = [
   {icon:"fa-shopping-bag",name:"New Season",from:"₹499",filter:"all"},
 ];
 
-
 const reviews = [
-  {name:"Razia Begum",loc:"Murshidabad, WB",avatar:"R",stars:5,text:"Bhaiiya ki dukaan se kurta liya — quality ekdam zabardast! Eid pe sabka attention mujhpe tha. Fast delivery, packing bhi acha tha.",date:"2 hafta pehle",verified:true},
-  {name:"Arif Hossain",loc:"Baharampur, WB",avatar:"A",stars:5,text:"Wholesale order kiya tha 50 pieces ka. Sab exact size mein aaya, fabric mast hai. Price market se kam. Phir se order karunga!",date:"1 mahina pehle",verified:true},
-  {name:"Salma Khatun",loc:"Nagra, Bihar",avatar:"S",stars:5,text:"Banarasi saree bilkul original nikli. WhatsApp par order kiya, 2 din mein ghar aa gayi. Nadeem bhai bahut helpful hain.",date:"3 hafta pehle",verified:true},
-  {name:"Rahim Sheikh",loc:"Lalgola, WB",avatar:"R",stars:4,text:"Kids wear set liya for my daughter. Design sundar hai, material soft hai bacche ke liye. Thoda delivery time zyada laga par product acha tha.",date:"1 mahina pehle",verified:true},
-  {name:"Fatima Nasrin",loc:"Dhulian, WB",avatar:"F",stars:5,text:"NADEEM50 code use kiya — 50% discount mila! Believe nahi ho raha tha pehle, but order aaya to real mein dil khush ho gaya. Recommended!",date:"2 mahine pehle",verified:true},
-  {name:"Karim Molla",loc:"Farakka, WB",avatar:"K",stars:5,text:"Blazer pehna function mein — log pooch rahe the kahan se liya. Rs. 799 mein itna acha? Sach mein value for money hai.",date:"3 mahine pehle",verified:true},
+  {name:"Razia Begum",loc:"Murshidabad, WB",avatar:"R",stars:5,text:"Bhaiiya ki dukaan se kurta liya — quality ekdam zabardast!",date:"2 hafta pehle",verified:true},
+  {name:"Arif Hossain",loc:"Baharampur, WB",avatar:"A",stars:5,text:"Wholesale order kiya tha 50 pieces ka. Sab exact size mein aaya!",date:"1 mahina pehle",verified:true},
+  {name:"Salma Khatun",loc:"Nagra, Bihar",avatar:"S",stars:5,text:"Banarasi saree bilkul original nikli. WhatsApp par order kiya!",date:"3 hafta pehle",verified:true},
+  {name:"Rahim Sheikh",loc:"Lalgola, WB",avatar:"R",stars:4,text:"Kids wear set liya for my daughter. Design sundar hai!",date:"1 mahina pehle",verified:true},
+  {name:"Fatima Nasrin",loc:"Dhulian, WB",avatar:"F",stars:5,text:"NADEEM50 code use kiya — 50% discount mila!",date:"2 mahine pehle",verified:true},
+  {name:"Karim Molla",loc:"Farakka, WB",avatar:"K",stars:5,text:"Blazer pehna function mein — log pooch rahe the kahan se liya!",date:"3 mahine pehle",verified:true},
 ];
 
 /* ===== USER SYSTEM ===== */
@@ -70,7 +64,6 @@ let customers = JSON.parse(localStorage.getItem('nd_customers') || '[]');
 let currentUser = JSON.parse(localStorage.getItem('nd_current_user') || 'null');
 let orders = JSON.parse(localStorage.getItem('nd_orders') || '[]');
 
-// Initialize demo customer
 if (customers.length === 0) {
   customers.push({
     id: 1,
@@ -83,143 +76,6 @@ if (customers.length === 0) {
   localStorage.setItem('nd_customers', JSON.stringify(customers));
 }
 
-/* ===== AUTH FUNCTIONS ===== */
-window.openLoginModal = function() {
-  document.getElementById('authModal').classList.add('open');
-  document.body.classList.add('modal-open');
-}
-
-window.closeLoginModal = function() {
-  document.getElementById('authModal').classList.remove('open');
-  document.body.classList.remove('modal-open');
-}
-
-window.switchAuthTab = function(tab) {
-  const customerForm = document.getElementById('customerLoginForm');
-  const adminForm = document.getElementById('adminLoginForm');
-  const signupForm = document.getElementById('signupForm');
-  const tabs = document.querySelectorAll('.auth-tab');
-  
-  if (customerForm) customerForm.classList.remove('active');
-  if (adminForm) adminForm.classList.remove('active');
-  if (signupForm) signupForm.classList.remove('active');
-  tabs.forEach(t => t.classList.remove('active'));
-  
-  if (tab === 'customer' && customerForm) {
-    customerForm.classList.add('active');
-    tabs[0].classList.add('active');
-  } else if (tab === 'admin' && adminForm) {
-    adminForm.classList.add('active');
-    tabs[1].classList.add('active');
-  } else if (tab === 'signup' && signupForm) {
-    signupForm.classList.add('active');
-    tabs[2].classList.add('active');
-  }
-}
-
-// CUSTOMER LOGIN
-window.customerLogin = function() {
-  const mobile = document.getElementById('customerMobile').value.trim();
-  const password = document.getElementById('customerPassword').value;
-  
-  if (!mobile || !password) {
-    showToast('❌ Mobile aur password dono bharo!');
-    return;
-  }
-  
-  const user = customers.find(c => c.mobile === mobile && c.password === password);
-  
-  if (user) {
-    currentUser = user;
-    localStorage.setItem('nd_current_user', JSON.stringify(user));
-    updateUserUI();
-    closeLoginModal();
-    showToast(`🎉 Welcome back, ${user.name}!`);
-  } else {
-    showToast('❌ Galat mobile ya password! Demo: 9999999999 / demo123');
-  }
-}
-
-// ADMIN LOGIN
-window.adminLogin = function() {
-  const username = document.getElementById('adminUser').value.trim();
-  const password = document.getElementById('adminPass').value;
-  
-  if (username === 'admin' && password === 'nadeem2025') {
-    showToast('🔐 Admin login successful! Redirecting...');
-    setTimeout(() => { window.location.href = 'admin.html'; }, 800);
-  } else {
-    showToast('❌ Galat admin credentials! Demo: admin / nadeem2025');
-  }
-}
-
-// CUSTOMER SIGNUP
-window.customerSignup = function() {
-  const name = document.getElementById('signupName').value.trim();
-  const mobile = document.getElementById('signupMobile').value.trim();
-  const password = document.getElementById('signupPassword').value;
-  
-  if (!name || !mobile || !password) {
-    showToast('❌ Sab fields bharo!');
-    return;
-  }
-  
-  if (mobile.length !== 10) {
-    showToast('❌ Sahi 10 digit mobile number daalo!');
-    return;
-  }
-  
-  if (password.length < 4) {
-    showToast('❌ Password kam se kam 4 characters ka ho!');
-    return;
-  }
-  
-  if (customers.find(c => c.mobile === mobile)) {
-    showToast('❌ Yeh mobile number already registered hai!');
-    return;
-  }
-  
-  const newUser = {
-    id: Date.now(),
-    name: name,
-    mobile: mobile,
-    password: password,
-    joinDate: new Date().toISOString(),
-    points: 50
-  };
-  
-  customers.push(newUser);
-  localStorage.setItem('nd_customers', JSON.stringify(customers));
-  
-  currentUser = newUser;
-  localStorage.setItem('nd_current_user', JSON.stringify(newUser));
-  
-  updateUserUI();
-  closeLoginModal();
-  showToast(`🎉 Welcome ${name}! 50 welcome points mile!`);
-}
-
-// LOGOUT
-window.logoutUser = function() {
-  currentUser = null;
-  localStorage.removeItem('nd_current_user');
-  updateUserUI();
-  const menu = document.getElementById('userMenu');
-  if (menu) menu.classList.remove('show');
-  showToast('✅ Logout ho gaya!');
-}
-
-function updateUserUI() {
-  const userBtn = document.getElementById('userBtn');
-  if (userBtn) {
-    if (currentUser) {
-      userBtn.innerHTML = `<i class="fas fa-user-circle"></i> ${currentUser.name.split(' ')[0]}`;
-    } else {
-      userBtn.innerHTML = `<i class="fas fa-user"></i>`;
-    }
-  }
-}
-
 /* ===== CART ===== */
 let cart = JSON.parse(localStorage.getItem('nd_cart') || '[]');
 let uidCounter = cart.length > 0 ? Math.max(...cart.map(i => i.uid || 0), 0) + 1 : 1;
@@ -227,30 +83,12 @@ let selectedProdId = null;
 let selectedSize = null;
 let currentProductImages = [];
 
-/* ===== FIX #5: Wishlist localStorage mein save hogi ===== */
-let wishlist = JSON.parse(localStorage.getItem('nd_wishlist') || '[]');
-
-function saveWishlist() {
-  localStorage.setItem('nd_wishlist', JSON.stringify(wishlist));
-}
-
-function toggleWishlist(id, btn) {
-  if (wishlist.includes(id)) {
-    wishlist = wishlist.filter(x => x !== id);
-    btn.classList.remove('liked');
-  } else {
-    wishlist.push(id);
-    btn.classList.add('liked');
-    showToast('❤️ Wishlist mein add ho gaya!');
-  }
-  saveWishlist();
-}
-
 function getCartCount() { return cart.reduce((s, i) => s + i.qty, 0); }
 function getCartTotal() { return cart.reduce((s, i) => s + i.price * i.qty, 0); }
 
 function saveCart() {
   localStorage.setItem('nd_cart', JSON.stringify(cart));
+  updateCartUI();
 }
 
 window.addToCart = function(id, size) {
@@ -271,23 +109,18 @@ window.addToCart = function(id, size) {
     cart.push({...prod, qty:1, size:size||null, uid:uidCounter++});
   }
   saveCart();
-  updateCartUI();
   showToast('🛍️ ' + prod.name + ' bag mein add ho gaya!');
 }
 
 function updateCartUI() {
   const count = getCartCount();
   const badge = document.getElementById('cartBadge');
-
-  /* FIX #4: Badge 0 pe hide karo */
   if (badge) {
     badge.textContent = count;
     badge.style.display = count > 0 ? 'flex' : 'none';
   }
-
   const totalEl = document.getElementById('cartTotal');
   if (totalEl) totalEl.textContent = '₹' + getCartTotal().toLocaleString('en-IN');
-
   const empty = document.getElementById('cartEmpty');
   const container = document.getElementById('cartItems');
   if (container) {
@@ -328,16 +161,13 @@ window.changeQty = function(uid, delta) {
   item.qty += delta;
   if (item.qty <= 0) cart = cart.filter(i => i.uid !== uid);
   saveCart();
-  updateCartUI();
 }
 
 window.removeItem = function(uid) {
   cart = cart.filter(i => i.uid !== uid);
   saveCart();
-  updateCartUI();
 }
 
-/* ===== FIX #1: checkoutWA function — was missing, caused crash ===== */
 window.checkoutWA = function() {
   if (cart.length === 0) {
     showToast('⚠️ Cart khali hai!');
@@ -359,92 +189,226 @@ window.checkoutWA = function() {
   window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
-/* ===== FIX: checkoutWithCOD bhi rakha original ke liye ===== */
-window.checkoutWithCOD = function() {
-  if (cart.length === 0) { showToast('⚠️ Cart khali hai!'); return; }
-  if (!currentUser) { showToast('Pehle login karo!'); openLoginModal(); return; }
-  const address = prompt('Apna complete delivery address enter karo:');
-  if (!address) return;
-  placeOrder('cod', address);
-  closeCart();
+/* ===== AUTH FUNCTIONS ===== */
+window.openLoginModal = function() {
+  document.getElementById('authModal').classList.add('open');
+  document.body.classList.add('modal-open');
 }
 
-function placeOrder(paymentMethod, address) {
-  if (cart.length === 0) { showToast('Cart khali hai!'); return false; }
-  if (!currentUser) { showToast('Pehle login karo!'); openLoginModal(); return false; }
-  const orderId = 'ORD' + Date.now() + Math.floor(Math.random() * 1000);
-  const order = {
-    id: orderId, userId: currentUser.id, items: [...cart],
-    total: getCartTotal(), paymentMethod, status: paymentMethod === 'cod' ? 'Pending' : 'Processing',
-    date: new Date().toISOString(), address
+window.closeLoginModal = function() {
+  document.getElementById('authModal').classList.remove('open');
+  document.body.classList.remove('modal-open');
+}
+
+window.switchAuthTab = function(tab) {
+  const customerForm = document.getElementById('customerLoginForm');
+  const adminForm = document.getElementById('adminLoginForm');
+  const signupForm = document.getElementById('signupForm');
+  const tabs = document.querySelectorAll('.auth-tab');
+  if (customerForm) customerForm.classList.remove('active');
+  if (adminForm) adminForm.classList.remove('active');
+  if (signupForm) signupForm.classList.remove('active');
+  tabs.forEach(t => t.classList.remove('active'));
+  if (tab === 'customer' && customerForm) {
+    customerForm.classList.add('active');
+    tabs[0].classList.add('active');
+  } else if (tab === 'admin' && adminForm) {
+    adminForm.classList.add('active');
+    tabs[1].classList.add('active');
+  } else if (tab === 'signup' && signupForm) {
+    signupForm.classList.add('active');
+    tabs[2].classList.add('active');
+  }
+}
+
+window.customerLogin = function() {
+  const mobile = document.getElementById('customerMobile').value.trim();
+  const password = document.getElementById('customerPassword').value;
+  if (!mobile || !password) {
+    showToast('❌ Mobile aur password dono bharo!');
+    return;
+  }
+  const user = customers.find(c => c.mobile === mobile && c.password === password);
+  if (user) {
+    currentUser = user;
+    localStorage.setItem('nd_current_user', JSON.stringify(user));
+    updateUserUI();
+    closeLoginModal();
+    showToast(`🎉 Welcome back, ${user.name}!`);
+  } else {
+    showToast('❌ Galat mobile ya password! Demo: 9999999999 / demo123');
+  }
+}
+
+window.adminLogin = function() {
+  const username = document.getElementById('adminUser').value.trim();
+  const password = document.getElementById('adminPass').value;
+  if (username === 'admin' && password === 'nadeem2025') {
+    showToast('🔐 Admin login successful! Redirecting...');
+    setTimeout(() => { window.location.href = 'admin.html'; }, 800);
+  } else {
+    showToast('❌ Galat admin credentials! Demo: admin / nadeem2025');
+  }
+}
+
+window.customerSignup = function() {
+  const name = document.getElementById('signupName').value.trim();
+  const mobile = document.getElementById('signupMobile').value.trim();
+  const password = document.getElementById('signupPassword').value;
+  if (!name || !mobile || !password) {
+    showToast('❌ Sab fields bharo!');
+    return;
+  }
+  if (mobile.length !== 10) {
+    showToast('❌ Sahi 10 digit mobile number daalo!');
+    return;
+  }
+  if (password.length < 4) {
+    showToast('❌ Password kam se kam 4 characters ka ho!');
+    return;
+  }
+  if (customers.find(c => c.mobile === mobile)) {
+    showToast('❌ Yeh mobile number already registered hai!');
+    return;
+  }
+  const newUser = {
+    id: Date.now(),
+    name: name,
+    mobile: mobile,
+    password: password,
+    joinDate: new Date().toISOString(),
+    points: 50
   };
-  orders.push(order);
-  localStorage.setItem('nd_orders', JSON.stringify(orders));
-  cart = [];
-  saveCart();
-  updateCartUI();
-  showToast(`✅ Order place ho gaya! ID: ${orderId}`);
-  return orderId;
+  customers.push(newUser);
+  localStorage.setItem('nd_customers', JSON.stringify(customers));
+  localStorage.setItem('nd_points_' + newUser.id, '50');
+  currentUser = newUser;
+  localStorage.setItem('nd_current_user', JSON.stringify(newUser));
+  updateUserUI();
+  closeLoginModal();
+  showToast(`🎉 Welcome ${name}! 50 welcome points mile!`);
 }
 
-/* ===== USER INTERFACE ===== */
+window.logoutUser = function() {
+  currentUser = null;
+  localStorage.removeItem('nd_current_user');
+  updateUserUI();
+  const menu = document.getElementById('userMenu');
+  if (menu) menu.classList.remove('show');
+  showToast('✅ Logout ho gaya!');
+}
+
+window.updateUserUI = function() {
+  const userBtn = document.getElementById('userBtn');
+  if (userBtn) {
+    if (currentUser) {
+      userBtn.innerHTML = `<i class="fas fa-user-circle"></i> ${currentUser.name.split(' ')[0]}`;
+      userBtn.onclick = (e) => { e.stopPropagation(); toggleUserMenu(); };
+    } else {
+      userBtn.innerHTML = `<i class="fas fa-user"></i>`;
+      userBtn.onclick = () => openLoginModal();
+    }
+  }
+}
+
 window.toggleUserMenu = function() {
   const menu = document.getElementById('userMenu');
-  if (menu) menu.classList.toggle('show');
+  if (menu) {
+    if (currentUser) {
+      menu.classList.toggle('show');
+    } else {
+      openLoginModal();
+    }
+  }
 }
+
 window.openOrdersModal = function() {
+  if (!currentUser) {
+    showToast('Pehle login karo!');
+    openLoginModal();
+    return;
+  }
   const modal = document.getElementById('ordersModal');
-  if (!modal) return;
-  const userOrders = orders.filter(o => o.userId === currentUser?.id);
   const container = document.getElementById('ordersList');
+  const userOrders = orders.filter(o => o.userId === currentUser.id);
   if (userOrders.length === 0) {
-    container.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--muted)"><i class="fas fa-box-open" style="font-size:2rem;opacity:.3;display:block;margin-bottom:.8rem"></i>Abhi tak koi order nahi</div>';
+    container.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--muted)"><i class="fas fa-box-open" style="font-size:2rem;opacity:.3"></i><p>No orders yet</p></div>';
   } else {
     container.innerHTML = userOrders.reverse().map(order => `
       <div class="order-card">
-        <div class="order-header">
-          <span class="order-id">${order.id}</span>
-          <span class="order-status ${order.status.toLowerCase()}">${order.status}</span>
-        </div>
+        <div class="order-header"><span class="order-id">${order.id}</span><span class="order-status ${order.status.toLowerCase()}">${order.status}</span></div>
         <div class="order-date">${new Date(order.date).toLocaleDateString('en-IN')}</div>
-        <div class="order-items">${order.items.length} items · ₹${order.total.toLocaleString('en-IN')}</div>
-        <button class="btn-small" onclick="trackOrder('${order.id}')">Track Order</button>
+        <div class="order-items">${order.items.length} items · ₹${order.total}</div>
       </div>`).join('');
   }
   modal.classList.add('open');
+  document.body.classList.add('modal-open');
 }
+
 window.closeOrdersModal = function() {
+  document.getElementById('ordersModal').classList.remove('open');
+  document.body.classList.remove('modal-open');
+}
+
+window.openWishlistView = function() {
+  if (!currentUser) {
+    showToast('Pehle login karo!');
+    openLoginModal();
+    return;
+  }
+  const wl = JSON.parse(localStorage.getItem('nd_wishlist') || '[]');
+  if (wl.length === 0) {
+    showToast('💔 Wishlist khali hai!');
+    return;
+  }
+  const prods = wl.map(id => window.products?.find(p => p.id === id)).filter(Boolean);
   const modal = document.getElementById('ordersModal');
-  if (modal) modal.classList.remove('open');
+  const container = document.getElementById('ordersList');
+  container.innerHTML = prods.map(p => `
+    <div style="display:flex;gap:1rem;padding:.8rem 0;border-bottom:1px solid var(--border);align-items:center">
+      <img src="${p.img}" style="width:60px;height:60px;border-radius:10px;object-fit:cover">
+      <div style="flex:1"><div style="font-weight:700">${p.name}</div><div style="color:var(--gold)">₹${p.price}</div></div>
+      <button class="btn btn-gold" style="padding:.3rem .8rem;font-size:.7rem" onclick="addToCart(${p.id},null);closeOrdersModal()">Add</button>
+    </div>`).join('');
+  modal.classList.add('open');
+  document.body.classList.add('modal-open');
 }
-window.trackOrder = function(orderId) {
-  const order = orders.find(o => o.id === orderId);
-  if (!order) { showToast('Order nahi mila!'); return; }
-  const msg = `🔍 *Order Status*\n\nOrder ID: ${order.id}\nStatus: ${order.status}\nTotal: ₹${order.total}\nDate: ${new Date(order.date).toLocaleDateString('en-IN')}\n\nKisi bhi query ke liye WhatsApp karo.`;
-  alert(msg);
+
+window.openProfile = function() {
+  if (!currentUser) {
+    openLoginModal();
+    return;
+  }
+  document.getElementById('profileAvatar').textContent = currentUser.name[0].toUpperCase();
+  document.getElementById('profileName').textContent = currentUser.name;
+  document.getElementById('profileMobile').textContent = '+91 ' + currentUser.mobile;
+  const pts = parseInt(localStorage.getItem('nd_points_' + currentUser.id) || '0');
+  document.getElementById('profilePts').textContent = pts;
+  document.getElementById('profileOrderCount').textContent = orders.filter(o => o.userId === currentUser.id).length;
+  document.getElementById('profileOverlay').classList.add('open');
+  document.getElementById('profileSidebar').classList.add('open');
+  document.body.classList.add('modal-open');
 }
+
+window.closeProfile = function() {
+  document.getElementById('profileOverlay').classList.remove('open');
+  document.getElementById('profileSidebar').classList.remove('open');
+  document.body.classList.remove('modal-open');
+}
+
 window.checkPincode = function() {
   const pincode = document.getElementById('pincodeInput').value.trim();
   const result = document.getElementById('pincodeResult');
+  const deliverable = ['800001','800002','801301','801302','841301','841302','841101','841102'];
   if (!pincode || pincode.length !== 6) {
-    result.innerHTML = '<span style="color:var(--muted)">Sahi 6-digit pincode enter karo</span>';
+    result.innerHTML = '<span style="color:var(--muted)">Enter valid 6-digit pincode</span>';
     return;
   }
-  const deliverable = ['800001','800002','801301','801302','841301','841302','841101','841102','841428','841412','841226'];
   if (deliverable.includes(pincode)) {
-    result.innerHTML = '<span style="color:var(--green)"><i class="fas fa-check-circle"></i> Delivery available hai aapke area mein!</span>';
+    result.innerHTML = '<span style="color:var(--green)"><i class="fas fa-check-circle"></i> Delivery available!</span>';
   } else {
-    result.innerHTML = '<span style="color:var(--red)"><i class="fas fa-times-circle"></i> Is pincode pe delivery nahi ho rahi. WhatsApp karo options ke liye.</span>';
+    result.innerHTML = '<span style="color:var(--red)"><i class="fas fa-times-circle"></i> Not deliverable. Contact us!</span>';
   }
-}
-window.generateReferralLink = function() {
-  if (!currentUser) { showToast('Pehle login karo!'); openLoginModal(); return; }
-  const link = `${window.location.origin}${window.location.pathname}?ref=${currentUser.referralCode}`;
-  navigator.clipboard.writeText(link).then(() => {
-    showToast('Referral link copy ho gaya! Share karo ₹100 kamao!');
-  }).catch(() => {
-    showToast('Link: ' + link);
-  });
 }
 
 /* ===== PRODUCT MODAL ===== */
@@ -456,54 +420,36 @@ window.openModal = function(id) {
   currentProd = prod;
   currentProductImages = prod.images || [prod.img];
   selectedSize = null;
-
   document.getElementById('modalImgSrc').src = currentProductImages[0];
-
-  const galleryContainer = document.getElementById('modalGallery');
-  if (galleryContainer && currentProductImages.length > 1) {
-    galleryContainer.innerHTML = currentProductImages.map((img, idx) => `
-      <div class="gallery-thumb ${idx === 0 ? 'active' : ''}" onclick="changeModalImage(${idx})">
-        <img src="${img}" alt="Product view ${idx + 1}">
-      </div>`).join('');
-    galleryContainer.style.display = 'flex';
-  } else if (galleryContainer) {
-    galleryContainer.style.display = 'none';
-  }
-
   document.getElementById('modalCat').textContent = prod.cat.charAt(0).toUpperCase() + prod.cat.slice(1) + ' Collection';
   document.getElementById('modalTitle').textContent = prod.name;
   document.getElementById('modalPrice').textContent = '₹' + prod.price.toLocaleString('en-IN');
   document.getElementById('modalOrig').textContent = prod.orig ? '₹' + prod.orig.toLocaleString('en-IN') : '';
   document.getElementById('modalOff').textContent = prod.disc ? prod.disc + ' OFF' : '';
   document.getElementById('modalDesc').textContent = prod.desc;
-
   const stockStatus = document.getElementById('modalStock');
   if (stockStatus) {
     if (prod.stock === undefined || prod.stock > 10) {
-      stockStatus.innerHTML = '<span style="color:var(--green)"><i class="fas fa-check-circle"></i> In Stock</span>';
+      stockStatus.innerHTML = '<span style="color:var(--green)">✓ In Stock</span>';
     } else if (prod.stock > 0) {
-      stockStatus.innerHTML = `<span style="color:#ff8c42"><i class="fas fa-exclamation-triangle"></i> Sirf ${prod.stock} bacha hai!</span>`;
+      stockStatus.innerHTML = `<span style="color:#ff8c42">⚠️ Only ${prod.stock} left!</span>`;
     } else {
-      stockStatus.innerHTML = '<span style="color:var(--red)"><i class="fas fa-times-circle"></i> Out of Stock</span>';
+      stockStatus.innerHTML = '<span style="color:var(--red)">✗ Out of Stock</span>';
     }
   }
-
   const badgeEl = document.getElementById('modalBadge');
   if (prod.badge) {
     badgeEl.className = 'modal-img-badge ' + (prod.badge === 'best' ? 'badge-best' : prod.badge === 'new' ? 'badge-new' : 'badge-sale');
     badgeEl.textContent = {best:'BESTSELLER', new:'NEW', sale:'SALE'}[prod.badge];
     badgeEl.style.display = 'block';
   } else { badgeEl.style.display = 'none'; }
-
   const sizeGrid = document.getElementById('sizeGrid');
   sizeGrid.innerHTML = prod.sizes.map(s => `<button class="size-btn" onclick="selectSize('${s}',this)">${s}</button>`).join('');
-
-  const waMsg = encodeURIComponent(`Hi ${SHOP_NAME}! 🛍️ Yeh product kharidna chahta hoon:\n\n*${prod.name}*\nPrice: ₹${prod.price}\n\nStock confirm karein please.`);
+  const waMsg = encodeURIComponent(`Hi! I want to buy:\n*${prod.name}*\nPrice: ₹${prod.price}`);
   document.getElementById('modalWABtn').href = `https://wa.me/${WA_NUMBER}?text=${waMsg}`;
-
   document.getElementById('modalAddBtn').onclick = () => {
     if (prod.sizes.length > 0 && prod.sizes[0] !== 'Free Size' && !selectedSize) {
-      showToast('⚠️ Pehle size select karo!');
+      showToast('⚠️ Please select size first!');
       document.getElementById('sizeGrid').style.animation = 'shake .3s ease';
       setTimeout(() => document.getElementById('sizeGrid').style.animation = '', 300);
       return;
@@ -516,23 +462,12 @@ window.openModal = function(id) {
     closeModal();
     openCart();
   };
-
   document.getElementById('prodModal').classList.add('open');
-  /* FIX #3: body overflow properly manage karo */
   document.body.classList.add('modal-open');
-}
-
-window.changeModalImage = function(index) {
-  if (!currentProductImages[index]) return;
-  document.getElementById('modalImgSrc').src = currentProductImages[index];
-  document.querySelectorAll('.gallery-thumb').forEach((thumb, i) => {
-    thumb.classList.toggle('active', i === index);
-  });
 }
 
 window.closeModal = function() {
   document.getElementById('prodModal').classList.remove('open');
-  /* FIX #3: body scroll wapas karo properly */
   document.body.classList.remove('modal-open');
 }
 
@@ -542,21 +477,9 @@ window.selectSize = function(size, btn) {
   btn.classList.add('selected');
 }
 
-window.openSizeGuide = function() { document.getElementById('sizeGuideModal').classList.add('open'); }
-window.closeSizeGuide = function() { document.getElementById('sizeGuideModal').classList.remove('open'); }
+window.openSizeGuide = function() { document.getElementById('sgPopup').classList.add('open'); document.body.classList.add('modal-open'); }
+window.closeSizeGuide = function() { document.getElementById('sgPopup').classList.remove('open'); document.body.classList.remove('modal-open'); }
 
-/* ===== TOAST ===== */
-let toastTimer;
-window.showToast = function(msg) {
-  const t = document.getElementById('toast');
-  if (!t) return;
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
-}
-
-/* ===== CART DRAWER ===== */
 window.openCart = function() {
   document.getElementById('cartDrawer').classList.add('open');
   document.getElementById('cartOverlay').classList.add('open');
@@ -566,6 +489,19 @@ window.closeCart = function() {
   document.getElementById('cartDrawer').classList.remove('open');
   document.getElementById('cartOverlay').classList.remove('open');
   document.body.classList.remove('modal-open');
+}
+
+/* ===== TOAST ===== */
+let toastTimer;
+window.showToast = function(msg) {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  const span = t.querySelector('#toastMsg');
+  if (span) span.textContent = msg;
+  else t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
 }
 
 /* ===== CATEGORIES ===== */
@@ -580,12 +516,9 @@ function buildCategories() {
     </div>`).join('');
 }
 
-/* FIX: Category click pe filter bhi ho aur scroll bhi */
 window.filterByCategory = function(filter) {
   const chip = document.querySelector(`#filterChips .chip[data-filter="${filter}"]`);
-  if (chip) {
-    chip.click();
-  }
+  if (chip) chip.click();
   document.getElementById('trending')?.scrollIntoView({behavior: 'smooth'});
 }
 
@@ -704,22 +637,18 @@ document.addEventListener('click', (e) => {
 
 /* ===== INIT ===== */
 window.addEventListener('DOMContentLoaded', () => {
-
   applyTheme();
-
   const themeBtn = document.getElementById('themeBtn');
   if (themeBtn) {
     themeBtn.addEventListener('click', () => {
       isLight = !isLight;
       localStorage.setItem('theme', isLight ? 'light' : 'dark');
       applyTheme();
-      /* FIX #6: GSAP correct selector — div pe rotate animation */
       if (typeof gsap !== 'undefined') {
         gsap.fromTo(themeBtn, {scale:.7, rotate:-30}, {scale:1, rotate:0, duration:.4, ease:'back.out(2)'});
       }
     });
   }
-
   buildTicker();
   buildCategories();
   buildReviews();
@@ -728,64 +657,31 @@ window.addEventListener('DOMContentLoaded', () => {
   updateCartUI();
   updateUserUI();
 
-  /* Referral check */
-  const urlParams = new URLSearchParams(window.location.search);
-  const ref = urlParams.get('ref');
-  if (ref) {
-    localStorage.setItem('nd_referred_by', ref);
-    showToast('🎁 Welcome! Referral code apply ho gaya.');
-  }
-
-  /* Modal setups */
   const modalCloseBtn = document.getElementById('modalClose');
   if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
-
   const prodModal = document.getElementById('prodModal');
   if (prodModal) prodModal.addEventListener('click', function(e) { if (e.target === this) closeModal(); });
-
-  const sizeGuideModal = document.getElementById('sizeGuideModal');
-  if (sizeGuideModal) sizeGuideModal.addEventListener('click', function(e) { if (e.target === this) closeSizeGuide(); });
-
   const authModal = document.getElementById('authModal');
   if (authModal) authModal.addEventListener('click', function(e) { if (e.target === this) closeLoginModal(); });
-  
   const authClose = document.getElementById('authClose');
   if (authClose) authClose.addEventListener('click', closeLoginModal);
-
   const ordersModal = document.getElementById('ordersModal');
   if (ordersModal) ordersModal.addEventListener('click', function(e) { if (e.target === this) closeOrdersModal(); });
-  
   const ordersClose = document.getElementById('ordersClose');
   if (ordersClose) ordersClose.addEventListener('click', closeOrdersModal);
-
-  const cartBtn = document.getElementById('cartBtn');
-  if (cartBtn) cartBtn.addEventListener('click', openCart);
-
+  const cartOpenBtn = document.getElementById('cartBtn');
+  if (cartOpenBtn) cartOpenBtn.addEventListener('click', openCart);
   const cartCloseBtn = document.getElementById('cartClose');
   if (cartCloseBtn) cartCloseBtn.addEventListener('click', closeCart);
-
   const cartOverlay = document.getElementById('cartOverlay');
   if (cartOverlay) cartOverlay.addEventListener('click', closeCart);
 
   const navToggle = document.getElementById('navToggle');
   if (navToggle) navToggle.addEventListener('click', () => {
-    document.getElementById('sidebar').classList.add('open');
-    document.getElementById('sidebarOverlay').classList.add('open');
-  });
-  
-  const sidebarClose = document.getElementById('sidebarClose');
-  if (sidebarClose) sidebarClose.addEventListener('click', () => {
-    document.getElementById('sidebar').classList.remove('open');
-    document.getElementById('sidebarOverlay').classList.remove('open');
-  });
-  
-  const sidebarOverlay = document.getElementById('sidebarOverlay');
-  if (sidebarOverlay) sidebarOverlay.addEventListener('click', () => {
-    document.getElementById('sidebar').classList.remove('open');
-    document.getElementById('sidebarOverlay').classList.remove('open');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (mobileMenu) mobileMenu.classList.toggle('open');
   });
 
-  /* GSAP hero animations */
   if (typeof gsap !== 'undefined') {
     gsap.from('.hero-title', {duration:1, y:50, opacity:0, ease:'power3.out'});
     gsap.from('.hero-tag', {duration:1, y:30, opacity:0, delay:.2, ease:'power3.out'});

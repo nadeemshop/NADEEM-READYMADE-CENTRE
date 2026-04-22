@@ -41,53 +41,9 @@ function updateGreeting(user){
   banner.classList.add('show');
 }
 
-/* ===== NAV USER AREA ===== */
-function updateNavUser(user){
-  const area = document.getElementById('userNavArea');
-  if(!area) return;
-  if(user){
-    area.innerHTML = `
-      <div style="display:flex;align-items:center;gap:.5rem;cursor:pointer" onclick="openProfile()">
-        <div class="user-avatar-nav">${user.name[0].toUpperCase()}</div>
-        <span class="user-name-nav" style="display:none" id="userNameNav">${user.name.split(' ')[0]}</span>
-      </div>`;
-    // Show name on wider screens
-    const nameEl = document.getElementById('userNameNav');
-    if(window.innerWidth > 900 && nameEl) nameEl.style.display = 'block';
-  } else {
-    area.innerHTML = `<button class="user-btn" id="userBtn" onclick="openLoginModal()"><i class="fas fa-user"></i> Login</button>`;
-  }
-}
+/* ===== NAV USER AREA — Handled by main.js ===== */
 
-/* ===== PROFILE SIDEBAR ===== */
-function openProfile(){
-  const user = JSON.parse(localStorage.getItem('nd_current_user') || 'null');
-  if(!user){ openLoginModal(); return; }
-  document.getElementById('profileAvatar').textContent = user.name[0].toUpperCase();
-  document.getElementById('profileName').textContent = user.name;
-  document.getElementById('profileMobile').textContent = '+91 ' + user.mobile;
-  const pts = parseInt(localStorage.getItem('nd_points_' + user.id) || '0');
-  document.getElementById('profilePts').textContent = pts;
-  document.getElementById('profilePtsRs').textContent = Math.floor(pts / 10);
-  document.getElementById('refCode').textContent = user.referralCode || 'REF000';
-  const orders = JSON.parse(localStorage.getItem('nd_orders') || '[]');
-  const userOrders = orders.filter(o => o.userId === user.id);
-  document.getElementById('profileOrderCount').textContent = userOrders.length;
-  const wl = JSON.parse(localStorage.getItem('nd_wishlist') || '[]');
-  document.getElementById('profileWishCount').textContent = wl.length + ' items';
-  const cart = JSON.parse(localStorage.getItem('nd_cart') || '[]');
-  document.getElementById('profileCartCount').textContent = cart.reduce((s,i)=>s+i.qty,0) + ' items';
-  document.getElementById('themeLabel').textContent = document.body.classList.contains('light') ? 'Light' : 'Dark';
-  buildRecentlyViewedProfile();
-  document.getElementById('profileOverlay').classList.add('open');
-  document.getElementById('profileSidebar').classList.add('open');
-  document.body.classList.add('modal-open');
-}
-function closeProfile(){
-  document.getElementById('profileOverlay').classList.remove('open');
-  document.getElementById('profileSidebar').classList.remove('open');
-  document.body.classList.remove('modal-open');
-}
+/* ===== PROFILE SIDEBAR — Handled by main.js ===== */
 function toggleThemeFromProfile(){
   document.getElementById('themeBtn').click();
   document.getElementById('themeLabel').textContent = document.body.classList.contains('light') ? 'Light' : 'Dark';
@@ -186,27 +142,7 @@ function showPointsToast(msg){
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-/* ===== WISHLIST VIEW ===== */
-function openWishlistView(){
-  const wl = JSON.parse(localStorage.getItem('nd_wishlist') || '[]');
-  if(wl.length === 0){ showToast('💔 Wishlist khali hai!'); return; }
-  const prods = wl.map(id => window.products?.find(p=>p.id===id)).filter(Boolean);
-  const modal = document.getElementById('ordersModal');
-  const list = document.getElementById('ordersList');
-  const title = modal.querySelector('.modal-title');
-  if(title) title.textContent = '❤️ Meri Wishlist';
-  list.innerHTML = prods.map(p => `
-    <div style="display:flex;gap:1rem;padding:.8rem 0;border-bottom:1px solid var(--border);align-items:center">
-      <img src="${p.img}" style="width:60px;height:60px;border-radius:10px;object-fit:cover">
-      <div style="flex:1;min-width:0">
-        <div style="font-weight:700;font-size:.85rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.name}</div>
-        <div style="color:var(--gold);font-weight:800">₹${p.price}</div>
-      </div>
-      <button class="btn btn-gold" style="padding:.4rem .9rem;font-size:.72rem" onclick="addToCart(${p.id},null);closeOrdersModal()">Add</button>
-    </div>`).join('');
-  modal.classList.add('open');
-  document.body.classList.add('modal-open');
-}
+/* ===== WISHLIST VIEW — Handled by main.js ===== */
 
 /* ===== MINI CART PREVIEW ===== */
 let mcpTimer;
@@ -523,34 +459,34 @@ window.addToCart = function(id, size){
   setTimeout(showMiniCart, 300);
 };
 
-/* ===== OVERRIDE loginWithMobile to update greeting ===== */
-const _origLogin = window.loginWithMobile;
-window.loginWithMobile = function(){
+/* ===== OVERRIDE customerLogin to update greeting ===== */
+const _origLogin = window.customerLogin;
+window.customerLogin = function(){
   _origLogin && _origLogin();
   setTimeout(()=>{
     const user = JSON.parse(localStorage.getItem('nd_current_user')||'null');
-    if(user){ updateGreeting(user); updateNavUser(user); showLoyaltyInCart(user); }
+    if(user){ updateGreeting(user); if(typeof updateUserUI === 'function') updateUserUI(); showLoyaltyInCart(user); }
   }, 100);
 };
 
-/* ===== OVERRIDE signupUser ===== */
-const _origSignup = window.signupUser;
-window.signupUser = function(){
+/* ===== OVERRIDE customerSignup ===== */
+const _origSignup = window.customerSignup;
+window.customerSignup = function(){
   _origSignup && _origSignup();
   setTimeout(()=>{
     const user = JSON.parse(localStorage.getItem('nd_current_user')||'null');
-    if(user){ addPoints(user.id, 50); updateGreeting(user); updateNavUser(user); }
+    if(user){ updateGreeting(user); if(typeof updateUserUI === 'function') updateUserUI(); }
   }, 100);
 };
 
 /* ===== OVERRIDE logoutUser ===== */
 const _origLogout = window.logoutUser;
 window.logoutUser = function(){
-  closeProfile();
+  if(typeof window.closeProfile === 'function') window.closeProfile();
   _origLogout && _origLogout();
   updateGreeting(null);
-  updateNavUser(null);
-  document.getElementById('greetingBanner').classList.remove('show');
+  if(typeof window.updateUserUI === 'function') window.updateUserUI();
+  document.getElementById('greetingBanner')?.classList.remove('show');
 };
 
 function showLoyaltyInCart(user){
@@ -583,7 +519,7 @@ document.addEventListener('keydown', e=>{
 document.addEventListener('DOMContentLoaded', ()=>{
   const user = JSON.parse(localStorage.getItem('nd_current_user')||'null');
   updateGreeting(user);
-  updateNavUser(user);
+  if(typeof updateUserUI === 'function') updateUserUI();
   updateWishBadge();
   if(user) showLoyaltyInCart(user);
   buildRecentlyViewedSection();
