@@ -771,8 +771,8 @@ window.addEventListener('DOMContentLoaded', () => {
   const ordersClose = document.getElementById('ordersClose');
   if (ordersClose) ordersClose.addEventListener('click', closeOrdersModal);
 
-  const cartBtn = document.getElementById('cartBtn');
-  if (cartBtn) cartBtn.addEventListener('click', openCart);
+  const cartOpenBtn = document.getElementById('cartOpenBtn');
+  if (cartOpenBtn) cartOpenBtn.addEventListener('click', openCart);
 
   const cartCloseBtn = document.getElementById('cartClose');
   if (cartCloseBtn) cartCloseBtn.addEventListener('click', closeCart);
@@ -780,24 +780,13 @@ window.addEventListener('DOMContentLoaded', () => {
   const cartOverlay = document.getElementById('cartOverlay');
   if (cartOverlay) cartOverlay.addEventListener('click', closeCart);
 
-  const navToggle = document.getElementById('navToggle');
-  if (navToggle) navToggle.addEventListener('click', () => {
-    document.getElementById('sidebar').classList.add('open');
-    document.getElementById('sidebarOverlay').classList.add('open');
+  const hamburger = document.getElementById('hamburger');
+  if (hamburger) hamburger.addEventListener('click', () => {
+    document.getElementById('mobileMenu').classList.toggle('open');
+    hamburger.classList.toggle('active');
   });
   
-  const sidebarClose = document.getElementById('sidebarClose');
-  if (sidebarClose) sidebarClose.addEventListener('click', () => {
-    document.getElementById('sidebar').classList.remove('open');
-    document.getElementById('sidebarOverlay').classList.remove('open');
-  });
   
-  const sidebarOverlay = document.getElementById('sidebarOverlay');
-  if (sidebarOverlay) sidebarOverlay.addEventListener('click', () => {
-    document.getElementById('sidebar').classList.remove('open');
-    document.getElementById('sidebarOverlay').classList.remove('open');
-  });
-
   /* GSAP hero animations */
   if (typeof gsap !== 'undefined') {
     gsap.from('.hero-title', {duration:1, y:50, opacity:0, ease:'power3.out'});
