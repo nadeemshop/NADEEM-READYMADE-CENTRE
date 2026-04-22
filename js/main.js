@@ -275,6 +275,20 @@ window.loginWithMobile = function() {
     updateUserUI();
     closeLoginModal();
     showToast(`Welcome back, ${user.name}! 🎉`);
+    
+    /* Abandoned Cart Restoration */
+    const abandoned = localStorage.getItem('nd_abandoned_cart_' + user.id);
+    if (abandoned) {
+      try {
+        const savedCart = JSON.parse(abandoned);
+        if (savedCart.length > 0 && confirm('Aapke pichle saved items cart mein hain. Restore karein?')) {
+          cart = [...cart, ...savedCart];
+          saveCart();
+          updateCartUI();
+        }
+      } catch(e) {}
+      localStorage.removeItem('nd_abandoned_cart_' + user.id);
+    }
   } else {
     showToast('Galat credentials! Try: 9999999999 / guest123');
   }
