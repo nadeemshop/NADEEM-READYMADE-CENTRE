@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>NADEEM READYMADE CENTRE | Premium Fashion & Wholesale</title>
+<meta name="description" content="Nadeem Readymade Centre — Premium retail & wholesale fashion. Budget-friendly prices, premium quality.">
+
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<!-- Custom Stylesheet -->
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===== COUNTDOWN BANNER ===== -->
+<div class="countdown-banner">
+  <span class="cd-text">🎉 Eid Sale — Ends In:</span>
+  <div class="cd-boxes">
+    <div class="cd-box"><span id="cd-h">00</span><small>Hours</small></div>
+    <span class="cd-sep">:</span>
+    <div class="cd-box"><span id="cd-m">00</span><small>Mins</small></div>
+    <span class="cd-sep">:</span>
+    <div class="cd-box"><span id="cd-s">00</span><small>Secs</small></div>
+  </div>
+  <span class="cd-code">NADEEM50</span>
+</div>
+
+<!-- ===== CART DRAWER ===== -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-head">
+    <h3>Your Bag</h3>
+    <button class="cart-close" id="cartClose"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty" id="cartEmpty">
+      <i class="fas fa-shopping-bag"></i>
+      <p>Your bag is empty</p>
+      <small style="font-size:.75rem;color:var(--muted)">Add items to get started</small>
+    </div>
+  </div>
+  <div class="cart-foot">
+    <div class="cart-total">
+      <span>Total Amount</span>
+      <strong id="cartTotal">₹0</strong>
+    </div>
+    <button class="checkout-btn" onclick="checkoutWA()">
+      <i class="fab fa-whatsapp"></i> &nbsp;Order via WhatsApp
+    </button>
+  </div>
+</div>
+
+<!-- ===== PRODUCT MODAL ===== -->
+<div class="modal-overlay" id="prodModal">
+  <div class="modal-box" style="position:relative">
+    <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+    <div class="modal-inner">
+      <div class="modal-img" id="modalImg">
+        <img id="modalImgSrc" src="" alt="">
+        <div class="modal-img-badge badge-best" id="modalBadge"></div>
+      </div>
+      <div class="modal-content">
+        <div class="modal-category" id="modalCat"></div>
+        <h2 class="modal-title" id="modalTitle"></h2>
+        <div class="modal-stars">★★★★☆ <span>4.2 (128 reviews)</span></div>
+        <div class="modal-prices">
+          <span class="modal-price" id="modalPrice"></span>
+          <span class="modal-orig" id="modalOrig"></span>
+          <span class="modal-off" id="modalOff"></span>
+        </div>
+        <p class="modal-desc" id="modalDesc"></p>
+        <div class="size-section">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem">
+            <span class="size-label">Select Size</span>
+            <span class="size-guide-link" onclick="openSizeGuide()"><i class="fas fa-ruler"></i> Size Guide</span>
+          </div>
+          <div class="size-grid" id="sizeGrid"></div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-gold" style="width:100%;justify-content:center" id="modalAddBtn">
+            <i class="fas fa-shopping-bag"></i> Add to Bag
+          </button>
+          <a class="btn btn-wa" style="width:100%;justify-content:center;text-decoration:none" id="modalWABtn" href="#" target="_blank">
+            <i class="fab fa-whatsapp"></i> Buy via WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SIZE GUIDE POPUP ===== -->
+<div class="sg-popup" id="sgPopup">
+  <div class="sg-box">
+    <div class="sg-close"><button onclick="closeSizeGuide()"><i class="fas fa-times"></i></button></div>
+    <h3 class="sg-title">📏 Size Guide</h3>
+    <p style="font-size:.8rem;color:var(--muted);margin-bottom:1rem">All measurements in centimetres (cm)</p>
+    <table class="sg-table">
+      <thead><tr><th>Size</th><th>Chest</th><th>Waist</th><th>Hip</th><th>Length</th></tr></thead>
+      <tbody>
+        <tr><td>XS</td><td>80–84</td><td>64–68</td><td>88–92</td><td>64</td></tr>
+        <tr><td>S</td><td>84–88</td><td>68–72</td><td>92–96</td><td>66</td></tr>
+        <tr><td>M</td><td>88–92</td><td>72–76</td><td>96–100</td><td>68</td></tr>
+        <tr><td>L</td><td>92–96</td><td>76–80</td><td>100–104</td><td>70</td></tr>
+        <tr><td>XL</td><td>96–100</td><td>80–84</td><td>104–108</td><td>72</td></tr>
+        <tr><td>XXL</td><td>100–106</td><td>84–90</td><td>108–114</td><td>74</td></tr>
+        <tr><td>3XL</td><td>106–112</td><td>90–96</td><td>114–120</td><td>76</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:.72rem;color:var(--muted);margin-top:1rem">Tip: Agar size ke beech mein ho, bada size lena behtar hai.</p>
+  </div>
+</div>
+
+<!-- ===== TOAST ===== -->
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg">Item added!</span></div>
+
+<!-- ===== NAV ===== -->
+<nav>
+  <div class="nav-inner">
+    <div class="logo"><span>NADEEM</span> READYMADE CENTRE</div>
+    <ul class="nav-links">
+      <li><a href="#trending">Men</a></li>
+      <li><a href="#trending">Women</a></li>
+      <li><a href="#trending">Kids</a></li>
+      <li><a href="#categories">Categories</a></li>
+      <li><a href="#wholesale" style="color:var(--green)">Wholesale</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="search-wrap">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search products…" id="searchInput">
+      </div>
+      <button class="icon-btn" id="cartOpenBtn" title="Bag">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="badge" id="cartBadge">0</span>
+      </button>
+      <button class="icon-btn" title="Wishlist"><i class="far fa-heart"></i></button>
+      <div class="theme-btn" id="themeBtn" title="Toggle theme">
+        <i class="fas fa-moon" id="themeIcon"></i>
+      </div>
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== MOBILE MENU ===== -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#trending" onclick="closeMobile()">Men</a>
+  <a href="#trending" onclick="closeMobile()">Women</a>
+  <a href="#trending" onclick="closeMobile()">Kids</a>
+  <a href="#categories" onclick="closeMobile()">Categories</a>
+  <a href="#wholesale" onclick="closeMobile()" style="color:var(--green)">Wholesale ↗</a>
+  <a href="#reviews" onclick="closeMobile()">Reviews</a>
+</div>
+
+<!-- ===== TICKER ===== -->
+<div class="ticker">
+  <div class="ticker-inner" id="tickerInner"></div>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div>
+      <div class="hero-eyebrow reveal">Est. Nagra · Premium Fashion</div>
+      <h1 class="hero-title reveal">
+        STYLE<br><span class="gold">MEETS</span><br><span class="outline">VALUE</span>
+      </h1>
+      <p class="hero-sub reveal">Nadeem Readymade Centre — premium wholesale & retail fashion for the entire family. Unbeatable prices, honest quality.</p>
+      <div class="hero-btns reveal">
+        <a href="#trending" class="btn btn-gold"><i class="fas fa-fire"></i> Shop Now</a>
+        <a href="#wholesale" class="btn btn-outline"><i class="fas fa-boxes"></i> Wholesale Inquiry</a>
+      </div>
+      <div class="hero-stats reveal">
+        <div class="stat"><span>500+</span><small>Products</small></div>
+        <div class="stat"><span>60%</span><small>Max Discount</small></div>
+        <div class="stat"><span>10K+</span><small>Happy Customers</small></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-img-wrap">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600" alt="Fashion">
+        <div class="hero-badge"><big>NEW</big><span>ARRIVALS</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TRENDING ===== -->
+<div class="section" id="trending">
+  <div class="sec-header reveal">
+    <div>
+      <div class="sec-title-line">
+        <div class="sec-bar"></div>
+        <h2 class="sec-title">🔥 Trending Now</h2>
+      </div>
+      <p class="sec-sub">Handpicked bestsellers · Updated weekly</p>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.8rem">
+      <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+      <div class="car-nav">
+        <button class="car-btn" id="carPrev"><i class="fas fa-chevron-left"></i></button>
+        <button class="car-btn" id="carNext"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="chips reveal" id="filterChips">
+    <div class="chip active" data-filter="all">All</div>
+    <div class="chip" data-filter="men">Men</div>
+    <div class="chip" data-filter="women">Women</div>
+    <div class="chip" data-filter="kids">Kids</div>
+    <div class="chip" data-filter="bestseller">Bestsellers</div>
+  </div>
+  <div class="carousel-wrap reveal">
+    <div class="car-track" id="carTrack"></div>
+  </div>
+</div>
+
+<!-- ===== OFFER ===== -->
+<div class="section">
+  <div class="offer-band reveal">
+    <div>
+      <div class="offer-text">Flat <span>50% OFF</span> on<br>First Order</div>
+      <div class="offer-sub">Use code: <strong style="color:var(--gold)">NADEEM50</strong> at checkout · Limited time</div>
+    </div>
+    <a href="https://wa.me/918010929093?text=Hi%20Nadeem%20Readymade%20Centre!%20I%20want%20to%20use%20code%20NADEEM50%20for%2050%25%20off%20on%20my%20first%20order." class="btn btn-wa" target="_blank"><i class="fab fa-whatsapp"></i> Grab Deal</a>
+  </div>
+</div>
+
+<!-- ===== CATEGORIES ===== -->
+<div class="section" id="categories">
+  <div class="sec-header reveal">
+    <div>
+      <div class="sec-title-line">
+        <div class="sec-bar"></div>
+        <h2 class="sec-title">Shop by Category</h2>
+      </div>
+    </div>
+  </div>
+  <div class="cat-grid reveal" id="catGrid"></div>
+</div>
+
+<!-- ===== WHOLESALE ===== -->
+<section class="wholesale" id="wholesale">
+  <div class="wholesale-bg"></div>
+  <div class="section ws-inner">
+    <div class="ws-grid">
+      <div class="reveal-left">
+        <div class="ws-tag"><i class="fas fa-boxes"></i> Wholesale Program</div>
+        <h2 class="ws-title">BULK ORDERS.<br><span class="g">BIG SAVINGS.</span></h2>
+        <p class="ws-desc">Partner with Nadeem Readymade Centre for wholesale purchasing. We supply premium quality garments at factory prices — perfect for retailers, boutiques, and resellers across India.</p>
+        <div class="ws-perks">
+          <div class="ws-perk">
+            <div class="ws-perk-icon"><i class="fas fa-rupee-sign"></i></div>
+            <div>
+              <div class="ws-perk-title">Factory Prices</div>
+              <div class="ws-perk-sub">Up to 65% below market rate on bulk orders</div>
+            </div>
+          </div>
+          <div class="ws-perk">
+            <div class="ws-perk-icon"><i class="fas fa-truck"></i></div>
+            <div>
+              <div class="ws-perk-title">Pan-India Delivery</div>
+              <div class="ws-perk-sub">Fast shipping to all states, all pin codes</div>
+            </div>
+          </div>
+          <div class="ws-perk">
+            <div class="ws-perk-icon"><i class="fas fa-layer-group"></i></div>
+            <div>
+              <div class="ws-perk-title">MOQ: 10 Pieces</div>
+              <div class="ws-perk-sub">Low minimum order quantity to get started</div>
+            </div>
+          </div>
+          <div class="ws-perk">
+            <div class="ws-perk-icon"><i class="fas fa-palette"></i></div>
+            <div>
+              <div class="ws-perk-title">Custom Orders</div>
+              <div class="ws-perk-sub">Color, size & design customization available</div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap">
+          <a href="https://wa.me/918010929093?text=Hi%20Nadeem%20Readymade%20Centre!%20I%20am%20interested%20in%20wholesale%20orders.%20Please%20share%20the%20catalog%20and%20price%20list." class="btn btn-wa" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp Us</a>
+          <a href="tel:+918010929093" class="btn btn-outline"><i class="fas fa-phone"></i> Call Now</a>
+        </div>
+        <div class="ws-contact">
+          <h4><i class="fas fa-store"></i> &nbsp;Nadeem Readymade Centre — Wholesale Desk</h4>
+          <div class="ws-contact-row"><i class="fas fa-user"></i><span>Proprietor: <strong>Nadeem Akter</strong></span></div>
+          <div class="ws-contact-row"><i class="fas fa-map-marker-alt"></i><span><a href="https://maps.app.goo.gl/jpzf774gto5G4nWS8" target="_blank" style="color:var(--text);text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text)'">Nagra, Chhapra, Bihar <i class="fas fa-external-link-alt" style="font-size:0.65rem;margin-left:0.2rem"></i></a></span></div>
+          <div class="ws-contact-row"><i class="fab fa-whatsapp"></i><span>WhatsApp: <a href="https://wa.me/918010929093">+91 80109 29093</a></span></div>
+          <div class="ws-contact-row"><i class="fas fa-envelope"></i><span>Email: <a href="mailto:nadeemakter@gmail.com">nadeemakter@gmail.com</a></span></div>
+          <div class="ws-contact-row" style="margin-top:.5rem"><i class="fas fa-clock"></i><span style="color:var(--muted);font-size:.78rem">Mon–Sat: 9AM–8PM</span></div>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <h3 style="font-family:'Bebas Neue',cursive;font-size:1.6rem;letter-spacing:.06em;margin-bottom:1.5rem;color:var(--green)">HOW IT WORKS</h3>
+        <div class="ws-steps">
+          <div class="ws-step">
+            <div class="ws-step-num">1</div>
+            <div><div class="ws-step-title">Contact Us</div><div class="ws-step-desc">WhatsApp or call our wholesale desk with your requirements — category, quantity, budget.</div></div>
+          </div>
+          <div class="ws-step">
+            <div class="ws-step-num">2</div>
+            <div><div class="ws-step-title">Get a Custom Quote</div><div class="ws-step-desc">We prepare a tailored quote with the best wholesale prices and available stock.</div></div>
+          </div>
+          <div class="ws-step">
+            <div class="ws-step-num">3</div>
+            <div><div class="ws-step-title">Confirm & Pay</div><div class="ws-step-desc">Confirm your order. We accept UPI, bank transfer, and cash-on-pickup.</div></div>
+          </div>
+          <div class="ws-step">
+            <div class="ws-step-num">4</div>
+            <div><div class="ws-step-title">Fast Dispatch</div><div class="ws-step-desc">Orders packed & dispatched within 24–48 hours via trusted courier partners.</div></div>
+          </div>
+        </div>
+        <div style="margin-top:1.5rem;padding:1rem 1.2rem;background:rgba(47,204,113,.08);border:1px solid rgba(47,204,113,.2);border-radius:14px">
+          <div style="font-size:.78rem;color:var(--muted);margin-bottom:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em">Wholesale Categories Available</div>
+          <div style="display:flex;flex-wrap:wrap;gap:.5rem">
+            <span style="background:rgba(47,204,113,.15);color:var(--green);padding:.25rem .75rem;border-radius:20px;font-size:.72rem;font-weight:700">Men's Shirts</span>
+            <span style="background:rgba(47,204,113,.15);color:var(--green);padding:.25rem .75rem;border-radius:20px;font-size:.72rem;font-weight:700">Women's Kurtas</span>
+            <span style="background:rgba(47,204,113,.15);color:var(--green);padding:.25rem .75rem;border-radius:20px;font-size:.72rem;font-weight:700">Kids Wear</span>
+            <span style="background:rgba(47,204,113,.15);color:var(--green);padding:.25rem .75rem;border-radius:20px;font-size:.72rem;font-weight:700">Jeans & Trousers</span>
+            <span style="background:rgba(47,204,113,.15);color:var(--green);padding:.25rem .75rem;border-radius:20px;font-size:.72rem;font-weight:700">Sarees</span>
+            <span style="background:rgba(47,204,113,.15);color:var(--green);padding:.25rem .75rem;border-radius:20px;font-size:.72rem;font-weight:700">Blazers</span>
+            <span style="background:rgba(47,204,113,.15);color:var(--green);padding:.25rem .75rem;border-radius:20px;font-size:.72rem;font-weight:700">Jackets</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== REVIEWS ===== -->
+<section class="reviews-section" id="reviews">
+  <div class="section">
+    <div class="sec-header reveal">
+      <div>
+        <div class="sec-title-line">
+          <div class="sec-bar"></div>
+          <h2 class="sec-title">⭐ Customer Reviews</h2>
+        </div>
+        <p class="sec-sub">Real customers · Real feedback</p>
+      </div>
+      <div style="text-align:right">
+        <div style="font-family:'Bebas Neue',cursive;font-size:3rem;color:var(--gold);line-height:1">4.8</div>
+        <div style="color:var(--gold);font-size:.9rem">★★★★★</div>
+        <div style="font-size:.72rem;color:var(--muted)">Based on 1,200+ orders</div>
+      </div>
+    </div>
+    <div class="review-grid reveal" id="reviewGrid"></div>
+    <div style="text-align:center;margin-top:2rem">
+      <a href="https://wa.me/918010929093?text=Hi%20Nadeem%20Readymade%20Centre!%20I%20want%20to%20share%20my%20feedback%20about%20my%20recent%20order." class="btn btn-outline" target="_blank">
+        <i class="fab fa-whatsapp"></i> Share Your Review
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-top">
+      <div>
+        <div class="foot-logo"><span>NADEEM</span> READYMADE CENTRE</div>
+        <p class="foot-desc">Premium retail & wholesale fashion from Nagra, Bihar. Quality clothing at honest prices for everyone.</p>
+        <div class="foot-owner">
+          <p>Shop Owner</p>
+          <strong>Nadeem Akter</strong><br>
+          <small style="font-size:.75rem;color:var(--muted)">Nagra, Chhapra, Bihar</small>
+        </div>
+        <div class="social-row" style="margin-top:1rem">
+          <a class="social-btn" href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a class="social-btn" href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+          <a class="social-btn" href="https://wa.me/918010929093" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a class="social-btn" href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+        <!-- Google Maps — Nagra, Chhapra -->
+        <div class="foot-map">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d216.71751517110735!2d84.75673399865632!3d25.90295414952746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3992b95815769afd%3A0x864bdbb3aeee4cc!2sNadeem%20Readymade%20Centre!5e1!3m2!1sen!2sin!4v1776845248410!5m2!1sen!2sin" width="100%" height="160" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Nadeem Readymade Centre"></iframe>
+        </div>
+        <a href="https://maps.app.goo.gl/jpzf774gto5G4nWS8" target="_blank" style="display:inline-flex;align-items:center;gap:0.4rem;margin-top:0.8rem;font-size:0.78rem;font-weight:700;color:var(--gold);text-decoration:none;transition:opacity 0.2s" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'"><i class="fas fa-directions"></i> Get Directions to Nadeem Readymade Centre</a>
+      </div>
+      <div class="foot-col">
+        <h4>Shop</h4>
+        <a href="#">Men's Clothing</a>
+        <a href="#">Women's Clothing</a>
+        <a href="#">Kids Wear</a>
+        <a href="#">Sarees</a>
+        <a href="#">New Arrivals</a>
+      </div>
+      <div class="foot-col">
+        <h4>Wholesale</h4>
+        <a href="#wholesale">Bulk Orders</a>
+        <a href="#wholesale">Become a Dealer</a>
+        <a href="#wholesale">Catalog Request</a>
+        <a href="#wholesale">Price List</a>
+        <a href="#wholesale">FAQs</a>
+      </div>
+      <div class="foot-col">
+        <h4>Support</h4>
+        <a href="#">Track Order</a>
+        <a href="#">Returns Policy</a>
+        <a href="#">Contact Us</a>
+        <a href="#" onclick="openSizeGuide();return false">Size Guide</a>
+        <a href="#">Terms of Use</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p class="foot-copy">© 2025 <span>Nadeem Readymade Centre</span> · Nagra, Bihar · All rights reserved</p>
+      <p class="foot-copy">Made with <span>♥</span> for Nadeem Akter</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== FLOATING WHATSAPP ===== -->
+<div class="wa-float">
+  <span class="wa-tooltip">💬 Chat with us on WhatsApp</span>
+  <a class="wa-float-btn" href="https://wa.me/918010929093?text=Hi%20Nadeem%20Readymade%20Centre!%20I%20am%20interested%20in%20your%20products." target="_blank" title="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+</div>
+
+<!-- ===== SCROLL TOP ===== -->
+<button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <i class="fas fa-chevron-up"></i>
+</button>
+
+<!-- Core Scripts -->
+<script defer src="js/main.js"></script>
+<script defer src="js/carousel.js"></script>
+</body>
+</html>
