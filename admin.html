@@ -745,6 +745,12 @@ body{
           <div class="form-group"><label class="form-label">Sale End Date</label><input class="form-input" id="s-sale-end" type="datetime-local"></div>
           <button class="btn-save" onclick="saveSettings()" style="margin-top:1rem">Update Sale</button>
         </div>
+        <div class="settings-card">
+          <h4><i class="fas fa-lock"></i> Security</h4>
+          <div class="form-group"><label class="form-label">New Password</label><input class="form-input" id="s-new-pass" type="password" placeholder="Enter new password"></div>
+          <div class="form-group"><label class="form-label">Confirm Password</label><input class="form-input" id="s-conf-pass" type="password" placeholder="Confirm new password"></div>
+          <button class="btn-save" onclick="changePassword()" style="margin-top:1rem">Change Password</button>
+        </div>
       </div>
     </div>
   </main>
@@ -954,6 +960,19 @@ function saveSettings(){
   settings.saleEnd = document.getElementById('s-sale-end').value;
   saveToStorage();
   showNotif('Settings saved and synced!', 'success');
+}
+
+function changePassword(){
+  const np = document.getElementById('s-new-pass').value;
+  const cp = document.getElementById('s-conf-pass').value;
+  if(!np) { showNotif('Kripya naya password likhein', 'error'); return; }
+  if(np !== cp) { showNotif('Password match nahi kar rahe!', 'error'); return; }
+  
+  adminCreds.pass = np;
+  localStorage.setItem('nd_creds', JSON.stringify(adminCreds));
+  showNotif('Password successfully change ho gaya!', 'success');
+  document.getElementById('s-new-pass').value = '';
+  document.getElementById('s-conf-pass').value = '';
 }
 
 /* ===== UTILS ===== */
