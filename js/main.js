@@ -9,13 +9,21 @@ const DEFAULT_PRODUCTS = [
   {id:3,name:"Stretch High Rise Jeans",price:899,orig:1499,img:"https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=500",images:["https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=500"],disc:"40%",badge:"",cat:"men",desc:"Premium stretch denim with 4-way flex. High-rise fit for maximum comfort and style.",sizes:["28","30","32","34","36","38"],stock:3},
   {id:4,name:"Silk Embroidered Kurta",price:999,orig:1999,img:"https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?w=500",images:["https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?w=500"],disc:"55%",badge:"best",cat:"women",desc:"Stunning silk-blend kurta with intricate hand embroidery. Perfect for Eid, pujas, and family gatherings.",sizes:["XS","S","M","L","XL"],stock:12},
   {id:5,name:"Biker Leather Jacket",price:1299,orig:2499,img:"https://images.unsplash.com/photo-1551028719-00167b16eac1?w=500",images:["https://images.unsplash.com/photo-1551028719-00167b16eac1?w=500"],disc:"48%",badge:"new",cat:"men",desc:"Faux leather biker jacket with quilted shoulder panels. Edgy, durable, and weather-resistant.",sizes:["S","M","L","XL","XXL"],stock:5},
-  {id:6,name:"Casual Poplin Shirt",price:699,orig:1399,img:"https://images.unsplash.com/photo-1598032895397-b7f59a2f3b2c?w=500",images:["https://images.unsplash.com/photo-1598032895397-b7f59a2f3b2c?w=500"],disc:"50%",badge:"",cat:"men",desc:"Lightweight poplin fabric, wrinkle-resistant. Great for daily wear and casual outings.",sizes:["S","M","L","XL","XXL","3XL"],stock:20},
+  {id:6,name:"Casual Poplin Shirt",price:399,orig:899,img:"https://images.unsplash.com/photo-1598032895397-b7f59a2f3b2c?w=500",images:["https://images.unsplash.com/photo-1598032895397-b7f59a2f3b2c?w=500"],disc:"55%",badge:"",cat:"men",desc:"Lightweight poplin fabric, wrinkle-resistant. Great for daily wear and casual outings.",sizes:["S","M","L","XL","XXL","3XL"],stock:20},
   {id:7,name:"Combat Cargo Pants",price:899,orig:1599,img:"https://images.unsplash.com/photo-1517438476312-10d79c077509?w=500",images:["https://images.unsplash.com/photo-1517438476312-10d79c077509?w=500"],disc:"44%",badge:"",cat:"men",desc:"Heavy-duty cargo pants with 6 pockets. Ripstop fabric, adjustable waist, streetwear ready.",sizes:["28","30","32","34","36"],stock:2},
   {id:8,name:"Banarasi Silk Saree",price:1999,orig:5999,img:"https://images.unsplash.com/photo-1618843479313-40f8afb4b4d4?w=500",images:["https://images.unsplash.com/photo-1618843479313-40f8afb4b4d4?w=500"],disc:"67%",badge:"best",cat:"women",desc:"Authentic Banarasi silk saree with golden zari border. A timeless heirloom for special occasions.",sizes:["Free Size"],stock:7},
   {id:9,name:"Festive Kids Wear",price:599,orig:1199,img:"https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=500",images:["https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=500"],disc:"50%",badge:"new",cat:"kids",desc:"Adorable festive outfit set for kids. Comfortable fabric, easy to wash, looks stunning.",sizes:["2-3Y","3-4Y","4-5Y","5-6Y","6-7Y","7-8Y"],stock:10},
   {id:10,name:"Floral Anarkali Suit",price:1099,orig:2499,img:"https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=500",images:["https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=500"],disc:"56%",badge:"best",cat:"women",desc:"Beautiful floral print Anarkali suit with matching dupatta. Floor-length elegance for every occasion.",sizes:["XS","S","M","L","XL","XXL"],stock:4},
   {id:11,name:"Kids Denim Jacket",price:449,orig:899,img:"https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=500",images:["https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=500"],disc:"50%",badge:"",cat:"kids",desc:"Trendy denim jacket for kids with snap buttons and patch pockets. Cool, comfy, durable.",sizes:["4-5Y","5-6Y","6-7Y","7-8Y","8-9Y"],stock:18},
+  {id:12,name:"Premium Jodhpur Suits",price:1599,orig:3999,img:"https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=500",images:["https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=500"],disc:"60%",badge:"best",cat:"men",desc:"Royal Jodhpuri suit for weddings and formal events. Traditional look with a modern slim fit.",sizes:["38","40","42","44"],stock:6},
+  {id:13,name:"Designer Wedding Lehengas",price:4999,orig:12999,img:"https://images.unsplash.com/photo-1594932224010-349f7ec6222b?w=500",images:["https://images.unsplash.com/photo-1594932224010-349f7ec6222b?w=500"],disc:"62%",badge:"sale",cat:"women",desc:"Exquisite designer lehenga with heavy zari work. Perfect for brides and festive celebrations.",sizes:["S","M","L","XL"],stock:3},
+  {id:14,name:"Cotton Printed Kurti",price:349,orig:799,img:"https://images.unsplash.com/photo-1617345440590-341857999786?w=500",images:["https://images.unsplash.com/photo-1617345440590-341857999786?w=500"],disc:"56%",badge:"",cat:"women",desc:"Lightweight cotton kurti with trendy floral prints. Ideal for office and daily casual wear.",sizes:["S","M","L","XL","XXL"],stock:25},
+  {id:15,name:"Kids Party Dress",price:799,orig:1599,img:"https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=500",images:["https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=500"],disc:"50%",badge:"new",cat:"kids",desc:"Elegant party wear dress for young girls. Soft lining and comfortable fit for all-day celebrations.",sizes:["2-4Y","4-6Y","6-8Y","8-10Y"],stock:12},
+  {id:16,name:"Men's Formal Trousers",price:699,orig:1299,img:"https://images.unsplash.com/photo-1624371414361-e6e8ea062532?w=500",images:["https://images.unsplash.com/photo-1624371414361-e6e8ea062532?w=500"],disc:"46%",badge:"",cat:"men",desc:"Premium formal trousers with a sharp flat-front design. Durable fabric that stays crisp all day.",sizes:["30","32","34","36","38"],stock:15},
+  {id:17,name:"Kids Winter Sweatshirt",price:499,orig:999,img:"https://images.unsplash.com/photo-1603400521630-9f2de124b33b?w=500",images:["https://images.unsplash.com/photo-1603400521630-9f2de124b33b?w=500"],disc:"50%",badge:"",cat:"kids",desc:"Warm and cozy fleece sweatshirt for kids. Vibrant colors and fun prints that they will love.",sizes:["4-6Y","6-8Y","8-10Y","10-12Y"],stock:20},
+  {id:18,name:"Traditional Sherwani Set",price:2499,orig:5999,img:"https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=500",images:["https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=500"],disc:"58%",badge:"best",cat:"men",desc:"Elegant Sherwani set with matching pajama and stole. Designed for the perfect wedding look.",sizes:["38","40","42","44"],stock:5}
 ];
+
 
 /* ===== FIX #2: Admin se products sync karo ===== */
 function loadProducts() {
@@ -33,15 +41,16 @@ function loadProducts() {
 window.products = loadProducts();
 
 const categories = [
-  {icon:"fa-tshirt",name:"Men's Wear",from:"₹499",filter:"men"},
-  {icon:"fa-female",name:"Women's Wear",from:"₹699",filter:"women"},
-  {icon:"fa-child",name:"Kids Sets",from:"₹449",filter:"kids"},
+  {icon:"fa-tshirt",name:"Men's Casual",from:"₹399",filter:"men"},
+  {icon:"fa-user-tie",name:"Formal Wear",from:"₹699",filter:"men"},
+  {icon:"fa-female",name:"Ethnic Kurti",from:"₹349",filter:"women"},
+  {icon:"fa-gem",name:"Party Saree",from:"₹1299",filter:"women"},
+  {icon:"fa-child",name:"Kids Special",from:"₹449",filter:"kids"},
+  {icon:"fa-crown",name:"Wedding Suits",from:"₹1599",filter:"men"},
   {icon:"fa-hat-cowboy",name:"Accessories",from:"₹199",filter:"all"},
-  {icon:"fa-user-tie",name:"Blazers",from:"₹799",filter:"men"},
-  {icon:"fa-socks",name:"Jeans & Pants",from:"₹899",filter:"men"},
-  {icon:"fa-gem",name:"Sarees",from:"₹1299",filter:"women"},
-  {icon:"fa-shopping-bag",name:"New Arrivals",from:"₹499",filter:"all"},
+  {icon:"fa-shopping-bag",name:"New Season",from:"₹499",filter:"all"},
 ];
+
 
 const reviews = [
   {name:"Razia Begum",loc:"Murshidabad, WB",avatar:"R",stars:5,text:"Bhaiiya ki dukaan se kurta liya — quality ekdam zabardast! Eid pe sabka attention mujhpe tha. Fast delivery, packing bhi acha tha.",date:"2 hafta pehle",verified:true},
