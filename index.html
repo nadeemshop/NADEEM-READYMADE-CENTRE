@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>NADEEM READYMADE CENTRE | Premium Fashion & Wholesale</title>
-<meta name="description" content="Nadeem Readymade Centre — Premium retail & wholesale fashion. Budget-friendly prices, premium quality.">
+<meta name="description" content="Nadeem Readymade Centre — Premium retail & wholesale fashion.">
 
 <!-- Fonts & Icons -->
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -20,16 +20,6 @@
 
 <!-- ===== SCROLL PROGRESS BAR ===== -->
 <div class="scroll-progress" id="scrollProgress"></div>
-
-<!-- ===== PERSONALIZED GREETING BANNER ===== -->
-<div class="greeting-banner" id="greetingBanner">
-  <div class="greeting-avatar" id="greetingAvatar">A</div>
-  <div class="greeting-text" id="greetingMsg">Subah ka salam, <strong id="greetingName">Mehmaan</strong>! 👋</div>
-  <div class="greeting-points" title="Loyalty Points">
-    <i class="fas fa-crown"></i> <span id="greetingPtsVal">0</span>
-  </div>
-  <div style="font-size:.7rem;color:var(--muted);margin-left:.5rem" id="greetingTime">10:30 AM</div>
-</div>
 
 <!-- ===== COUNTDOWN BANNER ===== -->
 <div class="countdown-banner">
@@ -92,10 +82,7 @@
         <div class="size-section">
           <div style="display:flex;justify-content:space-between;margin-bottom:.6rem">
             <span class="size-label">Select Size</span>
-            <div style="display:flex;gap:1rem;align-items:center">
-               <span class="size-rec-btn" onclick="openSizeRec()" style="font-size:.7rem;color:var(--gold);cursor:pointer"><i class="fas fa-wand-magic-sparkles"></i> AI Help</span>
-               <span class="size-guide-link" onclick="openSizeGuide()"><i class="fas fa-ruler"></i> Size Guide</span>
-            </div>
+            <span class="size-guide-link" onclick="openSizeGuide()"><i class="fas fa-ruler"></i> Size Guide</span>
           </div>
           <div class="size-grid" id="sizeGrid"></div>
         </div>
@@ -109,9 +96,9 @@
 </div>
 
 <!-- ===== SIZE GUIDE POPUP ===== -->
-<div class="modal-overlay" id="sizeGuideModal">
-  <div class="modal-box" style="max-width:500px">
-    <button class="modal-close" onclick="closeSizeGuide()"><i class="fas fa-times"></i></button>
+<div class="sg-popup" id="sgPopup">
+  <div class="sg-box">
+    <div class="sg-close"><button onclick="closeSizeGuide()"><i class="fas fa-times"></i></button></div>
     <h3 class="sg-title">📏 Size Guide</h3>
     <table class="sg-table">
       <thead><tr><th>Size</th><th>Chest</th><th>Waist</th><th>Hip</th></tr></thead>
@@ -151,11 +138,9 @@
         <i class="fas fa-shopping-bag"></i>
         <span class="badge" id="cartBadge">0</span>
       </button>
-      <div id="userNavArea" style="display:flex;align-items:center">
-        <button class="icon-btn" id="userBtn" title="Account" onclick="openLoginModal()">
-          <i class="fas fa-user"></i>
-        </button>
-      </div>
+      <button class="icon-btn" id="userBtn" title="Account" onclick="openLoginModal()">
+        <i class="fas fa-user"></i>
+      </button>
       <div class="theme-btn" id="themeBtn" title="Toggle theme">
         <i class="fas fa-moon" id="themeIcon"></i>
       </div>
@@ -191,7 +176,7 @@
       <h1 class="hero-title reveal">
         STYLE<br><span class="gold">MEETS</span><br><span class="outline">VALUE</span>
       </h1>
-      <p class="hero-sub reveal">Nadeem Readymade Centre — premium wholesale & retail fashion for the entire family. Unbeatable prices, honest quality.</p>
+      <p class="hero-sub reveal">Nadeem Readymade Centre — premium wholesale & retail fashion for the entire family.</p>
       <div class="hero-btns reveal">
         <a href="#trending" class="btn btn-gold"><i class="fas fa-fire"></i> Shop Now</a>
         <a href="#wholesale" class="btn btn-outline"><i class="fas fa-boxes"></i> Wholesale Inquiry</a>
@@ -211,7 +196,7 @@
   </div>
 </section>
 
-<!-- ===== TRENDING / COLLECTION ===== -->
+<!-- ===== TRENDING SECTION ===== -->
 <div class="section" id="trending">
   <div class="sec-header reveal">
     <div>
@@ -245,9 +230,9 @@
   <div class="offer-band reveal">
     <div>
       <div class="offer-text">Flat <span>50% OFF</span> on<br>First Order</div>
-      <div class="offer-sub">Use code: <strong style="color:var(--gold)">NADEEM50</strong> at checkout · Limited time</div>
+      <div class="offer-sub">Use code: <strong style="color:var(--gold)">NADEEM50</strong> at checkout</div>
     </div>
-    <a href="https://wa.me/918010929093?text=Hi%20Nadeem%20Readymade%20Centre!%20I%20want%20to%20use%20code%20NADEEM50%20for%2050%25%20off" class="btn btn-wa" target="_blank"><i class="fab fa-whatsapp"></i> Grab Deal</a>
+    <a href="https://wa.me/918010929093?text=Hi%20Nadeem%20Readymade%20Centre!%20I%20want%20to%20use%20code%20NADEEM50" class="btn btn-wa" target="_blank"><i class="fab fa-whatsapp"></i> Grab Deal</a>
   </div>
 </div>
 
@@ -272,56 +257,31 @@
       <div class="reveal-left">
         <div class="ws-tag"><i class="fas fa-boxes"></i> Wholesale Program</div>
         <h2 class="ws-title">BULK ORDERS.<br><span class="g">BIG SAVINGS.</span></h2>
-        <p class="ws-desc">Partner with Nadeem Readymade Centre for wholesale purchasing. We supply premium quality garments at factory prices — perfect for retailers, boutiques, and resellers across India.</p>
+        <p class="ws-desc">Partner with Nadeem Readymade Centre for wholesale purchasing. Premium quality at factory prices.</p>
         <div class="ws-perks">
-          <div class="ws-perk">
-            <div class="ws-perk-icon"><i class="fas fa-rupee-sign"></i></div>
-            <div>
-              <div class="ws-perk-title">Factory Prices</div>
-              <div class="ws-perk-sub">Up to 65% below market rate on bulk orders</div>
-            </div>
-          </div>
-          <div class="ws-perk">
-            <div class="ws-perk-icon"><i class="fas fa-truck"></i></div>
-            <div>
-              <div class="ws-perk-title">Pan-India Delivery</div>
-              <div class="ws-perk-sub">Fast shipping to all states, all pin codes</div>
-            </div>
-          </div>
-          <div class="ws-perk">
-            <div class="ws-perk-icon"><i class="fas fa-layer-group"></i></div>
-            <div>
-              <div class="ws-perk-title">MOQ: 10 Pieces</div>
-              <div class="ws-perk-sub">Low minimum order quantity to get started</div>
-            </div>
-          </div>
-          <div class="ws-perk">
-            <div class="ws-perk-icon"><i class="fas fa-palette"></i></div>
-            <div>
-              <div class="ws-perk-title">Custom Orders</div>
-              <div class="ws-perk-sub">Color, size & design customization available</div>
-            </div>
-          </div>
+          <div class="ws-perk"><div class="ws-perk-icon"><i class="fas fa-rupee-sign"></i></div><div><div class="ws-perk-title">Factory Prices</div><div class="ws-perk-sub">Up to 65% below market rate</div></div></div>
+          <div class="ws-perk"><div class="ws-perk-icon"><i class="fas fa-truck"></i></div><div><div class="ws-perk-title">Pan-India Delivery</div><div class="ws-perk-sub">Fast shipping to all states</div></div></div>
+          <div class="ws-perk"><div class="ws-perk-icon"><i class="fas fa-layer-group"></i></div><div><div class="ws-perk-title">MOQ: 10 Pieces</div><div class="ws-perk-sub">Low minimum order quantity</div></div></div>
+          <div class="ws-perk"><div class="ws-perk-icon"><i class="fas fa-palette"></i></div><div><div class="ws-perk-title">Custom Orders</div><div class="ws-perk-sub">Color & size customization</div></div></div>
         </div>
         <div style="display:flex;gap:1rem;flex-wrap:wrap">
-          <a href="https://wa.me/918010929093?text=Hi%20Nadeem%20Readymade%20Centre!%20I%20am%20interested%20in%20wholesale%20orders" class="btn btn-wa" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp Us</a>
+          <a href="https://wa.me/918010929093?text=Wholesale%20Enquiry" class="btn btn-wa" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp Us</a>
           <a href="tel:+918010929093" class="btn btn-outline"><i class="fas fa-phone"></i> Call Now</a>
         </div>
         <div class="ws-contact">
-          <h4><i class="fas fa-store"></i> Nadeem Readymade Centre — Wholesale Desk</h4>
+          <h4><i class="fas fa-store"></i> Wholesale Desk</h4>
           <div class="ws-contact-row"><i class="fas fa-user"></i><span>Proprietor: <strong>Aktar Hussain</strong></span></div>
           <div class="ws-contact-row"><i class="fas fa-map-marker-alt"></i><span>Nagra, Chhapra, Bihar</span></div>
-          <div class="ws-contact-row"><i class="fab fa-whatsapp"></i><span>WhatsApp: <a href="https://wa.me/918010929093">+91 80109 29093</a></span></div>
-          <div class="ws-contact-row"><i class="fas fa-envelope"></i><span>Email: <a href="mailto:support@nadeemshop.com">support@nadeemshop.com</a></span></div>
+          <div class="ws-contact-row"><i class="fab fa-whatsapp"></i><span><a href="https://wa.me/918010929093">+91 80109 29093</a></span></div>
         </div>
       </div>
       <div class="reveal-right">
         <h3 style="font-family:'Bebas Neue',cursive;font-size:1.6rem;margin-bottom:1.5rem;color:var(--green)">HOW IT WORKS</h3>
         <div class="ws-steps">
-          <div class="ws-step"><div class="ws-step-num">1</div><div><div class="ws-step-title">Contact Us</div><div class="ws-step-desc">WhatsApp or call with your requirements</div></div></div>
-          <div class="ws-step"><div class="ws-step-num">2</div><div><div class="ws-step-title">Get a Custom Quote</div><div class="ws-step-desc">We prepare tailored wholesale pricing</div></div></div>
-          <div class="ws-step"><div class="ws-step-num">3</div><div><div class="ws-step-title">Confirm & Pay</div><div class="ws-step-desc">UPI, bank transfer, or cash-on-pickup</div></div></div>
-          <div class="ws-step"><div class="ws-step-num">4</div><div><div class="ws-step-title">Fast Dispatch</div><div class="ws-step-desc">Orders dispatched within 24-48 hours</div></div></div>
+          <div class="ws-step"><div class="ws-step-num">1</div><div><div class="ws-step-title">Contact Us</div><div class="ws-step-desc">WhatsApp or call with requirements</div></div></div>
+          <div class="ws-step"><div class="ws-step-num">2</div><div><div class="ws-step-title">Get Quote</div><div class="ws-step-desc">We prepare wholesale pricing</div></div></div>
+          <div class="ws-step"><div class="ws-step-num">3</div><div><div class="ws-step-title">Confirm & Pay</div><div class="ws-step-desc">UPI, bank transfer available</div></div></div>
+          <div class="ws-step"><div class="ws-step-num">4</div><div><div class="ws-step-title">Fast Dispatch</div><div class="ws-step-desc">24-48 hours dispatch</div></div></div>
         </div>
       </div>
     </div>
@@ -342,29 +302,15 @@
       <div style="text-align:right">
         <div style="font-family:'Bebas Neue',cursive;font-size:3rem;color:var(--gold);line-height:1">4.8</div>
         <div style="color:var(--gold);font-size:.9rem">★★★★★</div>
-        <div style="font-size:.72rem;color:var(--muted)">Based on 1,200+ orders</div>
       </div>
     </div>
     <div class="review-grid reveal" id="reviewGrid"></div>
-    <div style="text-align:center;margin-top:2rem">
-      <a href="https://wa.me/918010929093?text=Hi%20Nadeem%20Readymade%20Centre!%20I%20want%20to%20share%20my%20feedback" class="btn btn-outline" target="_blank">
-        <i class="fab fa-whatsapp"></i> Share Your Review
-      </a>
-    </div>
   </div>
 </section>
 
 <!-- ===== Pincode Checker ===== -->
 <div class="section">
-  <div class="sec-header reveal">
-    <div>
-      <div class="sec-title-line">
-        <div class="sec-bar"></div>
-        <h2 class="sec-title">📦 Check Delivery</h2>
-      </div>
-    </div>
-  </div>
-  <div class="pincode-card reveal" style="max-width:400px;margin:0 auto;background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:1.5rem;text-align:center">
+  <div class="pincode-card reveal" style="max-width:400px;margin:0 auto;text-align:center">
     <div class="pincode-input-wrap">
       <input type="text" id="pincodeInput" placeholder="Enter Pincode" maxlength="6">
       <button onclick="checkPincode()">Check</button>
@@ -373,24 +319,18 @@
   </div>
 </div>
 
-<!-- ===== SPIN WHEEL TRIGGER ===== -->
-<div class="spin-trigger">
-  <button class="spin-tab" onclick="openSpin()">Lucky Spin</button>
-</div>
-
-<!-- ===== AUTH MODAL (Customer + Admin Login) ===== -->
+<!-- ===== AUTH MODAL ===== -->
 <div class="modal-overlay" id="authModal">
   <div class="modal-box" style="max-width:450px">
     <button class="modal-close" id="authClose"><i class="fas fa-times"></i></button>
     
-    <!-- Tabs -->
     <div class="auth-tabs">
       <button class="auth-tab active" onclick="switchAuthTab('customer')">Customer</button>
       <button class="auth-tab" onclick="switchAuthTab('admin')">Admin</button>
       <button class="auth-tab" onclick="switchAuthTab('signup')">Sign Up</button>
     </div>
     
-    <!-- ===== CUSTOMER LOGIN ===== -->
+    <!-- Customer Login -->
     <div id="customerLoginForm" class="auth-form active">
       <h3>Welcome Back! 👋</h3>
       <p>Login to your Nadeem account</p>
@@ -410,7 +350,7 @@
       </p>
     </div>
     
-    <!-- ===== ADMIN LOGIN ===== -->
+    <!-- Admin Login -->
     <div id="adminLoginForm" class="auth-form">
       <h3>Admin Panel 🔐</h3>
       <p>Authorized access only</p>
@@ -430,7 +370,7 @@
       </p>
     </div>
     
-    <!-- ===== SIGNUP FORM (Customer Only) ===== -->
+    <!-- Signup -->
     <div id="signupForm" class="auth-form">
       <h3>Create Account ✨</h3>
       <p>Join Nadeem & get 50 welcome points!</p>
@@ -457,7 +397,7 @@
 <div class="modal-overlay" id="ordersModal">
   <div class="modal-box" style="max-width:500px">
     <button class="modal-close" id="ordersClose"><i class="fas fa-times"></i></button>
-    <h3 style="font-family:'Bebas Neue',cursive;font-size:1.5rem;margin-bottom:1rem">My Orders</h3>
+    <h3 style="font-family:'Bebas Neue',cursive;font-size:1.5rem">My Orders</h3>
     <div id="ordersList" style="max-height:400px;overflow-y:auto"></div>
   </div>
 </div>
@@ -467,68 +407,11 @@
   <div class="user-menu-head"><p>My Account</p></div>
   <a href="#" onclick="openOrdersModal();return false"><i class="fas fa-box"></i> My Orders</a>
   <a href="#" onclick="openWishlistView();return false"><i class="fas fa-heart"></i> Wishlist</a>
-  <a href="#" onclick="openProfile();return false"><i class="fas fa-user"></i> Profile</a>
   <a href="#" onclick="logoutUser();return false"><i class="fas fa-sign-out-alt"></i> Logout</a>
 </div>
 
-<!-- ===== SPIN MODAL ===== -->
-<div class="spin-modal" id="spinModal">
-  <div class="spin-box">
-    <button class="modal-close" onclick="closeSpin()"><i class="fas fa-times"></i></button>
-    <div class="spin-title">KHUSH KHABRI!</div>
-    <p class="spin-sub">Pahla order? Wheel ghumaiye aur discount payiye!</p>
-    <div class="wheel-wrap">
-      <canvas id="wheel" width="240" height="240"></canvas>
-      <div class="wheel-pointer">▼</div>
-    </div>
-    <button class="spin-cta" id="spinBtn" onclick="spinWheel()">SPIN NOW</button>
-    <div class="spin-result" id="spinResult">
-      <div class="spin-result-title" id="spinResultTitle"></div>
-      <p style="font-size:.8rem;margin-top:.4rem" id="spinResultMsg"></p>
-    </div>
-  </div>
-</div>
-
-<!-- ===== PROFILE SIDEBAR ===== -->
-<div class="profile-overlay" id="profileOverlay"></div>
-<div class="profile-sidebar" id="profileSidebar">
-  <div class="profile-head">
-    <button class="profile-head-close" onclick="closeProfile()"><i class="fas fa-times"></i></button>
-    <div class="profile-avatar-big" id="profileAvatar">G</div>
-    <div class="profile-name" id="profileName">Guest</div>
-    <div class="profile-mobile" id="profileMobile">+91 XXXXX XXXXX</div>
-    <div class="profile-points-card"><div><div class="pts-label">Loyalty Points</div><div class="pts-val" id="profilePts">0</div></div></div>
-  </div>
-  <div class="profile-body">
-    <div class="profile-section"><div class="profile-section-title">Account</div>
-      <div class="profile-menu-item" onclick="openOrdersModal();closeProfile()"><i class="fas fa-box"></i> My Orders<span class="pmi-right" id="profileOrderCount">0</span></div>
-      <div class="profile-menu-item" onclick="openWishlistView();closeProfile()"><i class="fas fa-heart"></i> Wishlist</div>
-    </div>
-  </div>
-  <div class="profile-foot"><button class="logout-btn" onclick="logoutUser();closeProfile()"><i class="fas fa-sign-out-alt"></i> Logout</button></div>
-</div>
-
-<!-- ===== SIZE RECOMMENDER POPUP ===== -->
-<div class="size-rec-popup" id="sizeRecPopup">
-  <div class="size-rec-box">
-    <button class="modal-close" onclick="closeSizeRec()"><i class="fas fa-times"></i></button>
-    <div class="srec-title">AI SIZE HELPER</div>
-    <p class="srec-sub">Bas 2 details dijiye, hum size batayenge!</p>
-    <div class="srec-field">
-      <label class="srec-label" style="font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.3rem;display:block">Height (cm)</label>
-      <input type="number" class="srec-input" id="srec-height" placeholder="e.g. 175" style="width:100%;padding:.7rem;border-radius:8px;background:var(--bg3);border:1px solid var(--border);color:var(--text);outline:none">
-    </div>
-    <div class="srec-field" style="margin-top:1rem">
-      <label class="srec-label" style="font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.3rem;display:block">Weight (kg)</label>
-      <input type="number" class="srec-input" id="srec-weight" placeholder="e.g. 70" style="width:100%;padding:.7rem;border-radius:8px;background:var(--bg3);border:1px solid var(--border);color:var(--text);outline:none">
-    </div>
-    <button class="btn btn-gold" style="width:100%;margin-top:1.5rem" onclick="calcSize()">Check Size</button>
-    <div class="srec-result" id="srecResult" style="margin-top:1.5rem;text-align:center;display:none">
-      <div style="font-family:'Bebas Neue',cursive;font-size:3rem;color:var(--gold)" id="srecSizeBig">L</div>
-      <p id="srecSizeText" style="font-size:.8rem;color:var(--muted)">Aapke liye recommended size</p>
-    </div>
-  </div>
-</div>
+<!-- ===== EXTRA FEATURES CONTAINER ===== -->
+<div id="extraFeatures"></div>
 
 <!-- ===== FOOTER ===== -->
 <footer>
@@ -536,7 +419,7 @@
     <div class="foot-top">
       <div>
         <div class="foot-logo"><span>NADEEM</span> READYMADE CENTRE</div>
-        <p class="foot-desc">Premium retail & wholesale fashion from Nagra, Bihar. Quality clothing at honest prices for everyone.</p>
+        <p class="foot-desc">Premium retail & wholesale fashion from Nagra, Bihar.</p>
         <div class="foot-owner"><p>Shop Owner</p><strong>Aktar Hussain</strong><br><small>Nagra, Chhapra, Bihar</small></div>
         <div class="social-row">
           <a class="social-btn" href="#"><i class="fab fa-facebook-f"></i></a>
@@ -547,102 +430,27 @@
           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14336.565158656247!2d84.8505505!3d25.9268385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ed453f63900001%3A0xc39958992e59e195!2sNagra%2C%20Bihar%20841442!5e0!3m2!1sen!2sin!4v1713783000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
         </div>
       </div>
-      <div class="foot-col"><h4>Shop</h4><a href="#trending">Men's Clothing</a><a href="#trending">Women's Clothing</a><a href="#trending">Kids Wear</a><a href="#categories">Categories</a></div>
-      <div class="foot-col"><h4>Wholesale</h4><a href="#wholesale">Bulk Orders</a><a href="#wholesale">Become a Dealer</a><a href="#wholesale">Catalog Request</a></div>
-      <div class="foot-col"><h4>Support</h4><a href="#" onclick="openSizeGuide();return false">Size Guide</a><a href="#">Track Order</a><a href="#">Contact Us</a></div>
+      <div class="foot-col"><h4>Shop</h4><a href="#trending">Men's Wear</a><a href="#trending">Women's Wear</a><a href="#trending">Kids Wear</a></div>
+      <div class="foot-col"><h4>Wholesale</h4><a href="#wholesale">Bulk Orders</a><a href="#wholesale">Become a Dealer</a></div>
+      <div class="foot-col"><h4>Support</h4><a href="#" onclick="openSizeGuide();return false">Size Guide</a><a href="#">Contact Us</a></div>
     </div>
-    <div class="foot-bottom"><p class="foot-copy">© 2025 <span>Nadeem Readymade Centre</span> · Nagra, Bihar · Owner: <strong>Aktar Hussain</strong></p></div>
+    <div class="foot-bottom"><p class="foot-copy">© 2025 <span>Nadeem Readymade Centre</span> · Nagra, Bihar</p></div>
   </div>
 </footer>
 
 <!-- ===== FLOATING WHATSAPP ===== -->
 <div class="wa-float">
-  <span class="wa-tooltip">💬 Chat with us on WhatsApp</span>
-  <a class="wa-float-btn" href="https://wa.me/918010929093?text=Hi%20Nadeem%20Readymade%20Centre!%20I%20am%20interested%20in%20your%20products." target="_blank"><i class="fab fa-whatsapp"></i></a>
+  <span class="wa-tooltip">💬 Chat with us</span>
+  <a class="wa-float-btn" href="https://wa.me/918010929093" target="_blank"><i class="fab fa-whatsapp"></i></a>
 </div>
 
 <!-- ===== SCROLL TOP ===== -->
 <button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-chevron-up"></i></button>
 
-<!-- Core Scripts -->
+<!-- Scripts -->
 <script src="js/main.js"></script>
 <script src="js/carousel.js"></script>
 <script src="js/extra_features.js"></script>
 
-<script>
-// Additional helper functions merged for stability
-window.openLoginModal = function() {
-  document.getElementById('authModal').classList.add('open');
-  document.body.classList.add('modal-open');
-}
-window.closeLoginModal = function() {
-  document.getElementById('authModal').classList.remove('open');
-  document.body.classList.remove('modal-open');
-}
-window.switchAuthTab = function(tab) {
-  const loginForm = document.getElementById('loginForm');
-  const signupForm = document.getElementById('signupForm');
-  const tabs = document.querySelectorAll('.auth-tab');
-  if(tab === 'login') {
-    loginForm.classList.add('active');
-    signupForm.classList.remove('active');
-    tabs[0].classList.add('active');
-    tabs[1].classList.remove('active');
-  } else {
-    loginForm.classList.remove('active');
-    signupForm.classList.add('active');
-    tabs[0].classList.remove('active');
-    tabs[1].classList.add('active');
-  }
-}
-window.openWishlistView = function() {
-  const wl = JSON.parse(localStorage.getItem('nd_wishlist') || '[]');
-  if(wl.length === 0){ showToast('Wishlist khali hai!'); return; }
-  const prods = wl.map(id => window.products?.find(p=>p.id===id)).filter(Boolean);
-  const modal = document.getElementById('ordersModal');
-  const list = document.getElementById('ordersList');
-  list.innerHTML = prods.map(p => `<div style="display:flex;gap:1rem;padding:.8rem 0;border-bottom:1px solid var(--border);align-items:center"><img src="${p.img}" style="width:60px;height:60px;border-radius:10px;object-fit:cover"><div style="flex:1"><div style="font-weight:700">${p.name}</div><div style="color:var(--gold)">₹${p.price}</div></div><button class="btn btn-gold" style="padding:.3rem .8rem;font-size:.7rem" onclick="addToCart(${p.id},null);closeOrdersModal()">Add</button></div>`).join('');
-  modal.classList.add('open');
-  document.body.classList.add('modal-open');
-}
-window.closeOrdersModal = function() {
-  document.getElementById('ordersModal').classList.remove('open');
-  document.body.classList.remove('modal-open');
-}
-window.openProfile = function() {
-  const user = JSON.parse(localStorage.getItem('nd_current_user') || 'null');
-  if(!user){ openLoginModal(); return; }
-  document.getElementById('profileAvatar').textContent = user.name[0].toUpperCase();
-  document.getElementById('profileName').textContent = user.name;
-  document.getElementById('profileMobile').textContent = '+91 ' + user.mobile;
-  document.getElementById('profilePts').textContent = localStorage.getItem('nd_points_' + user.id) || '0';
-  const orders = JSON.parse(localStorage.getItem('nd_orders') || '[]');
-  document.getElementById('profileOrderCount').textContent = orders.filter(o => o.userId === user.id).length;
-  document.getElementById('profileOverlay').classList.add('open');
-  document.getElementById('profileSidebar').classList.add('open');
-  document.body.classList.add('modal-open');
-}
-window.closeProfile = function() {
-  document.getElementById('profileOverlay').classList.remove('open');
-  document.getElementById('profileSidebar').classList.remove('open');
-  document.body.classList.remove('modal-open');
-}
-window.toggleUserMenu = function() {
-  const menu = document.getElementById('userMenu');
-  if(menu) menu.classList.toggle('show');
-}
-document.addEventListener('click', function(e) {
-  const menu = document.getElementById('userMenu');
-  const btn = document.getElementById('userBtn');
-  if(menu && menu.classList.contains('show') && !menu.contains(e.target) && !btn.contains(e.target)) {
-    menu.classList.remove('show');
-  }
-});
-document.addEventListener('keydown', function(e) {
-  if(e.key === 'Escape') {
-    closeModal(); closeSizeGuide(); closeCart(); closeLoginModal(); closeOrdersModal(); closeProfile(); closeSpin(); closeSizeRec();
-  }
-});
-</script>
 </body>
 </html>
