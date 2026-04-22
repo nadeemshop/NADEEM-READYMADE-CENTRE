@@ -503,7 +503,9 @@ function syncWebsiteDesignUI() {
   const elHeroSub = document.getElementById('heroSubtitle');
   if (elHeroSub && ws.hero?.subtitle) elHeroSub.textContent = ws.hero.subtitle;
   const elHeroImg = document.getElementById('heroImage');
-  if (elHeroImg && ws.hero?.image) elHeroImg.src = ws.hero.image;
+  if (elHeroImg && ws.hero?.image && ws.hero.image.trim() !== '') {
+    elHeroImg.src = ws.hero.image;
+  }
 
   const elStatProd = document.getElementById('heroStatProducts');
   if (elStatProd && ws.stats?.products) elStatProd.textContent = ws.stats.products;
