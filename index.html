@@ -23,7 +23,7 @@
 
 <!-- ===== COUNTDOWN BANNER ===== -->
 <div class="countdown-banner">
-  <span class="cd-text">🎉 Eid Sale — Ends In:</span>
+  <span class="cd-text" id="saleTitleText">🎉 Eid Sale — Ends In:</span>
   <div class="cd-boxes">
     <div class="cd-box"><span id="cd-h">00</span><small>Hours</small></div>
     <span class="cd-sep">:</span>
@@ -31,7 +31,7 @@
     <span class="cd-sep">:</span>
     <div class="cd-box"><span id="cd-s">00</span><small>Secs</small></div>
   </div>
-  <span class="cd-code">NADEEM50</span>
+  <span class="cd-code" id="promoCodeText">NADEEM50</span>
 </div>
 
 <!-- ===== CART DRAWER ===== -->
@@ -83,6 +83,7 @@
           <div style="display:flex;justify-content:space-between;margin-bottom:.6rem">
             <span class="size-label">Select Size</span>
             <span class="size-guide-link" onclick="openSizeGuide()"><i class="fas fa-ruler"></i> Size Guide</span>
+            <span class="size-guide-link" onclick="openSizeRec()" style="margin-left:1rem"><i class="fas fa-magic"></i> AI Helper</span>
           </div>
           <div class="size-grid" id="sizeGrid"></div>
         </div>
@@ -232,9 +233,9 @@
   <div class="offer-band reveal">
     <div>
       <div class="offer-text">Flat <span>50% OFF</span> on<br>First Order</div>
-      <div class="offer-sub">Use code: <strong style="color:var(--gold)">NADEEM50</strong> at checkout</div>
+      <div class="offer-sub">Use code: <strong style="color:var(--gold)" id="promoCodeStrong">NADEEM50</strong> at checkout</div>
     </div>
-    <a href="https://wa.me/918010929093?text=Hi%20Nadeem%20Readymade%20Centre!%20I%20want%20to%20use%20code%20NADEEM50" class="btn btn-wa" target="_blank"><i class="fab fa-whatsapp"></i> Grab Deal</a>
+    <a href="#" class="btn btn-wa" target="_blank" id="grabDealBtn"><i class="fab fa-whatsapp"></i> Grab Deal</a>
   </div>
 </div>
 
@@ -506,6 +507,11 @@
       <p id="srecSizeText" style="font-size:.8rem;color:var(--muted)">Aapke liye recommended size</p>
     </div>
   </div>
+</div>
+
+<!-- ===== SPIN TRIGGER (TAB) ===== -->
+<div class="spin-trigger">
+  <button class="spin-tab" onclick="openSpin()">🎰 Lucky Draw</button>
 </div>
 
 <!-- Core Scripts -->

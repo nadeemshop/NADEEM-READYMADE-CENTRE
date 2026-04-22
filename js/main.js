@@ -1,30 +1,21 @@
-/* ===== CONSTANTS ===== */
-const WA_NUMBER = '918010929093';
-const SHOP_NAME = 'Nadeem Readymade Centre';
+/* ===== SETTINGS & CONSTANTS ===== */
+const DEFAULT_SETTINGS = { shopName: 'Nadeem Readymade Centre', wa: '918010929093', saleTitle: 'Eid Sale', promo: 'NADEEM50', saleEnd: '' };
+const settings = JSON.parse(localStorage.getItem('nd_settings') || 'null') || DEFAULT_SETTINGS;
 
-/* ===== PRODUCT DATA — synced from Admin localStorage ===== */
+const WA_NUMBER = settings.wa;
+const SHOP_NAME = settings.shopName;
+
+/* ===== PRODUCT DATA ===== */
 const DEFAULT_PRODUCTS = [
-  {id:1,name:"Premium Slim Blazer",price:799,orig:1999,img:"img/blazer.png",images:["img/blazer.png"],disc:"60%",badge:"best",cat:"men",desc:"Sophisticated slim-fit blazer crafted from premium poly-viscose fabric. Perfect for festive occasions, weddings, and formal meetings.",sizes:["S","M","L","XL","XXL"],stock:15},
-  {id:2,name:"Oxford Cotton Shirt",price:499,orig:999,img:"img/shirt.png",images:["img/shirt.png"],disc:"50%",badge:"best",cat:"men",desc:"Pure cotton Oxford weave shirt, breathable and comfortable all day. Available in multiple colors.",sizes:["S","M","L","XL","XXL","3XL"],stock:8},
-  {id:3,name:"Stretch High Rise Jeans",price:899,orig:1499,img:"img/jeans.png",images:["img/jeans.png"],disc:"40%",badge:"",cat:"men",desc:"Premium stretch denim with 4-way flex. High-rise fit for maximum comfort and style.",sizes:["28","30","32","34","36","38"],stock:3},
-  {id:4,name:"Silk Embroidered Kurta",price:999,orig:1999,img:"https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?w=500",images:["https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?w=500"],disc:"55%",badge:"best",cat:"women",desc:"Stunning silk-blend kurta with intricate hand embroidery. Perfect for Eid, pujas, and family gatherings.",sizes:["XS","S","M","L","XL"],stock:12},
-  {id:5,name:"Biker Leather Jacket",price:1299,orig:2499,img:"https://images.unsplash.com/photo-1551028719-00167b16eac1?w=500",images:["https://images.unsplash.com/photo-1551028719-00167b16eac1?w=500"],disc:"48%",badge:"new",cat:"men",desc:"Faux leather biker jacket with quilted shoulder panels. Edgy, durable, and weather-resistant.",sizes:["S","M","L","XL","XXL"],stock:5},
-  {id:6,name:"Casual Poplin Shirt",price:399,orig:899,img:"https://images.unsplash.com/photo-1598032895397-b7f59a2f3b2c?w=500",images:["https://images.unsplash.com/photo-1598032895397-b7f59a2f3b2c?w=500"],disc:"55%",badge:"",cat:"men",desc:"Lightweight poplin fabric, wrinkle-resistant. Great for daily wear and casual outings.",sizes:["S","M","L","XL","XXL","3XL"],stock:20},
-  {id:7,name:"Combat Cargo Pants",price:899,orig:1599,img:"https://images.unsplash.com/photo-1517438476312-10d79c077509?w=500",images:["https://images.unsplash.com/photo-1517438476312-10d79c077509?w=500"],disc:"44%",badge:"",cat:"men",desc:"Heavy-duty cargo pants with 6 pockets. Ripstop fabric, adjustable waist, streetwear ready.",sizes:["28","30","32","34","36"],stock:2},
-  {id:8,name:"Banarasi Silk Saree",price:1999,orig:5999,img:"https://images.unsplash.com/photo-1618843479313-40f8afb4b4d4?w=500",images:["https://images.unsplash.com/photo-1618843479313-40f8afb4b4d4?w=500"],disc:"67%",badge:"best",cat:"women",desc:"Authentic Banarasi silk saree with golden zari border. A timeless heirloom for special occasions.",sizes:["Free Size"],stock:7},
-  {id:9,name:"Festive Kids Wear",price:599,orig:1199,img:"https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=500",images:["https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=500"],disc:"50%",badge:"new",cat:"kids",desc:"Adorable festive outfit set for kids. Comfortable fabric, easy to wash, looks stunning.",sizes:["2-3Y","3-4Y","4-5Y","5-6Y","6-7Y","7-8Y"],stock:10},
-  {id:10,name:"Floral Anarkali Suit",price:1099,orig:2499,img:"img/anarkali.png",images:["img/anarkali.png"],disc:"56%",badge:"best",cat:"women",desc:"Beautiful floral print Anarkali suit with matching dupatta. Floor-length elegance for every occasion.",sizes:["XS","S","M","L","XL","XXL"],stock:4},
-  {id:11,name:"Kids Denim Jacket",price:449,orig:899,img:"https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=500",images:["https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=500"],disc:"50%",badge:"",cat:"kids",desc:"Trendy denim jacket for kids with snap buttons and patch pockets. Cool, comfy, durable.",sizes:["4-5Y","5-6Y","6-7Y","7-8Y","8-9Y"],stock:18},
-  {id:12,name:"Premium Jodhpur Suits",price:1599,orig:3999,img:"https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=500",images:["https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=500"],disc:"60%",badge:"best",cat:"men",desc:"Royal Jodhpuri suit for weddings and formal events. Traditional look with a modern slim fit.",sizes:["38","40","42","44"],stock:6},
-  {id:13,name:"Designer Wedding Lehengas",price:4999,orig:12999,img:"img/lehenga.png",images:["img/lehenga.png"],disc:"62%",badge:"sale",cat:"women",desc:"Exquisite designer lehenga with heavy zari work. Perfect for brides and festive celebrations.",sizes:["S","M","L","XL"],stock:3},
-  {id:14,name:"Cotton Printed Kurti",price:349,orig:799,img:"img/kurti.png",images:["img/kurti.png"],disc:"56%",badge:"",cat:"women",desc:"Lightweight cotton kurti with trendy floral prints. Ideal for office and daily casual wear.",sizes:["S","M","L","XL","XXL"],stock:25},
-  {id:15,name:"Kids Party Dress",price:799,orig:1599,img:"img/kids_dress.png",images:["img/kids_dress.png"],disc:"50%",badge:"new",cat:"kids",desc:"Elegant party wear dress for young girls. Soft lining and comfortable fit for all-day celebrations.",sizes:["2-4Y","4-6Y","6-8Y","8-10Y"],stock:12},
-  {id:16,name:"Men's Formal Trousers",price:699,orig:1299,img:"https://images.unsplash.com/photo-1624371414361-e6e8ea062532?w=500",images:["https://images.unsplash.com/photo-1624371414361-e6e8ea062532?w=500"],disc:"46%",badge:"",cat:"men",desc:"Premium formal trousers with a sharp flat-front design. Durable fabric that stays crisp all day.",sizes:["30","32","34","36","38"],stock:15},
-  {id:17,name:"Kids Winter Sweatshirt",price:499,orig:999,img:"https://images.unsplash.com/photo-1603400521630-9f2de124b33b?w=500",images:["https://images.unsplash.com/photo-1603400521630-9f2de124b33b?w=500"],disc:"50%",badge:"",cat:"kids",desc:"Warm and cozy fleece sweatshirt for kids. Vibrant colors and fun prints that they will love.",sizes:["4-6Y","6-8Y","8-10Y","10-12Y"],stock:20},
-  {id:18,name:"Traditional Sherwani Set",price:2499,orig:5999,img:"https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=500",images:["https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=500"],disc:"58%",badge:"best",cat:"men",desc:"Elegant Sherwani set with matching pajama and stole. Designed for the perfect wedding look.",sizes:["38","40","42","44"],stock:5},
-  {id:19,name:"Kids Traditional Kurta",price:549,orig:1099,img:"img/kids_kurta.png",images:["img/kids_kurta.png"],disc:"50%",badge:"best",cat:"kids",desc:"Traditional silk kurta set for young boys. Perfect for festivals and weddings.",sizes:["2-4Y","4-6Y","6-8Y","8-10Y"],stock:15},
-  {id:20,name:"Summer Casual Set",price:449,orig:899,img:"https://images.unsplash.com/photo-1519457431-757125281309?w=500",images:["https://images.unsplash.com/photo-1519457431-757125281309?w=500"],disc:"50%",badge:"",cat:"kids",desc:"Cotton summer set for toddlers. Breathable fabric and cute prints.",sizes:["1-2Y","2-3Y","3-4Y","4-5Y"],stock:10},
-  {id:21,name:"Silk Palazzo Set",price:1299,orig:2999,img:"https://images.unsplash.com/photo-1589156229687-496a31ad1d1f?w=500",images:["https://images.unsplash.com/photo-1589156229687-496a31ad1d1f?w=500"],disc:"56%",badge:"new",cat:"women",desc:"Designer silk kurta with matching palazzo pants and dupatta. A perfect festive ensemble.",sizes:["S","M","L","XL","XXL"],stock:6}
+  {id:1,name:"Premium Slim Blazer",price:799,orig:1999,img:"img/blazer.png",disc:"60%",badge:"best",cat:"men",desc:"Sophisticated slim-fit blazer crafted from premium fabric.",sizes:["S","M","L","XL","XXL"],stock:15},
+  {id:2,name:"Oxford Cotton Shirt",price:499,orig:999,img:"img/shirt.png",disc:"50%",badge:"best",cat:"men",desc:"Pure cotton Oxford weave shirt.",sizes:["S","M","L","XL","XXL","3XL"],stock:8},
+  {id:3,name:"Stretch High Rise Jeans",price:899,orig:1499,img:"img/jeans.png",disc:"40%",badge:"",cat:"men",desc:"Premium stretch denim with 4-way flex.",sizes:["28","30","32","34","36","38"],stock:3},
+  {id:4,name:"Silk Embroidered Kurta",price:999,orig:1999,img:"https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?w=500",disc:"55%",badge:"best",cat:"women",desc:"Stunning silk-blend kurta with intricate hand embroidery.",sizes:["XS","S","M","L","XL"],stock:12},
+  {id:5,name:"Floral Anarkali Suit",price:1099,orig:2499,img:"img/anarkali.png",disc:"56%",badge:"best",cat:"women",desc:"Beautiful floral print Anarkali suit.",sizes:["XS","S","M","L","XL","XXL"],stock:4},
+  {id:6,name:"Kids Traditional Kurta",price:549,orig:1099,img:"img/kids_kurta.png",disc:"50%",badge:"best",cat:"kids",desc:"Traditional silk kurta set.",sizes:["2-4Y","4-6Y","6-8Y","8-10Y"],stock:15},
+  {id:7,name:"Kids Party Dress",price:799,orig:1599,img:"img/kids_dress.png",disc:"50%",badge:"new",cat:"kids",desc:"Elegant party wear dress.",sizes:["2-4Y","4-6Y","6-8Y","8-10Y"],stock:12},
+  {id:8,name:"Designer Wedding Lehenga",price:4999,orig:12999,img:"img/lehenga.png",disc:"62%",badge:"sale",cat:"women",desc:"Exquisite designer lehenga.",sizes:["S","M","L","XL"],stock:3},
+  {id:9,name:"Cotton Printed Kurti",price:349,orig:799,img:"img/kurti.png",disc:"56%",badge:"",cat:"women",desc:"Lightweight cotton kurti.",sizes:["S","M","L","XL","XXL"],stock:25},
 ];
 
 function loadProducts() {
@@ -40,23 +31,18 @@ function loadProducts() {
 window.products = loadProducts();
 
 const categories = [
-  {icon:"fa-tshirt",name:"Men's Casual",from:"₹399",filter:"men"},
-  {icon:"fa-user-tie",name:"Formal Wear",from:"₹699",filter:"men"},
-  {icon:"fa-female",name:"Ethnic Kurti",from:"₹349",filter:"women"},
-  {icon:"fa-gem",name:"Party Saree",from:"₹1299",filter:"women"},
-  {icon:"fa-child",name:"Kids Special",from:"₹449",filter:"kids"},
-  {icon:"fa-crown",name:"Wedding Suits",from:"₹1599",filter:"men"},
-  {icon:"fa-hat-cowboy",name:"Accessories",from:"₹199",filter:"all"},
-  {icon:"fa-shopping-bag",name:"New Season",from:"₹499",filter:"all"},
+  {icon:"fa-tshirt",name:"Men's Wear",from:"₹399",filter:"men"},
+  {icon:"fa-female",name:"Women's Wear",from:"₹699",filter:"women"},
+  {icon:"fa-child",name:"Kids Wear",from:"₹449",filter:"kids"},
+  {icon:"fa-gem",name:"Sarees",from:"₹1299",filter:"women"},
+  {icon:"fa-user-tie",name:"Blazers",from:"₹799",filter:"men"},
+  {icon:"fa-shopping-bag",name:"New Arrivals",from:"₹499",filter:"all"},
 ];
 
 const reviews = [
-  {name:"Razia Begum",loc:"Murshidabad, WB",avatar:"R",stars:5,text:"Bhaiiya ki dukaan se kurta liya — quality ekdam zabardast!",date:"2 hafta pehle",verified:true},
-  {name:"Arif Hossain",loc:"Baharampur, WB",avatar:"A",stars:5,text:"Wholesale order kiya tha 50 pieces ka. Sab exact size mein aaya!",date:"1 mahina pehle",verified:true},
-  {name:"Salma Khatun",loc:"Nagra, Bihar",avatar:"S",stars:5,text:"Banarasi saree bilkul original nikli. WhatsApp par order kiya!",date:"3 hafta pehle",verified:true},
-  {name:"Rahim Sheikh",loc:"Lalgola, WB",avatar:"R",stars:4,text:"Kids wear set liya for my daughter. Design sundar hai!",date:"1 mahina pehle",verified:true},
-  {name:"Fatima Nasrin",loc:"Dhulian, WB",avatar:"F",stars:5,text:"NADEEM50 code use kiya — 50% discount mila!",date:"2 mahine pehle",verified:true},
-  {name:"Karim Molla",loc:"Farakka, WB",avatar:"K",stars:5,text:"Blazer pehna function mein — log pooch rahe the kahan se liya!",date:"3 mahine pehle",verified:true},
+  {name:"Razia Begum",loc:"Murshidabad",avatar:"R",stars:5,text:"Quality ekdam zabardast!",date:"2 hafta pehle",verified:true},
+  {name:"Arif Hossain",loc:"Baharampur",avatar:"A",stars:5,text:"Wholesale order kiya tha 50 pieces ka.",date:"1 mahina pehle",verified:true},
+  {name:"Salma Khatun",loc:"Nagra",avatar:"S",stars:5,text:"Banarasi saree bilkul original nikli.",date:"3 hafta pehle",verified:true},
 ];
 
 /* ===== USER SYSTEM ===== */
@@ -65,23 +51,14 @@ let currentUser = JSON.parse(localStorage.getItem('nd_current_user') || 'null');
 let orders = JSON.parse(localStorage.getItem('nd_orders') || '[]');
 
 if (customers.length === 0) {
-  customers.push({
-    id: 1,
-    name: "Demo User",
-    mobile: "9999999999",
-    password: "demo123",
-    joinDate: new Date().toISOString(),
-    points: 50
-  });
+  customers.push({id:1,name:"Demo User",mobile:"9999999999",password:"demo123",joinDate:new Date().toISOString(),points:50});
   localStorage.setItem('nd_customers', JSON.stringify(customers));
 }
 
 /* ===== CART ===== */
 let cart = JSON.parse(localStorage.getItem('nd_cart') || '[]');
 let uidCounter = cart.length > 0 ? Math.max(...cart.map(i => i.uid || 0), 0) + 1 : 1;
-let selectedProdId = null;
 let selectedSize = null;
-let currentProductImages = [];
 
 function getCartCount() { return cart.reduce((s, i) => s + i.qty, 0); }
 function getCartTotal() { return cart.reduce((s, i) => s + i.price * i.qty, 0); }
@@ -95,13 +72,13 @@ window.addToCart = function(id, size) {
   const prod = window.products.find(p => p.id === id);
   if (!prod) return;
   if (prod.stock !== undefined && prod.stock <= 0) {
-    showToast('❌ Sorry, yeh product out of stock hai!');
+    showToast('❌ Out of stock!');
     return;
   }
   const existing = cart.find(i => i.id === id && i.size === size);
   if (existing) {
     if (prod.stock !== undefined && existing.qty + 1 > prod.stock) {
-      showToast(`⚠️ Sirf ${prod.stock} items available hain!`);
+      showToast(`⚠️ Only ${prod.stock} left!`);
       return;
     }
     existing.qty++;
@@ -109,7 +86,7 @@ window.addToCart = function(id, size) {
     cart.push({...prod, qty:1, size:size||null, uid:uidCounter++});
   }
   saveCart();
-  showToast('🛍️ ' + prod.name + ' bag mein add ho gaya!');
+  showToast('🛍️ ' + prod.name + ' added to bag!');
 }
 
 function updateCartUI() {
@@ -121,6 +98,7 @@ function updateCartUI() {
   }
   const totalEl = document.getElementById('cartTotal');
   if (totalEl) totalEl.textContent = '₹' + getCartTotal().toLocaleString('en-IN');
+  
   const empty = document.getElementById('cartEmpty');
   const container = document.getElementById('cartItems');
   if (container) {
@@ -153,11 +131,6 @@ function updateCartUI() {
 window.changeQty = function(uid, delta) {
   const item = cart.find(i => i.uid === uid);
   if (!item) return;
-  const prod = window.products.find(p => p.id === item.id);
-  if (delta > 0 && prod && prod.stock !== undefined && item.qty + 1 > prod.stock) {
-    showToast(`⚠️ Sirf ${prod.stock} items available hain!`);
-    return;
-  }
   item.qty += delta;
   if (item.qty <= 0) cart = cart.filter(i => i.uid !== uid);
   saveCart();
@@ -169,65 +142,48 @@ window.removeItem = function(uid) {
 }
 
 window.checkoutWA = function() {
-  if (cart.length === 0) {
-    showToast('⚠️ Cart khali hai!');
-    return;
-  }
-  let msg = `🛍️ *Nadeem Readymade Centre — New Order*\n\n`;
-  if (currentUser) {
-    msg += `*Customer:* ${currentUser.name}\n`;
-    msg += `*Mobile:* ${currentUser.mobile}\n\n`;
-  }
-  msg += `*Order Items:*\n`;
-  cart.forEach((item, i) => {
-    msg += `${i + 1}. ${item.name}`;
-    if (item.size) msg += ` (Size: ${item.size})`;
-    msg += ` × ${item.qty} = ₹${(item.price * item.qty).toLocaleString('en-IN')}\n`;
-  });
-  msg += `\n*Total: ₹${getCartTotal().toLocaleString('en-IN')}*`;
-  msg += `\n\nPlease confirm my order. 🙏`;
+  if (cart.length === 0) { showToast('Cart is empty!'); return; }
+  let msg = `🛍️ *New Order*\n\n`;
+  if (currentUser) msg += `Customer: ${currentUser.name}\nMobile: ${currentUser.mobile}\n\n`;
+  msg += `*Items:*\n`;
+  cart.forEach((item, i) => msg += `${i+1}. ${item.name} x${item.qty} = ₹${item.price*item.qty}\n`);
+  msg += `\n*Total: ₹${getCartTotal()}*`;
   window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
 /* ===== AUTH FUNCTIONS ===== */
 window.openLoginModal = function() {
-  document.getElementById('authModal').classList.add('open');
+  document.getElementById('authModal')?.classList.add('open');
   document.body.classList.add('modal-open');
 }
 
 window.closeLoginModal = function() {
-  document.getElementById('authModal').classList.remove('open');
+  document.getElementById('authModal')?.classList.remove('open');
   document.body.classList.remove('modal-open');
 }
 
 window.switchAuthTab = function(tab) {
-  const customerForm = document.getElementById('customerLoginForm');
-  const adminForm = document.getElementById('adminLoginForm');
-  const signupForm = document.getElementById('signupForm');
   const tabs = document.querySelectorAll('.auth-tab');
-  if (customerForm) customerForm.classList.remove('active');
-  if (adminForm) adminForm.classList.remove('active');
-  if (signupForm) signupForm.classList.remove('active');
+  const forms = ['customerLoginForm', 'adminLoginForm', 'signupForm'];
+  forms.forEach(f => { const el = document.getElementById(f); if(el) el.classList.remove('active'); });
   tabs.forEach(t => t.classList.remove('active'));
-  if (tab === 'customer' && customerForm) {
-    customerForm.classList.add('active');
-    tabs[0].classList.add('active');
-  } else if (tab === 'admin' && adminForm) {
-    adminForm.classList.add('active');
-    tabs[1].classList.add('active');
-  } else if (tab === 'signup' && signupForm) {
-    signupForm.classList.add('active');
-    tabs[2].classList.add('active');
+  
+  if (tab === 'customer') {
+    document.getElementById('customerLoginForm')?.classList.add('active');
+    tabs[0]?.classList.add('active');
+  } else if (tab === 'admin') {
+    document.getElementById('adminLoginForm')?.classList.add('active');
+    tabs[1]?.classList.add('active');
+  } else if (tab === 'signup') {
+    document.getElementById('signupForm')?.classList.add('active');
+    tabs[2]?.classList.add('active');
   }
 }
 
 window.customerLogin = function() {
-  const mobile = document.getElementById('customerMobile').value.trim();
-  const password = document.getElementById('customerPassword').value;
-  if (!mobile || !password) {
-    showToast('❌ Mobile aur password dono bharo!');
-    return;
-  }
+  const mobile = document.getElementById('customerMobile')?.value.trim();
+  const password = document.getElementById('customerPassword')?.value;
+  if (!mobile || !password) { showToast('❌ Mobile and password required!'); return; }
   const user = customers.find(c => c.mobile === mobile && c.password === password);
   if (user) {
     currentUser = user;
@@ -236,49 +192,30 @@ window.customerLogin = function() {
     closeLoginModal();
     showToast(`🎉 Welcome back, ${user.name}!`);
   } else {
-    showToast('❌ Galat mobile ya password! Demo: 9999999999 / demo123');
+    showToast('❌ Invalid credentials! Demo: 9999999999 / demo123');
   }
 }
 
 window.adminLogin = function() {
-  const username = document.getElementById('adminUser').value.trim();
-  const password = document.getElementById('adminPass').value;
+  const username = document.getElementById('adminUser')?.value.trim();
+  const password = document.getElementById('adminPass')?.value;
   if (username === 'admin' && password === 'nadeem2025') {
-    showToast('🔐 Admin login successful! Redirecting...');
+    showToast('🔐 Redirecting to admin panel...');
     setTimeout(() => { window.location.href = 'admin.html'; }, 800);
   } else {
-    showToast('❌ Galat admin credentials! Demo: admin / nadeem2025');
+    showToast('❌ Invalid admin credentials!');
   }
 }
 
 window.customerSignup = function() {
-  const name = document.getElementById('signupName').value.trim();
-  const mobile = document.getElementById('signupMobile').value.trim();
-  const password = document.getElementById('signupPassword').value;
-  if (!name || !mobile || !password) {
-    showToast('❌ Sab fields bharo!');
-    return;
-  }
-  if (mobile.length !== 10) {
-    showToast('❌ Sahi 10 digit mobile number daalo!');
-    return;
-  }
-  if (password.length < 4) {
-    showToast('❌ Password kam se kam 4 characters ka ho!');
-    return;
-  }
-  if (customers.find(c => c.mobile === mobile)) {
-    showToast('❌ Yeh mobile number already registered hai!');
-    return;
-  }
-  const newUser = {
-    id: Date.now(),
-    name: name,
-    mobile: mobile,
-    password: password,
-    joinDate: new Date().toISOString(),
-    points: 50
-  };
+  const name = document.getElementById('signupName')?.value.trim();
+  const mobile = document.getElementById('signupMobile')?.value.trim();
+  const password = document.getElementById('signupPassword')?.value;
+  if (!name || !mobile || !password) { showToast('❌ All fields required!'); return; }
+  if (mobile.length !== 10) { showToast('❌ Enter 10 digit mobile number!'); return; }
+  if (password.length < 4) { showToast('❌ Password must be at least 4 characters!'); return; }
+  if (customers.find(c => c.mobile === mobile)) { showToast('❌ Mobile already registered!'); return; }
+  const newUser = { id: Date.now(), name, mobile, password, joinDate: new Date().toISOString(), points: 50 };
   customers.push(newUser);
   localStorage.setItem('nd_customers', JSON.stringify(customers));
   localStorage.setItem('nd_points_' + newUser.id, '50');
@@ -286,19 +223,18 @@ window.customerSignup = function() {
   localStorage.setItem('nd_current_user', JSON.stringify(newUser));
   updateUserUI();
   closeLoginModal();
-  showToast(`🎉 Welcome ${name}! 50 welcome points mile!`);
+  showToast(`🎉 Welcome ${name}! 50 points earned!`);
 }
 
 window.logoutUser = function() {
   currentUser = null;
   localStorage.removeItem('nd_current_user');
   updateUserUI();
-  const menu = document.getElementById('userMenu');
-  if (menu) menu.classList.remove('show');
-  showToast('✅ Logout ho gaya!');
+  document.getElementById('userMenu')?.classList.remove('show');
+  showToast('✅ Logged out!');
 }
 
-window.updateUserUI = function() {
+function updateUserUI() {
   const userBtn = document.getElementById('userBtn');
   if (userBtn) {
     if (currentUser) {
@@ -313,54 +249,34 @@ window.updateUserUI = function() {
 
 window.toggleUserMenu = function() {
   const menu = document.getElementById('userMenu');
-  if (menu) {
-    if (currentUser) {
-      menu.classList.toggle('show');
-    } else {
-      openLoginModal();
-    }
-  }
+  if (menu) currentUser ? menu.classList.toggle('show') : openLoginModal();
 }
 
 window.openOrdersModal = function() {
-  if (!currentUser) {
-    showToast('Pehle login karo!');
-    openLoginModal();
-    return;
-  }
+  if (!currentUser) { showToast('Please login first!'); openLoginModal(); return; }
   const modal = document.getElementById('ordersModal');
   const container = document.getElementById('ordersList');
   const userOrders = orders.filter(o => o.userId === currentUser.id);
   if (userOrders.length === 0) {
-    container.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--muted)"><i class="fas fa-box-open" style="font-size:2rem;opacity:.3"></i><p>No orders yet</p></div>';
+    container.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--muted)"><i class="fas fa-box-open" style="font-size:2rem"></i><p>No orders yet</p></div>';
   } else {
     container.innerHTML = userOrders.reverse().map(order => `
-      <div class="order-card">
-        <div class="order-header"><span class="order-id">${order.id}</span><span class="order-status ${order.status.toLowerCase()}">${order.status}</span></div>
-        <div class="order-date">${new Date(order.date).toLocaleDateString('en-IN')}</div>
-        <div class="order-items">${order.items.length} items · ₹${order.total}</div>
-      </div>`).join('');
+      <div class="order-card"><div class="order-header"><span class="order-id">${order.id}</span><span class="order-status">${order.status}</span></div>
+      <div class="order-date">${new Date(order.date).toLocaleDateString()}</div><div class="order-items">${order.items.length} items · ₹${order.total}</div></div>`).join('');
   }
-  modal.classList.add('open');
+  modal?.classList.add('open');
   document.body.classList.add('modal-open');
 }
 
 window.closeOrdersModal = function() {
-  document.getElementById('ordersModal').classList.remove('open');
+  document.getElementById('ordersModal')?.classList.remove('open');
   document.body.classList.remove('modal-open');
 }
 
 window.openWishlistView = function() {
-  if (!currentUser) {
-    showToast('Pehle login karo!');
-    openLoginModal();
-    return;
-  }
+  if (!currentUser) { showToast('Please login first!'); openLoginModal(); return; }
   const wl = JSON.parse(localStorage.getItem('nd_wishlist') || '[]');
-  if (wl.length === 0) {
-    showToast('💔 Wishlist khali hai!');
-    return;
-  }
+  if (wl.length === 0) { showToast('Wishlist is empty!'); return; }
   const prods = wl.map(id => window.products?.find(p => p.id === id)).filter(Boolean);
   const modal = document.getElementById('ordersModal');
   const container = document.getElementById('ordersList');
@@ -368,42 +284,35 @@ window.openWishlistView = function() {
     <div style="display:flex;gap:1rem;padding:.8rem 0;border-bottom:1px solid var(--border);align-items:center">
       <img src="${p.img}" style="width:60px;height:60px;border-radius:10px;object-fit:cover">
       <div style="flex:1"><div style="font-weight:700">${p.name}</div><div style="color:var(--gold)">₹${p.price}</div></div>
-      <button class="btn btn-gold" style="padding:.3rem .8rem;font-size:.7rem" onclick="addToCart(${p.id},null);closeOrdersModal()">Add</button>
+      <button class="btn btn-gold" style="padding:.3rem .8rem" onclick="addToCart(${p.id},null);closeOrdersModal()">Add</button>
     </div>`).join('');
-  modal.classList.add('open');
+  modal?.classList.add('open');
   document.body.classList.add('modal-open');
 }
 
 window.openProfile = function() {
-  if (!currentUser) {
-    openLoginModal();
-    return;
-  }
+  if (!currentUser) { openLoginModal(); return; }
   document.getElementById('profileAvatar').textContent = currentUser.name[0].toUpperCase();
   document.getElementById('profileName').textContent = currentUser.name;
   document.getElementById('profileMobile').textContent = '+91 ' + currentUser.mobile;
-  const pts = parseInt(localStorage.getItem('nd_points_' + currentUser.id) || '0');
-  document.getElementById('profilePts').textContent = pts;
+  document.getElementById('profilePts').textContent = localStorage.getItem('nd_points_' + currentUser.id) || '0';
   document.getElementById('profileOrderCount').textContent = orders.filter(o => o.userId === currentUser.id).length;
-  document.getElementById('profileOverlay').classList.add('open');
-  document.getElementById('profileSidebar').classList.add('open');
+  document.getElementById('profileOverlay')?.classList.add('open');
+  document.getElementById('profileSidebar')?.classList.add('open');
   document.body.classList.add('modal-open');
 }
 
 window.closeProfile = function() {
-  document.getElementById('profileOverlay').classList.remove('open');
-  document.getElementById('profileSidebar').classList.remove('open');
+  document.getElementById('profileOverlay')?.classList.remove('open');
+  document.getElementById('profileSidebar')?.classList.remove('open');
   document.body.classList.remove('modal-open');
 }
 
 window.checkPincode = function() {
-  const pincode = document.getElementById('pincodeInput').value.trim();
+  const pincode = document.getElementById('pincodeInput')?.value.trim();
   const result = document.getElementById('pincodeResult');
-  const deliverable = ['800001','800002','801301','801302','841301','841302','841101','841102'];
-  if (!pincode || pincode.length !== 6) {
-    result.innerHTML = '<span style="color:var(--muted)">Enter valid 6-digit pincode</span>';
-    return;
-  }
+  const deliverable = ['800001','800002','801301','841301','841302'];
+  if (!pincode || pincode.length !== 6) { result.innerHTML = '<span style="color:var(--muted)">Enter valid pincode</span>'; return; }
   if (deliverable.includes(pincode)) {
     result.innerHTML = '<span style="color:var(--green)"><i class="fas fa-check-circle"></i> Delivery available!</span>';
   } else {
@@ -412,62 +321,55 @@ window.checkPincode = function() {
 }
 
 /* ===== PRODUCT MODAL ===== */
-let currentProd = null;
+let currentProductImages = [];
 
 window.openModal = function(id) {
   const prod = window.products.find(p => p.id === id);
   if (!prod) return;
-  currentProd = prod;
   currentProductImages = prod.images || [prod.img];
   selectedSize = null;
   document.getElementById('modalImgSrc').src = currentProductImages[0];
-  document.getElementById('modalCat').textContent = prod.cat.charAt(0).toUpperCase() + prod.cat.slice(1) + ' Collection';
+  document.getElementById('modalCat').textContent = prod.cat.charAt(0).toUpperCase() + prod.cat.slice(1);
   document.getElementById('modalTitle').textContent = prod.name;
-  document.getElementById('modalPrice').textContent = '₹' + prod.price.toLocaleString('en-IN');
-  document.getElementById('modalOrig').textContent = prod.orig ? '₹' + prod.orig.toLocaleString('en-IN') : '';
+  document.getElementById('modalPrice').textContent = '₹' + prod.price;
+  document.getElementById('modalOrig').textContent = prod.orig ? '₹' + prod.orig : '';
   document.getElementById('modalOff').textContent = prod.disc ? prod.disc + ' OFF' : '';
   document.getElementById('modalDesc').textContent = prod.desc;
+  
   const stockStatus = document.getElementById('modalStock');
   if (stockStatus) {
-    if (prod.stock === undefined || prod.stock > 10) {
-      stockStatus.innerHTML = '<span style="color:var(--green)">✓ In Stock</span>';
-    } else if (prod.stock > 0) {
-      stockStatus.innerHTML = `<span style="color:#ff8c42">⚠️ Only ${prod.stock} left!</span>`;
-    } else {
-      stockStatus.innerHTML = '<span style="color:var(--red)">✗ Out of Stock</span>';
-    }
+    if (prod.stock === undefined || prod.stock > 10) stockStatus.innerHTML = '<span style="color:var(--green)">✓ In Stock</span>';
+    else if (prod.stock > 0) stockStatus.innerHTML = `<span style="color:#ff8c42">⚠️ Only ${prod.stock} left!</span>`;
+    else stockStatus.innerHTML = '<span style="color:var(--red)">✗ Out of Stock</span>';
   }
+  
   const badgeEl = document.getElementById('modalBadge');
   if (prod.badge) {
     badgeEl.className = 'modal-img-badge ' + (prod.badge === 'best' ? 'badge-best' : prod.badge === 'new' ? 'badge-new' : 'badge-sale');
     badgeEl.textContent = {best:'BESTSELLER', new:'NEW', sale:'SALE'}[prod.badge];
     badgeEl.style.display = 'block';
   } else { badgeEl.style.display = 'none'; }
+  
   const sizeGrid = document.getElementById('sizeGrid');
-  sizeGrid.innerHTML = prod.sizes.map(s => `<button class="size-btn" onclick="selectSize('${s}',this)">${s}</button>`).join('');
-  const waMsg = encodeURIComponent(`Hi! I want to buy:\n*${prod.name}*\nPrice: ₹${prod.price}`);
-  document.getElementById('modalWABtn').href = `https://wa.me/${WA_NUMBER}?text=${waMsg}`;
+  if (sizeGrid) sizeGrid.innerHTML = prod.sizes.map(s => `<button class="size-btn" onclick="selectSize('${s}',this)">${s}</button>`).join('');
+  
+  document.getElementById('modalWABtn').href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(`Hi! I want to buy ${prod.name} - ₹${prod.price}`)}`;
   document.getElementById('modalAddBtn').onclick = () => {
     if (prod.sizes.length > 0 && prod.sizes[0] !== 'Free Size' && !selectedSize) {
       showToast('⚠️ Please select size first!');
-      document.getElementById('sizeGrid').style.animation = 'shake .3s ease';
-      setTimeout(() => document.getElementById('sizeGrid').style.animation = '', 300);
       return;
     }
-    if (prod.stock !== undefined && prod.stock <= 0) {
-      showToast('❌ Out of stock!');
-      return;
-    }
+    if (prod.stock !== undefined && prod.stock <= 0) { showToast('❌ Out of stock!'); return; }
     window.addToCart(prod.id, selectedSize);
     closeModal();
     openCart();
   };
-  document.getElementById('prodModal').classList.add('open');
+  document.getElementById('prodModal')?.classList.add('open');
   document.body.classList.add('modal-open');
 }
 
 window.closeModal = function() {
-  document.getElementById('prodModal').classList.remove('open');
+  document.getElementById('prodModal')?.classList.remove('open');
   document.body.classList.remove('modal-open');
 }
 
@@ -477,17 +379,17 @@ window.selectSize = function(size, btn) {
   btn.classList.add('selected');
 }
 
-window.openSizeGuide = function() { document.getElementById('sgPopup').classList.add('open'); document.body.classList.add('modal-open'); }
-window.closeSizeGuide = function() { document.getElementById('sgPopup').classList.remove('open'); document.body.classList.remove('modal-open'); }
+window.openSizeGuide = function() { document.getElementById('sgPopup')?.classList.add('open'); document.body.classList.add('modal-open'); }
+window.closeSizeGuide = function() { document.getElementById('sgPopup')?.classList.remove('open'); document.body.classList.remove('modal-open'); }
 
 window.openCart = function() {
-  document.getElementById('cartDrawer').classList.add('open');
-  document.getElementById('cartOverlay').classList.add('open');
+  document.getElementById('cartDrawer')?.classList.add('open');
+  document.getElementById('cartOverlay')?.classList.add('open');
   document.body.classList.add('modal-open');
 }
 window.closeCart = function() {
-  document.getElementById('cartDrawer').classList.remove('open');
-  document.getElementById('cartOverlay').classList.remove('open');
+  document.getElementById('cartDrawer')?.classList.remove('open');
+  document.getElementById('cartOverlay')?.classList.remove('open');
   document.body.classList.remove('modal-open');
 }
 
@@ -496,24 +398,17 @@ let toastTimer;
 window.showToast = function(msg) {
   const t = document.getElementById('toast');
   if (!t) return;
-  const span = t.querySelector('#toastMsg');
-  if (span) span.textContent = msg;
-  else t.textContent = msg;
+  t.innerHTML = `<i class="fas fa-check-circle"></i> <span>${msg}</span>`;
   t.classList.add('show');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-/* ===== CATEGORIES ===== */
+/* ===== UI BUILDERS ===== */
 function buildCategories() {
   const catGrid = document.getElementById('catGrid');
   if (!catGrid) return;
-  catGrid.innerHTML = categories.map(c => `
-    <div class="cat-card" onclick="filterByCategory('${c.filter}')">
-      <i class="fas ${c.icon}"></i>
-      <h3>${c.name}</h3>
-      <p>${c.from}</p>
-    </div>`).join('');
+  catGrid.innerHTML = categories.map(c => `<div class="cat-card" onclick="filterByCategory('${c.filter}')"><i class="fas ${c.icon}"></i><h3>${c.name}</h3><p>${c.from}</p></div>`).join('');
 }
 
 window.filterByCategory = function(filter) {
@@ -522,72 +417,38 @@ window.filterByCategory = function(filter) {
   document.getElementById('trending')?.scrollIntoView({behavior: 'smooth'});
 }
 
-/* ===== REVIEWS ===== */
 function buildReviews() {
   const reviewGrid = document.getElementById('reviewGrid');
   if (!reviewGrid) return;
-  reviewGrid.innerHTML = reviews.map(r => `
-    <div class="review-card">
-      <div class="review-head">
-        <div class="review-avatar">${r.avatar}</div>
-        <div>
-          <div class="review-name">${r.name}</div>
-          <div class="review-loc"><i class="fas fa-map-marker-alt" style="font-size:.65rem"></i> ${r.loc}</div>
-        </div>
-      </div>
-      <div class="review-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5 - r.stars)}</div>
-      <p class="review-text">"${r.text}"</p>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:.6rem;flex-wrap:wrap;gap:.4rem">
-        <span class="review-date">${r.date}</span>
-        ${r.verified ? '<span class="review-badge"><i class="fas fa-check-circle"></i> Verified Purchase</span>' : ''}
-      </div>
-    </div>`).join('');
+  reviewGrid.innerHTML = reviews.map(r => `<div class="review-card"><div class="review-head"><div class="review-avatar">${r.avatar}</div><div><div class="review-name">${r.name}</div><div class="review-loc">${r.loc}</div></div></div><div class="review-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div><p class="review-text">"${r.text}"</p><div class="review-date">${r.date}</div>${r.verified ? '<span class="review-badge">✓ Verified</span>' : ''}</div>`).join('');
 }
 
-/* ===== TICKER ===== */
 function buildTicker() {
-  const items = ['Free Shipping Above ₹999', 'New Arrivals Every Week', 'Wholesale Available', 'Up to 67% Off', 'COD Available', 'Premium Quality Guaranteed', 'WhatsApp Order करें'];
+  const items = ['Free Shipping Above ₹999', 'New Arrivals', 'Wholesale Available', 'Up to 67% Off', 'COD Available'];
   const inner = document.getElementById('tickerInner');
-  if (!inner) return;
-  const markup = items.map(i => `<div class="ticker-item">${i}<div class="ticker-dot"></div></div>`).join('');
-  inner.innerHTML = markup + markup;
+  if (inner) inner.innerHTML = items.map(i => `<div class="ticker-item">${i}<div class="ticker-dot"></div></div>`).join('') + items.map(i => `<div class="ticker-item">${i}<div class="ticker-dot"></div></div>`).join('');
 }
 
-/* ===== COUNTDOWN ===== */
 function startCountdown() {
-  const savedEnd = localStorage.getItem('nd_countdown_end');
   let target;
-  if (savedEnd) {
-    target = new Date(parseInt(savedEnd));
-    if (target < new Date()) {
-      target = new Date(Date.now() + 72 * 3600000);
-      localStorage.setItem('nd_countdown_end', target.getTime().toString());
-    }
+  if (settings.saleEnd) {
+    target = new Date(settings.saleEnd);
   } else {
-    target = new Date(Date.now() + 72 * 3600000);
-    localStorage.setItem('nd_countdown_end', target.getTime().toString());
+    let savedTarget = localStorage.getItem('nd_countdown_end');
+    if (savedTarget) target = new Date(parseInt(savedTarget));
+    else target = new Date(Date.now() + 72 * 3600000);
+    if (target < new Date()) target = new Date(Date.now() + 72 * 3600000);
+    localStorage.setItem('nd_countdown_end', target.getTime());
   }
-  function update() {
+  setInterval(() => {
     const diff = target - new Date();
-    if (diff <= 0) {
-      ['cd-h','cd-m','cd-s'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = '00'; });
-      return;
-    }
-    const h = Math.floor(diff / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
-    const cd_h = document.getElementById('cd-h');
-    const cd_m = document.getElementById('cd-m');
-    const cd_s = document.getElementById('cd-s');
-    if (cd_h) cd_h.textContent = String(h).padStart(2, '0');
-    if (cd_m) cd_m.textContent = String(m).padStart(2, '0');
-    if (cd_s) cd_s.textContent = String(s).padStart(2, '0');
-  }
-  update();
-  setInterval(update, 1000);
+    if (diff <= 0) { ['cd-h','cd-m','cd-s'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = '00'; }); return; }
+    document.getElementById('cd-h').textContent = String(Math.floor(diff / 3600000)).padStart(2,'0');
+    document.getElementById('cd-m').textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2,'0');
+    document.getElementById('cd-s').textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2,'0');
+  }, 1000);
 }
 
-/* ===== THEME ===== */
 let isLight = localStorage.getItem('theme') === 'light';
 function applyTheme() {
   document.body.classList.toggle('light', isLight);
@@ -595,60 +456,45 @@ function applyTheme() {
   if (themeIcon) themeIcon.className = isLight ? 'fas fa-sun' : 'fas fa-moon';
 }
 
-/* ===== MOBILE MENU ===== */
-window.closeMobile = function() {
-  const menu = document.getElementById('mobileMenu');
-  if (menu) menu.classList.remove('open');
-}
+window.closeMobile = function() { document.getElementById('mobileMenu')?.classList.remove('open'); }
 
-/* ===== REVEAL ===== */
 function initReveal() {
-  const els = document.querySelectorAll('.reveal,.reveal-left,.reveal-right');
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
-  }, {threshold: .08});
-  els.forEach(el => io.observe(el));
+  const io = new IntersectionObserver(e => e.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('in'); }), {threshold: .08});
+  document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el => io.observe(el));
 }
 
-/* ===== KEYBOARD SHORTCUTS ===== */
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    closeModal();
-    closeSizeGuide();
-    closeCart();
-    closeLoginModal();
-    closeOrdersModal();
-    window.closeMobile();
-    const userMenu = document.getElementById('userMenu');
-    if (userMenu) userMenu.classList.remove('show');
-  }
-});
+window.closeMobile = function() { document.getElementById('mobileMenu')?.classList.remove('open'); }
 
-/* ===== CLICK OUTSIDE USER MENU ===== */
-document.addEventListener('click', (e) => {
-  const userMenu = document.getElementById('userMenu');
-  const userBtn = document.getElementById('userBtn');
-  if (userMenu && userMenu.classList.contains('show')) {
-    if (!userMenu.contains(e.target) && !userBtn.contains(e.target)) {
-      userMenu.classList.remove('show');
-    }
+function syncSettingsUI() {
+  if (settings.saleTitle) {
+    const el = document.getElementById('saleTitleText');
+    if (el) el.textContent = '🎉 ' + settings.saleTitle + ' — Ends In:';
   }
-});
+  if (settings.promo) {
+    ['promoCodeText', 'promoCodeStrong'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = settings.promo;
+    });
+  }
+  
+  // Update all WhatsApp links to use settings.wa
+  document.querySelectorAll('a[href^="https://wa.me/"]').forEach(link => {
+    const url = new URL(link.href);
+    const path = url.pathname.replace('/', '');
+    if (path === '918010929093' || path === WA_NUMBER) {
+      const text = url.searchParams.get('text') || '';
+      // Replace hardcoded shop name if present in text
+      const newText = text.replace(/Nadeem%20Readymade%20Centre/g, encodeURIComponent(SHOP_NAME));
+      link.href = `https://wa.me/${WA_NUMBER}${newText ? '?text=' + newText : ''}`;
+    }
+  });
+}
 
 /* ===== INIT ===== */
 window.addEventListener('DOMContentLoaded', () => {
   applyTheme();
-  const themeBtn = document.getElementById('themeBtn');
-  if (themeBtn) {
-    themeBtn.addEventListener('click', () => {
-      isLight = !isLight;
-      localStorage.setItem('theme', isLight ? 'light' : 'dark');
-      applyTheme();
-      if (typeof gsap !== 'undefined') {
-        gsap.fromTo(themeBtn, {scale:.7, rotate:-30}, {scale:1, rotate:0, duration:.4, ease:'back.out(2)'});
-      }
-    });
-  }
+  syncSettingsUI();
+  document.getElementById('themeBtn')?.addEventListener('click', () => { isLight = !isLight; localStorage.setItem('theme', isLight ? 'light' : 'dark'); applyTheme(); });
   buildTicker();
   buildCategories();
   buildReviews();
@@ -656,35 +502,20 @@ window.addEventListener('DOMContentLoaded', () => {
   startCountdown();
   updateCartUI();
   updateUserUI();
-
-  const modalCloseBtn = document.getElementById('modalClose');
-  if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
-  const prodModal = document.getElementById('prodModal');
-  if (prodModal) prodModal.addEventListener('click', function(e) { if (e.target === this) closeModal(); });
-  const authModal = document.getElementById('authModal');
-  if (authModal) authModal.addEventListener('click', function(e) { if (e.target === this) closeLoginModal(); });
-  const authClose = document.getElementById('authClose');
-  if (authClose) authClose.addEventListener('click', closeLoginModal);
-  const ordersModal = document.getElementById('ordersModal');
-  if (ordersModal) ordersModal.addEventListener('click', function(e) { if (e.target === this) closeOrdersModal(); });
-  const ordersClose = document.getElementById('ordersClose');
-  if (ordersClose) ordersClose.addEventListener('click', closeOrdersModal);
-  const cartOpenBtn = document.getElementById('cartBtn');
-  if (cartOpenBtn) cartOpenBtn.addEventListener('click', openCart);
-  const cartCloseBtn = document.getElementById('cartClose');
-  if (cartCloseBtn) cartCloseBtn.addEventListener('click', closeCart);
-  const cartOverlay = document.getElementById('cartOverlay');
-  if (cartOverlay) cartOverlay.addEventListener('click', closeCart);
-
-  const navToggle = document.getElementById('navToggle');
-  if (navToggle) navToggle.addEventListener('click', () => {
-    const mobileMenu = document.getElementById('mobileMenu');
-    if (mobileMenu) mobileMenu.classList.toggle('open');
-  });
-
+  
+  document.getElementById('modalClose')?.addEventListener('click', closeModal);
+  document.getElementById('prodModal')?.addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+  document.getElementById('authModal')?.addEventListener('click', e => { if (e.target === e.currentTarget) closeLoginModal(); });
+  document.getElementById('authClose')?.addEventListener('click', closeLoginModal);
+  document.getElementById('ordersModal')?.addEventListener('click', e => { if (e.target === e.currentTarget) closeOrdersModal(); });
+  document.getElementById('ordersClose')?.addEventListener('click', closeOrdersModal);
+  document.getElementById('cartBtn')?.addEventListener('click', openCart);
+  document.getElementById('cartClose')?.addEventListener('click', closeCart);
+  document.getElementById('cartOverlay')?.addEventListener('click', closeCart);
+  document.getElementById('navToggle')?.addEventListener('click', () => document.getElementById('mobileMenu')?.classList.toggle('open'));
+  
   if (typeof gsap !== 'undefined') {
     gsap.from('.hero-title', {duration:1, y:50, opacity:0, ease:'power3.out'});
-    gsap.from('.hero-tag', {duration:1, y:30, opacity:0, delay:.2, ease:'power3.out'});
-    gsap.from('.hero-btns', {duration:.8, y:20, opacity:0, delay:.4, ease:'power2.out'});
+    gsap.from('.hero-btns', {duration:.8, y:20, opacity:0, delay:.4});
   }
 });

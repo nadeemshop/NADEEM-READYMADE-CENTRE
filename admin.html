@@ -571,6 +571,12 @@ body{
         <i class="fas fa-plus-circle"></i><span class="sb-label">Add Product</span>
       </div>
       <div class="sb-section">Manage</div>
+      <div class="sb-item" onclick="switchPanel('orders',this)">
+        <i class="fas fa-shopping-cart"></i><span class="sb-label">Orders</span>
+      </div>
+      <div class="sb-item" onclick="switchPanel('users',this)">
+        <i class="fas fa-users"></i><span class="sb-label">Customers</span>
+      </div>
       <div class="sb-item" onclick="switchPanel('categories',this)">
         <i class="fas fa-th-large"></i><span class="sb-label">Categories</span>
       </div>
@@ -783,6 +789,31 @@ body{
             Cancel
           </button>
         </div>
+      </div>
+    </div>
+
+      </div>
+    </div>
+
+    <!-- ORDERS -->
+    <div class="panel" id="panel-orders">
+      <div class="sec-head"><h3><div class="sec-bar"></div> All Orders</h3></div>
+      <div class="prod-table-wrap">
+        <table class="prod-table">
+          <thead><tr><th>Order ID</th><th>Customer</th><th>Total</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="ordersTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- USERS -->
+    <div class="panel" id="panel-users">
+      <div class="sec-head"><h3><div class="sec-bar"></div> Registered Customers</h3></div>
+      <div class="prod-table-wrap">
+        <table class="prod-table">
+          <thead><tr><th>Name</th><th>Mobile</th><th>Points</th><th>Joined</th><th>Actions</th></tr></thead>
+          <tbody id="usersTableBody"></tbody>
+        </table>
       </div>
     </div>
 
@@ -1022,7 +1053,8 @@ function closeSidebar(){
 /* ===== PANEL SWITCHING ===== */
 const pageTitles = {
   dashboard:'Dashboard', products:'Products',
-  'add-product':'Add Product', categories:'Manage Categories', settings:'Settings'
+  'add-product':'Add Product', categories:'Manage Categories', settings:'Settings',
+  orders:'Manage Orders', users:'Customers'
 };
 function switchPanel(name, el){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
@@ -1034,6 +1066,8 @@ function switchPanel(name, el){
   if(name==='products') renderProductTable();
   if(name==='dashboard') renderDashboard();
   if(name==='categories') renderCatList();
+  if(name==='orders') renderOrders();
+  if(name==='users') renderUsers();
   if(name==='add-product' && !editingProdId) resetForm();
 }
 
@@ -1401,6 +1435,58 @@ function exportData(){
 
 function openWebsite(){
   window.open('index.html','_blank');
+}
+
+/* ===== ORDERS & USERS RENDERERS ===== */
+function renderOrders() {
+  const orders = JSON.parse(localStorage.getItem('nd_orders') || '[]');
+  const customers = JSON.parse(localStorage.getItem('nd_customers') || '[]');
+  const body = document.getElementById('ordersTableBody');
+  if (!body) return;
+  body.innerHTML = orders.reverse().map(o => {
+    const user = customers.find(c => c.id === o.userId);
+    return `<tr>
+      <td><span class="order-id">#${o.id.toString().slice(-6).toUpperCase()}</span></td>
+      <td>${user ? user.name : 'Guest'}<br><small>${user ? user.mobile : ''}</small></td>
+      <td><span class="pt-price">₹${o.total}</span></td>
+      <td>${new Date(o.date).toLocaleDateString()}</td>
+      <td><span class="order-status ${o.status.toLowerCase()}">${o.status}</span></td>
+      <td>
+        <div class="action-btns">
+          <button class="act-btn act-view" onclick="showNotif('Order details: ' + JSON.stringify(o.items))" title="View Items"><i class="fas fa-eye"></i></button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="6" class="empty-table"><i class="fas fa-box-open"></i><p>No orders yet</p></td></tr>';
+}
+
+function renderUsers() {
+  const customers = JSON.parse(localStorage.getItem('nd_customers') || '[]');
+  const body = document.getElementById('usersTableBody');
+  if (!body) return;
+  body.innerHTML = customers.map(u => `<tr>
+    <td><div class="pt-name">${u.name}</div></td>
+    <td>${u.mobile}</td>
+    <td><span class="pt-price">${localStorage.getItem('nd_points_' + u.id) || u.points || 0} pts</span></td>
+    <td>${new Date(u.joinDate).toLocaleDateString()}</td>
+    <td>
+      <div class="action-btns">
+        <button class="act-btn act-edit" onclick="adjustPoints('${u.id}')" title="Give Points"><i class="fas fa-coins"></i></button>
+      </div>
+    </td>
+  </tr>`).join('') || '<tr><td colspan="5" class="empty-table"><i class="fas fa-user-slash"></i><p>No customers yet</p></td></tr>';
+}
+
+function adjustPoints(id) {
+  const p = prompt('Enter points to add (e.g. 50) or subtract (e.g. -20):');
+  if (p !== null) {
+    const pts = parseInt(p);
+    if (isNaN(pts)) { alert('Invalid number!'); return; }
+    const current = parseInt(localStorage.getItem('nd_points_' + id) || '0');
+    localStorage.setItem('nd_points_' + id, current + pts);
+    showNotif(`Points updated for user!`, 'success');
+    renderUsers();
+  }
 }
 
 /* ===== NOTIFICATIONS ===== */
