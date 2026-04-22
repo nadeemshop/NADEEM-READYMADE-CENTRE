@@ -589,19 +589,31 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);ove
           <h4><i class="fas fa-palette"></i> Colors</h4>
           <div class="form-group" style="margin-bottom:1rem">
             <label class="form-label">Primary Color (Gold)</label>
-            <input class="form-input" type="color" id="color-gold" value="#D4AF37">
+            <div style="display:flex;gap:.5rem">
+              <input class="form-input" type="color" id="color-gold" value="#D4AF37" style="width:50px;padding:2px;height:38px">
+              <input class="form-input" type="text" id="color-gold-text" value="#D4AF37">
+            </div>
           </div>
           <div class="form-group" style="margin-bottom:1rem">
             <label class="form-label">Background Color</label>
-            <input class="form-input" type="color" id="color-bg" value="#080810">
+            <div style="display:flex;gap:.5rem">
+              <input class="form-input" type="color" id="color-bg" value="#080810" style="width:50px;padding:2px;height:38px">
+              <input class="form-input" type="text" id="color-bg-text" value="#080810">
+            </div>
           </div>
           <div class="form-group" style="margin-bottom:1rem">
             <label class="form-label">Text Color</label>
-            <input class="form-input" type="color" id="color-text" value="#f0f0f5">
+            <div style="display:flex;gap:.5rem">
+              <input class="form-input" type="color" id="color-text" value="#f0f0f5" style="width:50px;padding:2px;height:38px">
+              <input class="form-input" type="text" id="color-text-text" value="#f0f0f5">
+            </div>
           </div>
           <div class="form-group" style="margin-bottom:1rem">
             <label class="form-label">Accent Color (Green)</label>
-            <input class="form-input" type="color" id="color-green" value="#2fcc71">
+            <div style="display:flex;gap:.5rem">
+              <input class="form-input" type="color" id="color-green" value="#2fcc71" style="width:50px;padding:2px;height:38px">
+              <input class="form-input" type="text" id="color-green-text" value="#2fcc71">
+            </div>
           </div>
         </div>
 
@@ -769,6 +781,7 @@ function initAdmin() {
   renderDashboard();
   renderProductTable();
   loadSettings();
+  syncColorPickers();
 }
 
 /* ===== SIDEBAR ===== */
@@ -1171,20 +1184,26 @@ function resetCatForm() {
 /* ===== WEBSITE EDITOR ===== */
 function loadWebsiteEditor() {
   const ws = websiteSettings;
-  document.getElementById('hero-title-1').value = ws.hero?.title1 || '';
-  document.getElementById('hero-title-2').value = ws.hero?.title2 || '';
-  document.getElementById('hero-title-3').value = ws.hero?.title3 || '';
+  document.getElementById('hero-title-1').value = ws.hero?.title1 || 'PREMIUM';
+  document.getElementById('hero-title-2').value = ws.hero?.title2 || 'STYLE';
+  document.getElementById('hero-title-3').value = ws.hero?.title3 || 'EXPERT';
   document.getElementById('hero-subtitle').value = ws.hero?.subtitle || '';
-  document.getElementById('hero-image').value = ws.hero?.image || '';
+  document.getElementById('hero-image').value = ws.hero?.image || 'img/hero_main.png';
+  
   document.getElementById('color-gold').value = ws.colors?.gold || '#D4AF37';
+  document.getElementById('color-gold-text').value = ws.colors?.gold || '#D4AF37';
   document.getElementById('color-bg').value = ws.colors?.bg || '#080810';
+  document.getElementById('color-bg-text').value = ws.colors?.bg || '#080810';
   document.getElementById('color-text').value = ws.colors?.text || '#f0f0f5';
+  document.getElementById('color-text-text').value = ws.colors?.text || '#f0f0f5';
   document.getElementById('color-green').value = ws.colors?.green || '#2fcc71';
-  document.getElementById('logo-text').value = ws.logo?.text || '';
+  document.getElementById('color-green-text').value = ws.colors?.green || '#2fcc71';
+  
+  document.getElementById('logo-text').value = ws.logo?.text || 'NADEEM READYMADE CENTRE';
   document.getElementById('logo-image').value = ws.logo?.image || '';
-  document.getElementById('stat-products').value = ws.stats?.products || '';
-  document.getElementById('stat-discount').value = ws.stats?.discount || '';
-  document.getElementById('stat-customers').value = ws.stats?.customers || '';
+  document.getElementById('stat-products').value = ws.stats?.products || '500+';
+  document.getElementById('stat-discount').value = ws.stats?.discount || '60%';
+  document.getElementById('stat-customers').value = ws.stats?.customers || '10K+';
   document.getElementById('footer-text').value = ws.footer || '';
 }
 
@@ -1214,8 +1233,21 @@ function saveWebsiteEditor() {
     },
     footer: document.getElementById('footer-text').value
   };
+  localStorage.setItem('nd_website_settings', JSON.stringify(websiteSettings));
   saveData();
-  showNotif('✅ Website settings saved!', 'success');
+  showNotif('✅ Website settings saved! Click "Sync to Website" to apply.', 'success');
+}
+
+function syncColorPickers() {
+  const colors = ['gold', 'bg', 'text', 'green'];
+  colors.forEach(c => {
+    const picker = document.getElementById(`color-${c}`);
+    const text = document.getElementById(`color-${c}-text`);
+    if(picker && text) {
+      picker.addEventListener('input', () => text.value = picker.value);
+      text.addEventListener('input', () => picker.value = text.value);
+    }
+  });
 }
 
 function resetWebsiteEditor() {
