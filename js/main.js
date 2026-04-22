@@ -572,4 +572,16 @@ window.addEventListener('DOMContentLoaded', () => {
     gsap.from('.hero-title', {duration:1, y:50, opacity:0, ease:'power3.out'});
     gsap.from('.hero-btns', {duration:.8, y:20, opacity:0, delay:.4});
   }
+
+  // Force hero image visibility
+  setTimeout(() => {
+    const heroImg = document.getElementById('heroImage');
+    if(heroImg) {
+      heroImg.style.display = 'block';
+      heroImg.style.opacity = '1';
+      heroImg.style.visibility = 'visible';
+      heroImg.onload = () => { heroImg.style.opacity = '1'; };
+      if(heroImg.complete) heroImg.style.opacity = '1';
+    }
+  }, 100);
 });
