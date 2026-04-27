@@ -603,3 +603,33 @@ window.addEventListener('DOMContentLoaded', () => {
     heroImg.style.cssText = 'display:block !important; opacity:1 !important; visibility:visible !important; width:100%; height:100%; object-fit:cover;';
   }
 });
+
+/* ===== NADEEM LOADER SCRIPT ===== */
+(function() {
+  const loader = document.getElementById('nadeemLoader');
+  if (!loader) return;
+
+  const MIN_TIME = 1800;
+  const startTime = Date.now();
+
+  function hideLoader() {
+    const elapsed = Date.now() - startTime;
+    const delay = Math.max(0, MIN_TIME - elapsed);
+    setTimeout(() => {
+      loader.classList.add('fade-out');
+      setTimeout(() => {
+        loader.remove();
+        document.body.style.overflow = '';
+      }, 650);
+    }, delay);
+  }
+
+  document.body.style.overflow = 'hidden';
+
+  if (document.readyState === 'complete') {
+    hideLoader();
+  } else {
+    window.addEventListener('load', hideLoader, { once: true });
+    setTimeout(hideLoader, 4000);
+  }
+})();
