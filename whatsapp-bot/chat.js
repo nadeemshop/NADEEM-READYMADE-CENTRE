@@ -86,7 +86,7 @@ async function main() {
       const userMsg = input.trim();
       if (!userMsg) return ask();
       if (userMsg.toLowerCase() === 'exit') {
-        console.log('Bot: Shukriya! Allah Hafiz 🙏');
+        console.log('Bot: Shukriya! Allah Hafiz 🤲');
         rl.close();
         return;
       }

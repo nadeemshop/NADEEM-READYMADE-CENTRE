@@ -323,7 +323,7 @@
   }
 
   // Welcome & Auto-Bubble
-  setTimeout(() => addMsg('Assalamualaikum! 🙏 Main Nadeem AI hoon. Koi bhi sawaal poochhein — products, prices, wholesale, sab kuch!', 'bot'), 600);
+  setTimeout(() => addMsg('Assalamualaikum! 🤲 Main Nadeem AI hoon. Koi bhi sawaal poochhein — products, prices, wholesale, sab kuch!', 'bot'), 600);
   
   // Show attention bubble after 4 seconds
   setTimeout(() => {

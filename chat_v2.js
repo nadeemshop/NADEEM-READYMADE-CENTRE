@@ -200,14 +200,14 @@ async function main() {
   console.log('\x1b[90m"exit" likhke band karo\x1b[0m\n');
 
   // Welcome message
-  await typeOut('Assalamualaikum! 🙏 Main Nadeem AI hoon. Aap kaise hain? Koi bhi sawaal poochhein — main yahan hoon aapki madad ke liye! 😊');
+  await typeOut('Assalamualaikum! 🤲 Main Nadeem AI hoon. Aap kaise hain? Koi bhi sawaal poochhein — main yahan hoon aapki madad ke liye! 😊');
 
   const ask = () => {
     rl.question('\x1b[32mAap:\x1b[0m ', async (input) => {
       const msg = input.trim();
       if (!msg) return ask();
       if (msg.toLowerCase() === 'exit') {
-        console.log('\x1b[33mNadeem AI:\x1b[0m Allah Hafiz! Dobara zaroor aana 🙏\n');
+        console.log('\x1b[33mNadeem AI:\x1b[0m Allah Hafiz! Dobara zaroor aana 🤲\n');
         rl.close();
         return;
       }
@@ -222,7 +222,7 @@ async function main() {
         await typeOut(reply);
       } catch (err) {
         process.stdout.write('                        \r');
-        console.log('\x1b[31mNadeem AI: Maafi chahta hoon, abhi kuch technical problem aa gayi. Thodi der baad try karein ya call karein: +91 80109 29093 🙏\x1b[0m\n');
+        console.log('\x1b[31mNadeem AI: Maafi chahta hoon, abhi kuch technical problem aa gayi. Thodi der baad try karein ya call karein: +91 80109 29093 🤲\x1b[0m\n');
       }
 
       ask();

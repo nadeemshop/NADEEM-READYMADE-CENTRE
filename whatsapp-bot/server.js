@@ -128,7 +128,7 @@ async function getNvidiaResponse(phone, userMessage) {
     console.error('NVIDIA API Error:', error.response?.data || error.message);
 
     // Fallback response
-    return `Aapka message mila! 🙏\n\nAbhi temporarily service issue hai. Please seedha contact karein:\n📞 +91 80109 29093\n\nHum jald hi aapki help karenge! 😊`;
+    return `Aapka message mila! 🤲\n\nAbhi temporarily service issue hai. Please seedha contact karein:\n📞 +91 80109 29093\n\nHum jald hi aapki help karenge! 😊`;
   }
 }
 

@@ -32,7 +32,7 @@ POLICIES:
 - Wholesale: 10+ pieces pe 65% off
 - Offer: NADEEM50 = pehle order 50% off
 
-Complex sawaal ho toh WhatsApp karne kaho: +91 80109 29093
+Complex sawaal ho toh WhatsApp karne kaho: +91 80109 29093 🤲
 `;
 
 module.exports = async (req, res) => {
@@ -107,7 +107,7 @@ module.exports = async (req, res) => {
     console.error('Chat error:', err);
     return res.status(500).json({
       error: 'Server error',
-      reply: 'Maafi chahta hoon, abhi kuch technical problem hai. Please call karein: +91 80109 29093 🙏'
+      reply: 'Maafi chahta hoon, abhi kuch technical problem hai. Please call karein: +91 80109 29093 🤲'
     });
   }
 };

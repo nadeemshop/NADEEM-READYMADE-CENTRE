@@ -34,7 +34,7 @@ POLICIES:
 - Wholesale: 10+ pieces pe 65% off
 - Offer: NADEEM50 = pehle order 50% off
 
-Agar koi complex sawaal ho toh WhatsApp karne kaho: +91 80109 29093
+Agar koi complex sawaal ho toh WhatsApp karne kaho: +91 80109 29093 🤲
 `;
 
 // Simple CORS + JSON server
