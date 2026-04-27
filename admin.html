@@ -741,12 +741,17 @@ function loadData() {
 
 /* ===== SAVE DATA ===== */
 function saveData() {
-  localStorage.setItem('nd_products', JSON.stringify(products));
-  localStorage.setItem('nd_categories', JSON.stringify(categories));
-  localStorage.setItem('nd_settings', JSON.stringify(settings));
-  localStorage.setItem('nd_customers', JSON.stringify(customers));
-  localStorage.setItem('nd_orders', JSON.stringify(orders));
-  localStorage.setItem('nd_website_settings', JSON.stringify(websiteSettings));
+  try {
+    localStorage.setItem('nd_products', JSON.stringify(products));
+    localStorage.setItem('nd_categories', JSON.stringify(categories));
+    localStorage.setItem('nd_settings', JSON.stringify(settings));
+    localStorage.setItem('nd_customers', JSON.stringify(customers));
+    localStorage.setItem('nd_orders', JSON.stringify(orders));
+    localStorage.setItem('nd_website_settings', JSON.stringify(websiteSettings));
+  } catch (e) {
+    console.error('Storage error:', e);
+    showNotif('❌ Storage full ho gaya! Shayad images bahut badi hain.', 'error');
+  }
 }
 
 /* ===== AUTH ===== */
@@ -909,7 +914,7 @@ function renderPhotoPreview() {
   if (!grid) return;
   grid.innerHTML = uploadedPhotos.map((src, i) => `
     <div class="photo-preview ${i === 0 ? 'main-photo' : ''}">
-      <img src="${src}" alt="photo">
+      <img src="${src}" onerror="this.src='https://placehold.co/100x100/13131f/D4AF37?text=Error'" alt="photo">
       <button class="photo-preview-del" onclick="removeUploadedPhoto(${i})" title="Remove"><i class="fas fa-times"></i></button>
     </div>`).join('');
 }
