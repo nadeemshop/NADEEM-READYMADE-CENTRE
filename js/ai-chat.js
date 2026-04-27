@@ -256,7 +256,7 @@
         <textarea class="ai-input" id="aiInput" placeholder="Kuch bhi poochhein..." rows="1"></textarea>
         <button class="ai-send" id="aiSend">➤</button>
       </div>
-      <div class="ai-powered">⚡ Powered by NVIDIA AI</div>
+      <div class="ai-powered">⚡ Powered by NADEEM AKHTAR</div>
     </div>
   `);
 

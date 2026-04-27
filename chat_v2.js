@@ -195,7 +195,7 @@ async function main() {
 
   console.log('\n\x1b[36m╔════════════════════════════════════════╗');
   console.log('║   NADEEM READYMADE CENTRE — AI Bot    ║');
-  console.log('║   Powered by NVIDIA AI                ║');
+  console.log('║        Powered by NADEEM AKHTAR       ║');
   console.log('╚════════════════════════════════════════╝\x1b[0m');
   console.log('\x1b[90m"exit" likhke band karo\x1b[0m\n');
 
