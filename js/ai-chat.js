@@ -23,8 +23,8 @@
       bottom: 7rem;
       left: 1.5rem;
       z-index: 450;
-      width: 56px;
-      height: 56px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
       background: linear-gradient(135deg, #D4AF37, #F5D060);
       border: none;
@@ -33,45 +33,82 @@
       align-items: center;
       justify-content: center;
       box-shadow: 0 4px 20px rgba(212,175,55,0.5);
-      transition: all .3s;
-      animation: ai-pulse 3s ease-in-out infinite;
-      font-size: 1.4rem;
+      transition: transform .2s;
+      animation: ai-bounce 2s cubic-bezier(.36,.07,.19,.97) infinite;
+      font-size: 1.5rem;
     }
-    #nadeemAIBtn:hover { transform: scale(1.12); }
-    @keyframes ai-pulse {
-      0%,100% { box-shadow: 0 4px 20px rgba(212,175,55,.5); }
-      50% { box-shadow: 0 4px 32px rgba(212,175,55,.8), 0 0 0 8px rgba(212,175,55,.1); }
+    #nadeemAIBtn:hover {
+      animation: none;
+      transform: scale(1.18) rotate(-8deg);
+      box-shadow: 0 8px 32px rgba(212,175,55,.8);
     }
-    #nadeemAIBtn::after {
-      content: '🤖 AI Assistant';
+
+    /* Bounce up-down animation */
+    @keyframes ai-bounce {
+      0%,100%  { transform: translateY(0)    scale(1); }
+      15%      { transform: translateY(-14px) scale(1.08); }
+      30%      { transform: translateY(0)    scale(.96); }
+      45%      { transform: translateY(-7px)  scale(1.04); }
+      60%      { transform: translateY(0)    scale(.98); }
+      75%      { transform: translateY(-3px)  scale(1.01); }
+    }
+
+    /* Ripple rings around button */
+    #nadeemAIBtn::before {
+      content: '';
       position: absolute;
-      left: calc(100% + 10px);
+      inset: -6px;
+      border-radius: 50%;
+      border: 2px solid rgba(212,175,55,.5);
+      animation: ripple1 2s ease-out infinite;
+    }
+    @keyframes ripple1 {
+      0%   { transform: scale(1);   opacity: .7; }
+      100% { transform: scale(1.7); opacity: 0; }
+    }
+
+    /* Attention-grabbing bubble message */
+    #nadeemAIBtn::after {
+      content: '💬 Madad chahiye?';
+      position: absolute;
+      left: calc(100% + 12px);
       top: 50%;
-      transform: translateY(-50%);
-      background: #0d0d1a;
-      border: 1px solid rgba(212,175,55,.3);
-      color: #D4AF37;
-      font-size: .72rem;
-      font-weight: 700;
-      padding: .3rem .8rem;
+      transform: translateY(-50%) scale(.85);
+      background: linear-gradient(135deg,#1a1a2e,#13131f);
+      border: 1.5px solid rgba(212,175,55,.45);
+      color: #F5D060;
+      font-size: .75rem;
+      font-weight: 800;
+      padding: .4rem 1rem;
       border-radius: 20px;
       white-space: nowrap;
       opacity: 0;
       pointer-events: none;
-      transition: opacity .25s;
+      transition: opacity .3s, transform .3s;
       font-family: 'DM Sans', sans-serif;
+      box-shadow: 0 4px 16px rgba(0,0,0,.4);
+      letter-spacing: .03em;
     }
-    #nadeemAIBtn:hover::after { opacity: 1; }
+    /* Show bubble after 3s automatically, then on hover */
+    #nadeemAIBtn:hover::after {
+      opacity: 1;
+      transform: translateY(-50%) scale(1);
+    }
+    #nadeemAIBtn.show-bubble::after {
+      opacity: 1;
+      transform: translateY(-50%) scale(1);
+    }
+
     .ai-notif {
       position: absolute;
       top: -3px; right: -3px;
-      width: 14px; height: 14px;
+      width: 15px; height: 15px;
       background: #e84560;
       border-radius: 50%;
       border: 2px solid #07070f;
-      animation: blink 1.5s infinite;
+      animation: blink 1s infinite;
     }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
 
     #nadeemAIChat {
       position: fixed;
@@ -234,6 +271,7 @@
     isOpen = !isOpen;
     chat.classList.toggle('open', isOpen);
     btn.querySelector('.ai-notif')?.remove();
+    btn.classList.remove('show-bubble');
     if (isOpen) setTimeout(() => input.focus(), 350);
   }
 
@@ -284,8 +322,13 @@
     isTyping = false; send.disabled = false; input.focus();
   }
 
-  // Welcome
+  // Welcome & Auto-Bubble
   setTimeout(() => addMsg('Assalamualaikum! 🙏 Main Nadeem AI hoon. Koi bhi sawaal poochhein — products, prices, wholesale, sab kuch!', 'bot'), 600);
+  
+  // Show attention bubble after 4 seconds
+  setTimeout(() => {
+    if(!isOpen) btn.classList.add('show-bubble');
+  }, 4000);
 
   btn.addEventListener('click', toggle);
   document.getElementById('aiClose').addEventListener('click', toggle);
