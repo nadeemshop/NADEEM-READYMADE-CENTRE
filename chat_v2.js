@@ -32,7 +32,7 @@ Tum "Nadeem AI" ho — Nadeem Readymade Centre ke dil se helpful aur samajhdar a
 
 === SHOP INFO ===
 Naam: Nadeem Readymade Centre
-Owner: Aktar Hussain
+Owner: Nadeem Aktar
 Location: Nagra, Chhapra, Bihar
 WhatsApp: +91 80109 29093
 Email: support@nadeemshop.com

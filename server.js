@@ -22,7 +22,7 @@ PERSONALITY:
 
 SHOP INFO:
 - Naam: Nadeem Readymade Centre, Nagra, Bihar
-- Owner: Aktar Hussain | WA: +91 80109 29093
+- Owner: Nadeem Aktar | WA: +91 80109 29093
 
 PRODUCTS:
 - Men: Blazer ₹799, Shirt ₹499, Jeans ₹899

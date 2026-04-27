@@ -23,7 +23,7 @@ const CONFIG = {
 
   // Shop Info
   SHOP_NAME: 'Nadeem Readymade Centre',
-  OWNER: 'Aktar Hussain',
+  OWNER: 'Nadeem Aktar',
   LOCATION: 'Nagra, Chhapra, Bihar',
   WA_NUMBER: '+91 80109 29093',
 };
@@ -33,7 +33,7 @@ const SHOP_KNOWLEDGE = `
 Tum Nadeem Readymade Centre ke helpful customer support assistant ho.
 Shop Details:
 - Naam: Nadeem Readymade Centre
-- Owner: Aktar Hussain
+- Owner: Nadeem Aktar
 - Location: Nagra, Chhapra, Bihar
 - WhatsApp: +91 80109 29093
 - Email: support@nadeemshop.com
