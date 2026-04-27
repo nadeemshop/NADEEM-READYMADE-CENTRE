@@ -32,7 +32,7 @@ async function askNvidia(userMessage) {
   ];
 
   const body = JSON.stringify({
-    model: NVIDIA_MODEL,
+    model: 'meta/llama-3.1-70b-instruct',
     messages,
     max_tokens: 300,
     temperature: 0.7,

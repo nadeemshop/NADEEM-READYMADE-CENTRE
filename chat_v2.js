@@ -129,7 +129,7 @@ async function askNvidia(userMessage) {
   ];
 
   const body = JSON.stringify({
-    model: 'nvidia/llama-3.1-nemotron-ultra-253b-v1',
+    model: 'meta/llama-3.1-70b-instruct',
     messages,
     max_tokens: 400,
     temperature: 0.75,

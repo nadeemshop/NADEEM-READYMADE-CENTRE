@@ -64,7 +64,7 @@ const server = http.createServer((req, res) => {
         ];
 
         const payload = JSON.stringify({
-          model: 'nvidia/llama-3.1-nemotron-ultra-253b-v1',
+          model: 'meta/llama-3.1-70b-instruct',
           messages,
           max_tokens: 350,
           temperature: 0.75,
@@ -87,11 +87,12 @@ const server = http.createServer((req, res) => {
           nvidiaRes.on('end', () => {
             try {
               const json = JSON.parse(data);
-              if (json.error) throw new Error(json.error.message);
+              if (json.error) throw new Error(json.error.message || JSON.stringify(json.error));
               const reply = json.choices[0].message.content;
               res.writeHead(200, { 'Content-Type': 'application/json' });
               res.end(JSON.stringify({ reply }));
             } catch (e) {
+              console.error('API Response Parse Error:', e.message, 'Raw Data:', data);
               res.writeHead(500, { 'Content-Type': 'application/json' });
               res.end(JSON.stringify({ error: e.message }));
             }
@@ -99,6 +100,7 @@ const server = http.createServer((req, res) => {
         });
 
         nvidiaReq.on('error', (e) => {
+          console.error('Request Error:', e);
           res.writeHead(500, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ error: e.message }));
         });
@@ -107,6 +109,7 @@ const server = http.createServer((req, res) => {
         nvidiaReq.end();
 
       } catch (e) {
+        console.error('Server Logic Error:', e);
         res.writeHead(400, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Bad request' }));
       }

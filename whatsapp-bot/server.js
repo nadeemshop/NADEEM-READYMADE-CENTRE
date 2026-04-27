@@ -102,7 +102,7 @@ async function getNvidiaResponse(phone, userMessage) {
     const response = await axios.post(
       'https://integrate.api.nvidia.com/v1/chat/completions',
       {
-        model: CONFIG.NVIDIA_MODEL,
+        model: 'meta/llama-3.1-70b-instruct',
         messages: messages,
         max_tokens: 300,
         temperature: 0.7,
