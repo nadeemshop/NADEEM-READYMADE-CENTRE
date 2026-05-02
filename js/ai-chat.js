@@ -259,11 +259,11 @@
       color: rgba(138,138,160,.45); padding: .28rem;
       letter-spacing: .08em;
     }
-  \`;
+  `;
   document.head.appendChild(style);
 
   /* ===== CUTE ROBOT SVG FACE ===== */
-  const robotSVG = \`
+  const robotSVG = `
     <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
       <!-- Antenna -->
       <line x1="18" y1="2" x2="18" y2="7" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round"/>
@@ -301,10 +301,10 @@
         </radialGradient>
       </defs>
     </svg>
-  \`;
+  `;
 
   /* ===== SMALL ROBOT FOR HEADER ===== */
-  const robotSmSVG = \`
+  const robotSmSVG = `
     <svg width="26" height="26" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
       <line x1="18" y1="2" x2="18" y2="7" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round"/>
       <circle cx="18" cy="1.5" r="1.8" fill="#F5D060"/>
@@ -319,20 +319,20 @@
       <rect x="3" y="13" width="3.5" height="6" rx="1.8" fill="#2d4abf"/>
       <rect x="29.5" y="13" width="3.5" height="6" rx="1.8" fill="#2d4abf"/>
     </svg>
-  \`;
+  `;
 
   /* ===== HTML ===== */
-  document.body.insertAdjacentHTML('beforeend', \`
+  document.body.insertAdjacentHTML('beforeend', `
     <div id="aiBubble">💬 Kuch poochhna hai?</div>
 
     <button id="nadeemAIBtn" title="AI Assistant se baat karein">
       <div id="aiNotifDot"></div>
-      \${robotSVG}
+      ${robotSVG}
     </button>
 
     <div id="nadeemAIChat">
       <div class="ai-head">
-        <div class="ai-avatar-wrap">\${robotSmSVG}</div>
+        <div class="ai-avatar-wrap">${robotSmSVG}</div>
         <div class="ai-head-info">
           <div class="ai-head-name">Nadeem AI Assistant</div>
           <div class="ai-head-status">
@@ -355,7 +355,7 @@
       </div>
       <div class="ai-powered">⚡ Powered by NVIDIA AI</div>
     </div>
-  \`);
+  `);
 
   /* ===== LOGIC ===== */
   const btn    = document.getElementById('nadeemAIBtn');
@@ -390,7 +390,7 @@
 
   function addMsg(text, who) {
     const d = document.createElement('div');
-    d.className = \`ai-msg \${who}\`;
+    d.className = `ai-msg ${who}`;
     d.textContent = text;
     msgs.appendChild(d);
     msgs.scrollTop = msgs.scrollHeight;
